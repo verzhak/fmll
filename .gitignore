@@ -1,0 +1,17 @@
+*.pdf
+*.swp
+books
+.gdb_history
+test
+build
+gmon.out
+doc
+trash
+disk
+*~
+data
+*.doc
+todo
+release
+*.eps
+release
