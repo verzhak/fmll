@@ -4,7 +4,7 @@
 
 // TODO
 
-int test();
+int test(int x, int y);
 
 #endif
 

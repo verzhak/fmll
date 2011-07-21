@@ -7,7 +7,7 @@
 int main()
 {
 	printf("BEFORE\n");
-	test();
+	test(1, 2);
 	printf("AFTER\n");
 
 	return 0;

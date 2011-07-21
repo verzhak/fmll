@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(fmll C)
 
-include_directories(include lib nn)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pipe -fPIC" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -13,6 +12,15 @@ if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Debug)
 
 endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+	set(DEBUG 1)
+
+endif()
+
+include_directories(include lib nn)
+configure_file(lib/all.h.in all.h)
 
 add_subdirectory(examples examples)
 
