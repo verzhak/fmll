@@ -26,10 +26,10 @@ typedef struct t_fmll_som
 {
 
 	/*! Весы синапсов нейронов. */
-	double **w;
+	double ** w;
 
 	/*! Координаты нейронов. */
-	uint8_t **coord;
+	double ** coord;
 
 	/*! Размеры карты по ее размерностям. */
 	uint8_t * N;
@@ -44,10 +44,10 @@ typedef struct t_fmll_som
 	uint8_t dim;
 
 	/*! Указатель на функцию, расчитывающую расстояние между нейронами на карте нейронов. */
-	double (*distance_w)(const double *v1, const double *v2, uint8_t dim);
+	double (* distance_w)(const double *, const double *, uint8_t);
 
 	/*! Указатель на функцию, расчитывающую расстояние между векторами. */
-	double (*distance)(const double *v1, const double *v2, uint8_t dim);
+	double (* distance)(const double *, const double *, uint8_t);
 
 } fmll_som;
 
@@ -140,17 +140,20 @@ double fmll_som_next_beta_step_0_001(double beta);
 \brief Вычисление по принципу WTA (Winner Take All - победитель получает все) коэффициента соседства очередного нейрона с нейроном - победителем.
 
 \param som - указатель на описатель нейронной карты;
-\param beta - коэффициент скорости обучения;
-\param gamma - базовый коэффициент соседства;
+\param gamma_mult - мультипликативный базовый коэффициент соседства;
+\param gamma_add - аддитивный базовый коэффициент соседства;
 \param index_winner - индекс нейрона - победителя;
 \param index - индекс нейрона, для которого вычисляется коэффициент соседства.
 
-\return коэффициент соседства для данного нейрона.
+\return
+
+	- 1 - для нейрона - победителя;
+	- 0 - для прочих нейронов.
 
 \sa fmll_som_neighbor_radial().
 
 */
-double fmll_som_neighbor_wta(fmll_som * som, double beta, double gamma, uint8_t index_winner, uint8_t index);
+double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index);
 
 /*!
 
@@ -159,19 +162,20 @@ double fmll_som_neighbor_wta(fmll_som * som, double beta, double gamma, uint8_t 
 Радиальная функция:
 
 \f[
-	\gamma ~ exp(distance_w(c_{winner}, c_{current}))
+	\gamma_{mult} ~ exp \left( - \frac{distance^2_w(c_{winner}, c_{current})}{\gamma_{add}} \right )
 \f]
 
 где:
 
-	- \f$\gamma\f$ - базовый коэффициент соседства;
+	- \f$\gamma_{mult}\f$ - мультипликативный базовый коэффициент соседства;
+	- \f$\gamma_{add}\f$ - аддитивный базовый коэффициент соседства;
 	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
 	- \f$c_{winner}\f$ - координаты нейрона - победителя;
 	- \f$c_{current}\f$ - координаты очередного нейрона.
 
 \param som - указатель на описатель нейронной карты;
-\param beta - коэффициент скорости обучения;
-\param gamma - базовый коэффициент соседства;
+\param gamma_mult - мультипликативный базовый коэффициент соседства;
+\param gamma_add - аддитивный базовый коэффициент соседства;
 \param index_winner - индекс нейрона - победителя;
 \param index - индекс нейрона, для которого вычисляется коэффициент соседства.
 
@@ -180,7 +184,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double beta, double gamma, uint8_t 
 \sa fmll_som_neighbor_wta().
 
 */
-double fmll_som_neighbor_radial(fmll_som * som, double beta, double gamma, uint8_t index_winner, uint8_t index);
+double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index);
 
 // ############################################################################
 
@@ -208,7 +212,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double beta, double gamma, uint8
 
 */
 fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
-		double (*weight_init)(), double (*distance_w)(const double *, const double *, uint8_t), double (*distance)(const double *, const double *, uint8_t));
+		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t));
 
 /*!
 
@@ -224,35 +228,43 @@ void fmll_som_destroy(fmll_som * som);
 \brief Прогон нейронной карты над некоторым вектором.
 
 \param som - указатель на описатель нейронной карты;
-\param v - некоторый вектор.
+\param vec - некоторый вектор.
 
-\return
-
-	- индекс нейрона - победителя в случае успеха;
-	- < 0 - в случае неудачи.
+\return индекс нейрона - победителя.
 
 */
-int16_t fmll_som_run(fmll_som * som, const double * v);
+uint32_t fmll_som_run(fmll_som * som, const double * vec);
 
 /*!
 
-\brief Самоорганизация нейронной карты.
+\brief Самоорганизация нейронной карты по алгоритму Кохонена.
 
 \param som - дескриптор карты;
-\param v - массив обучающих векторов;
-\param v_num - количество векторов в массиве обучающих векторов;
-\param beta_0 - начальное значение скорости обучения;
+\param vec - массив обучающих векторов;
+\param vec_num - количество векторов в массиве обучающих векторов;
+\param beta_0 - начальное значение скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;
 \param next_beta - указатель на функцию, пересчитывающую значение скорости обучения в начале каждой итерации обучения по значению скорости обучения на предыдущей итерации;
-\param gamma - базовый коэффициент соседства;
-\param neighbor - указатель на функцию, рассчитывающую коэффициент соседства нейрона.
+\param gamma_mult - мультипликативный базовый коэффициент соседства;
+\param gamma_add - аддитивный базовый коэффициент соседства;
+\param neighbor - указатель на функцию, рассчитывающую коэффициент соседства нейронов.
 
-Функция neighbor обладает следующими параметрами:
+Функция neighbor() обладает следующими параметрами:
 
 	-# указатель на описатель нейронной карты;
-	-# текущее значение скорости обучения;
-	-# значение базового коэффициента соседства;
+	-# мультипликативный базовый коэффициент соседства;
+	-# аддитивный базовый коэффициент соседства;
 	-# индекс нейрона - победителя;
 	-# индекс нейрона, для которого выполняется расчет коэффициента соседства.
+
+Функция neighbor() должна возвращать вещественное число из диапазона [0, 1], причем ее значение должно быть нормированным - то есть: \f$neighbor() ~ \to ~ 1\f$ при  \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, где:
+
+	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
+	- \f$c_{winner}\f$ - координаты нейрона - победителя;
+	- \f$c_{current}\f$ - координаты очередного нейрона.
+
+Адитивный базовый коэффициент соседства должен быть не меньше 0, если в качестве функции, рассчитывающей коэффициент соседства нейронов, выбрана радиальная функция fmll_som_neighbor_radial().
+
+Мультипликативный базовый коэффициент соседства должен лежать в диапазоне (0, 1], если в качестве функции, рассчитывающей коэффициент соседства нейронов, выбрана радиальная функция fmll_som_neighbor_radial().
 
 \return
 
@@ -260,8 +272,8 @@ int16_t fmll_som_run(fmll_som * som, const double * v);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_som_teach(fmll_som * som, const double ** v, uint32_t v_num, double beta_0, double (*next_beta)(double),
-		double gamma, double (*neighbor)(fmll_som *, double, double, uint8_t, uint8_t));
+int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t));
 
 // ############################################################################
 

@@ -32,31 +32,33 @@ double fmll_som_next_beta_step_0_001(double beta)
 
 // ############################################################################ 
 
-double fmll_som_neighbor_wta(fmll_som * som, double beta, double gamma, uint8_t index_winner, uint8_t index)
+double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index)
 {
 	if(index_winner == index)
-		return gamma;
+		return 1;
 
 	return 0;
 }
 
-double fmll_som_neighbor_radial(fmll_som * som, double beta, double gamma, uint8_t index_winner, uint8_t index)
+double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index)
 {
-	return gamma * exp(- (* som->distance_w)(som->w[index_winner], som->w[index], som->map_dim));
+	double d = (* som->distance_w)(som->w[index_winner], som->w[index], som->map_dim);
+
+	return gamma_mult * exp(- d * d / gamma_add);
 }
 
 // ############################################################################ 
 
 fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
-		double (*weight_init)(), double (*distance_w)(const double *, const double *, uint8_t), double (*distance)(const double *, const double *, uint8_t))
+		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t))
 {
 	fmll_try;
 
 		double ** w = NULL;
-		uint8_t ** coord = NULL;
+		double ** coord = NULL;
 		uint8_t * tN = NULL;
 
-		fmll_som * som = alloc_1D(1, sizeof(fmll_som));
+		fmll_som * som = fmll_alloc_1D(1, sizeof(fmll_som));
 
 		fmll_throw_null(som);
 
@@ -67,9 +69,9 @@ fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
 		for(u = 0, num = 1; u < map_dim; u++)
 			num *= N[u];
 
-		w = som->w = (double **) alloc_2D(num, dim, sizeof(double));
-		coord = som->coord = (uint8_t **) alloc_2D(num, map_dim, sizeof(uint8_t)); // Не помню, гарантируется ли sizeof(uint8_t) == 1 в C99
-		tN = som->N = alloc_1D(map_dim, sizeof(uint8_t));
+		w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double));
+		coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double));
+		tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint8_t));
 
 		fmll_throw_null(w);
 		fmll_throw_null(coord);
@@ -104,10 +106,10 @@ fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
 		
 	fmll_catch;
 
-		free_ND(som);
-		free_ND(w);
-		free_ND(coord);
-		free_ND(tN);
+		fmll_free_ND(som);
+		fmll_free_ND(w);
+		fmll_free_ND(coord);
+		fmll_free_ND(tN);
 
 		som = NULL;
 
@@ -120,24 +122,83 @@ void fmll_som_destroy(fmll_som * som)
 {
 	if(som != NULL)
 	{
-		free_ND(som->w);
-		free_ND(som->coord);
-		free_ND(som->N);
-		free_ND(som);
+		fmll_free_ND(som->w);
+		fmll_free_ND(som->coord);
+		fmll_free_ND(som->N);
+		fmll_free_ND(som);
 	}
 }
 
-int16_t fmll_som_run(fmll_som * som, const double * v)
+uint32_t fmll_som_run(fmll_som * som, const double * vec)
 {
-	// TODO
-	return 0;
+	uint8_t dim = som->dim;
+	uint32_t u, index_winner, num = som->num;
+	double min, d, ** w = som->w;
+	double (* distance_w)(const double *, const double *, uint8_t) = som->distance_w;
+
+	min = (* distance_w)(w[0], vec, dim);
+	index_winner = 0;
+
+	for(u = 1; u < num; u++)
+	{
+		d = (* distance_w)(w[u], vec, dim);
+
+		if(d < min)
+		{
+			min = d;
+			index_winner = u;
+		}
+	}
+
+	return index_winner;
 }
 
-int8_t fmll_som_teach(fmll_som * som, const double ** v, uint32_t v_num, double beta_0, double (*next_beta)(double),
-		double gamma, double (*neighbor)(fmll_som *, double, double, uint8_t, uint8_t))
+int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t))
 {
-	// TODO
-	return 0;
+	fmll_try;
+
+		int8_t ret = 0;
+
+		fmll_throw(beta_0 < 0 || beta_0 > 1);
+		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_mult < 0 || gamma_mult > 1));
+		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_add < 0));
+
+		uint8_t dim = som->dim;
+		uint32_t u, v, q, index_winner, num = som->num;
+		double beta_gamma, beta = beta_0, ** w = som->w;;
+
+		while(beta < 1.0000001)
+		{
+			printf("Самоорганизация нейронной карты: beta == %.7lf\n", beta);
+
+			for(u = 0; u < vec_num; u++)
+			{
+				index_winner = fmll_som_run(som, vec[u]);
+
+				if(neighbor == & fmll_som_neighbor_wta)
+					for(q = 0; q < dim; q++)
+						w[index_winner][q] += beta * (vec[u][q] - w[index_winner][q]);
+				else
+					for(v = 0; v < num; v++)
+					{
+						beta_gamma = beta * neighbor(som, gamma_mult, gamma_add, index_winner, v);
+
+						for(q = 0; q < dim; q++)
+							w[v][q] += beta_gamma * (vec[u][q] - w[v][q]);
+					}
+			}
+
+			beta = (* next_beta)(beta);
+		}
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+	return ret;
 }
 
 // ############################################################################ 

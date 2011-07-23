@@ -1,6 +1,8 @@
 
 project(examples)
 
+find_package(OpenCV REQUIRED)
+
 include_directories(../include ../build)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pipe" CACHE string "" FORCE)
 
@@ -15,4 +17,5 @@ endif()
 
 add_executable(ex_som ex_som.c)
 target_link_libraries(ex_som fmll)
+target_link_libraries(ex_som ${OpenCV_LIBS})
 

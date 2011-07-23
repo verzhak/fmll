@@ -16,3 +16,6 @@ release
 *.eps
 release
 doc
+*.png
+*.tif
+*.tiff

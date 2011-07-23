@@ -8,6 +8,7 @@
 */
 
 #ifndef ALL_H
+
 #define ALL_H
 
 #include <stdio.h>
@@ -17,6 +18,14 @@
 #include <math.h>
 
 #cmakedefine DEBUG
+
+/*!
+
+@{
+
+\name Обработка исключительных ситуаций
+
+*/
 
 /*! \brief Начало блока перехвата исключений. */
 #define fmll_try __label__ catch_label, finally_label;
@@ -70,6 +79,8 @@ if((condition)) \
 
 */
 #define fmll_throw_null(pointer) fmll_throw((pointer) == NULL)
+
+/*! @} */
 
 /*! \mainpage My Personal Index Page
  * 
