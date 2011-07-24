@@ -3,7 +3,7 @@
 
 \file
 
-\brief Вычисление по различным алгоритмам расстояний между векторами.
+\brief Расстояния между векторами.
 
 */
 
@@ -11,6 +11,7 @@
 #define DISTANCE_H
 
 #include "all.h"
+#include "exception.h"
 
 /*!
 

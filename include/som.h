@@ -13,6 +13,7 @@
 #define SOM_H
 
 #include "all.h"
+#include "exception.h"
 #include "memory.h"
 
 // ############################################################################
@@ -62,10 +63,26 @@ typedef struct t_fmll_som
 \sa
 
 	- fmll_som_init();
+	- fmll_som_weight_init_0_5();
 	- fmll_som_weight_init_random_0_1().
 
 */
 double fmll_som_weight_init_null();
+
+/*!
+
+\brief Инициализация весов нейронной сети значением 0.5.
+
+\return ноль.
+
+\sa
+
+	- fmll_som_init();
+	- fmll_som_weight_init_null();
+	- fmll_som_weight_init_random_0_1().
+
+*/
+double fmll_som_weight_init_0_5();
 
 /*!
 
@@ -78,7 +95,8 @@ double fmll_som_weight_init_null();
 \sa
 
 	- fmll_som_init();
-	- fmll_som_weight_init_null().
+	- fmll_som_weight_init_null();
+	- fmll_som_weight_init_0_5().
 
 */
 double fmll_som_weight_init_random_0_1();
@@ -274,6 +292,48 @@ uint32_t fmll_som_run(fmll_som * som, const double * vec);
 */
 int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
 		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t));
+
+/*!
+
+\brief Самоорганизация нейронной карты по алгоритму Кохонена со штрафом переобучающихся нейронов.
+
+\param som - дескриптор карты;
+\param vec - массив обучающих векторов;
+\param vec_num - количество векторов в массиве обучающих векторов;
+\param beta_0 - начальное значение скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+\param next_beta - указатель на функцию, пересчитывающую значение скорости обучения в начале каждой итерации обучения по значению скорости обучения на предыдущей итерации;
+\param gamma_mult - мультипликативный базовый коэффициент соседства;
+\param gamma_add - аддитивный базовый коэффициент соседства;
+\param neighbor - указатель на функцию, рассчитывающую коэффициент соседства нейронов;
+\param max_win - максимальное количество "побед" нейрона, после которого на него накладывается штраф;
+\param penalty - штраф, накладываемый на нейрон - количество векторов из классифицируемого множества векторов, при прогоне над которыми нейрон не будет приниматься во внимание.
+
+Функция neighbor() обладает следующими параметрами:
+
+	-# указатель на описатель нейронной карты;
+	-# мультипликативный базовый коэффициент соседства;
+	-# аддитивный базовый коэффициент соседства;
+	-# индекс нейрона - победителя;
+	-# индекс нейрона, для которого выполняется расчет коэффициента соседства.
+
+Функция neighbor() должна возвращать вещественное число из диапазона [0, 1], причем ее значение должно быть нормированным - то есть: \f$neighbor() ~ \to ~ 1\f$ при  \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, где:
+
+	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
+	- \f$c_{winner}\f$ - координаты нейрона - победителя;
+	- \f$c_{current}\f$ - координаты очередного нейрона.
+
+Адитивный базовый коэффициент соседства должен быть не меньше 0, если в качестве функции, рассчитывающей коэффициент соседства нейронов, выбрана радиальная функция fmll_som_neighbor_radial().
+
+Мультипликативный базовый коэффициент соседства должен лежать в диапазоне (0, 1], если в качестве функции, рассчитывающей коэффициент соседства нейронов, выбрана радиальная функция fmll_som_neighbor_radial().
+
+\return
+
+	- 0 - в случае успеха;
+	- <> 0 - в случае неудачи.
+
+*/
+int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t), uint16_t max_win, uint16_t penalty);
 
 // ############################################################################
 

@@ -11,6 +11,7 @@
 #define MEMORY_H
 
 #include "all.h"
+#include "exception.h"
 
 /*!
 
