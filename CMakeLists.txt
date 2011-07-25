@@ -20,7 +20,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 endif()
 
-include_directories(include lib nn)
+include_directories(include lib nn build)
 configure_file(include/all.h.in all.h)
 
 add_subdirectory(examples examples)
