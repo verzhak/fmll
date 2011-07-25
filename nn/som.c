@@ -3,40 +3,6 @@
 
 // ############################################################################ 
 
-double fmll_som_weight_init_null()
-{
-	return 0;
-}
-
-double fmll_som_weight_init_0_5()
-{
-	return 0.5;
-}
-
-double fmll_som_weight_init_random_0_1()
-{
-	return drand48();
-}
-
-// ############################################################################ 
-
-double fmll_som_next_beta_step_0_1(double beta)
-{
-	return beta + 0.1;
-}
-
-double fmll_som_next_beta_step_0_01(double beta)
-{
-	return beta + 0.01;
-}
-
-double fmll_som_next_beta_step_0_001(double beta)
-{
-	return beta + 0.001;
-}
-
-// ############################################################################ 
-
 double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index)
 {
 	if(index_winner == index)
@@ -54,22 +20,20 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 // ############################################################################ 
 
-fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
+fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t))
 {
 	fmll_try;
 
-		double ** w = NULL;
-		double ** coord = NULL;
-		uint8_t * tN = NULL;
-
-		fmll_som * som = fmll_alloc_1D(1, sizeof(fmll_som));
-
-		fmll_throw_null(som);
-
-		uint16_t u;
+		fmll_som * som = NULL;
+		double ** w, ** coord;
+		uint16_t u, * tN;
 		int32_t v;
 		uint32_t num;
+
+		fmll_throw_null((som = fmll_alloc_1D(1, sizeof(fmll_som))));
+
+		som->w = som->coord = NULL;
 
 		for(u = 0, num = 1; u < map_dim; u++)
 			num *= N[u];
@@ -78,7 +42,7 @@ fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
 
 		w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double));
 		coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double));
-		tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint8_t));
+		tN = fmll_alloc_1D(map_dim, sizeof(uint16_t));
 
 		fmll_throw_null(w);
 		fmll_throw_null(coord);
@@ -90,7 +54,7 @@ fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
 		som->distance_w = distance_w;
 		som->distance = distance;
 
-		memset(tN, 0, map_dim * sizeof(uint8_t));
+		memset(tN, 0, map_dim * sizeof(uint16_t));
 
 		for(u = 0; u < num; u++)
 		{
@@ -109,15 +73,13 @@ fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
 			}
 		}
 
-		memcpy(tN, N, map_dim * sizeof(uint8_t));
+		memcpy(tN, N, map_dim * sizeof(uint16_t));
 		
 	fmll_catch;
 
-		fmll_free_ND(som);
-		fmll_free_ND(w);
-		fmll_free_ND(coord);
 		fmll_free_ND(tN);
 
+		fmll_som_destroy(som);
 		som = NULL;
 
 	fmll_finally;
@@ -131,7 +93,6 @@ void fmll_som_destroy(fmll_som * som)
 	{
 		fmll_free_ND(som->w);
 		fmll_free_ND(som->coord);
-		fmll_free_ND(som->N);
 		fmll_free_ND(som);
 	}
 }
@@ -226,7 +187,7 @@ int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_n
 		double (* distance)(const double *, const double *, uint8_t) = som->distance;
 
 		fmll_throw_null(wn);
-		memset(wn, 0, num * sizeof(uint8_t));
+		memset(wn, 0, num * sizeof(int32_t));
 
 		while(beta < 1.0000001)
 		{

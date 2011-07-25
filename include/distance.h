@@ -11,7 +11,6 @@
 #define DISTANCE_H
 
 #include "all.h"
-#include "exception.h"
 
 /*!
 

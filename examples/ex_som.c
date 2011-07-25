@@ -8,6 +8,8 @@
 #include "memory.h"
 #include "distance.h"
 #include "various.h"
+#include "weight_init.h"
+#include "timing.h"
 #include "som.h"
 
 int main(const int argc, const char * argv[])
@@ -25,7 +27,7 @@ int main(const int argc, const char * argv[])
 	IplImage * dst_2 = cvCreateImage(size, IPL_DEPTH_8U, 3);
 	CvScalar pixel;
 	unsigned u, v, q;
-	uint8_t N[2] = {10, 10};
+	uint16_t N[2] = {10, 10};
 	uint32_t index_winner;
 	double ** vec = (double **) fmll_alloc_2D(size.height * size.width, 3, sizeof(double));
 
@@ -39,9 +41,9 @@ int main(const int argc, const char * argv[])
 			vec[q][2] = pixel.val[2];
 		}
 
-	fmll_som * som = fmll_som_init(N, 2, 3, & fmll_som_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
+	fmll_som * som = fmll_som_init(N, 2, 3, & fmll_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
 
-	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_som_next_beta_step_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
+	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
 
 	for(v = 0; v < som->num; v++)
 		printf("%u = [%lf, %lf, %lf]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);

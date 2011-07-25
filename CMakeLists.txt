@@ -25,5 +25,5 @@ configure_file(include/all.h.in all.h)
 
 add_subdirectory(examples examples)
 
-add_library(fmll SHARED include/all.h include/exception.h include/memory.h lib/memory.c include/distance.h nn/distance.c include/various.h nn/various.c include/som.h nn/som/som.c)
+add_library(fmll SHARED include/all.h include/exception.h include/memory.h lib/memory.c include/activate.h nn/activate.c include/distance.h nn/distance.c include/weight_init.h nn/weight_init.c include/timing.h nn/timing.c include/various.h nn/various.c include/perceptron.h nn/perceptron.c include/som.h nn/som.c)
 

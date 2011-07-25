@@ -19,3 +19,6 @@ add_executable(ex_som ex_som.c)
 target_link_libraries(ex_som fmll)
 target_link_libraries(ex_som ${OpenCV_LIBS})
 
+add_executable(ex_perceptron ex_perceptron.c)
+target_link_libraries(ex_perceptron fmll)
+

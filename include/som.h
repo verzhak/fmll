@@ -7,6 +7,13 @@
 
 Нейронная карта, самоорганизующаяся по принципу конкуренции, называемая также нейронной картой Кохонена по имени Тойво Кохонена, впервые описавшего один из возможных алгоритмов самоорганизации нейронной карты.
 
+Последовательность действий по использованию нейронной карты:
+
+	-# Создать карту с помощью функции fmll_som_init();
+	-# Обучить (самоорганизация) карту с помощью одной из *_so_* функций;
+	-# Прогнать карту над целевыми векторами с помощью функции fmll_som_run();
+	-# Удалить карту с помощью функции fmll_som_destroy().
+
 */
 
 #ifndef SOM_H
@@ -32,9 +39,6 @@ typedef struct t_fmll_som
 	/*! Координаты нейронов. */
 	double ** coord;
 
-	/*! Размеры карты по ее размерностям. */
-	uint8_t * N;
-
 	/*! Количество нейронов. */
 	uint32_t num;
 
@@ -51,105 +55,6 @@ typedef struct t_fmll_som
 	double (* distance)(const double *, const double *, uint8_t);
 
 } fmll_som;
-
-// ############################################################################
-
-/*!
-
-\brief Инициализация весов нейронной сети нулями.
-
-\return ноль.
-
-\sa
-
-	- fmll_som_init();
-	- fmll_som_weight_init_0_5();
-	- fmll_som_weight_init_random_0_1().
-
-*/
-double fmll_som_weight_init_null();
-
-/*!
-
-\brief Инициализация весов нейронной сети значением 0.5.
-
-\return ноль.
-
-\sa
-
-	- fmll_som_init();
-	- fmll_som_weight_init_null();
-	- fmll_som_weight_init_random_0_1().
-
-*/
-double fmll_som_weight_init_0_5();
-
-/*!
-
-\brief Инициализация весов нейронной сети случайными равномернораспределенными значениями из диапазона [0, 1).
-
-Случайное число генерируется с помощью функции drand48(). Перед созданием самоорганизующейся карты необходимо вызвать функцию srand48() для инициализации датчика случайных чисел.
-
-\return случайное число из диапазона srand48().
-
-\sa
-
-	- fmll_som_init();
-	- fmll_som_weight_init_null();
-	- fmll_som_weight_init_0_5().
-
-*/
-double fmll_som_weight_init_random_0_1();
-
-// ############################################################################
-
-/*!
-
-\brief Увеличение коэффициента скорости обучения на 0.1.
-
-\param beta - текущее значение скорости обучения.
-
-\return новое значение скорости обучения.
-
-\sa
-
-	- fmll_som_next_beta_step_0_01();
-	- fmll_som_next_beta_step_0_001().
-
-*/
-double fmll_som_next_beta_step_0_1(double beta);
-
-/*!
-
-\brief Увеличение коэффициента скорости обучения на 0.01.
-
-\param beta - текущее значение скорости обучения.
-
-\return новое значение скорости обучения.
-
-\sa
-
-	- fmll_som_next_beta_step_0_1();
-	- fmll_som_next_beta_step_0_001().
-
-*/
-double fmll_som_next_beta_step_0_01(double beta);
-
-/*!
-
-\brief Увеличение коэффициента скорости обучения на 0.001.
-
-\param beta - текущее значение скорости обучения.
-
-\return новое значение скорости обучения.
-
-\sa
-
-	- fmll_som_next_beta_step_0_1();
-	- fmll_som_next_beta_step_0_01().
-
-*/
-double fmll_som_next_beta_step_0_001(double beta);
 
 // ############################################################################
 
@@ -225,11 +130,11 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 \return
 
-	- указатель на описатель нейронной карты в случае успеха;
+	- указатель на описатель нейронной карты в случае успешного создания нейронной карты;
 	- NULL - в случае неудачи.
 
 */
-fmll_som * fmll_som_init(const uint8_t * N, uint8_t map_dim, uint8_t dim,
+fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t));
 
 /*!
