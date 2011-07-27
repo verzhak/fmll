@@ -22,10 +22,10 @@ extern double fmll_sin_b;
 extern double fmll_sigmoid_a;
 
 /*! Коэффициент A гиперболического тангенса. */
-extern double fmll_atan_a;
+extern double fmll_tanh_a;
 
 /*! Коэффициент B гиперболического тангенса. */
-extern double fmll_atan_b;
+extern double fmll_tanh_b;
 
 /*!
 
@@ -90,7 +90,7 @@ double fmll_d_sigmoid(double x);
 \f]
 
 */
-double fmll_atan(double x);
+double fmll_tanh(double x);
 
 /*!
 
@@ -103,7 +103,7 @@ double fmll_atan(double x);
 \f]
 
 */
-double fmll_d_atan(double x);
+double fmll_d_tanh(double x);
 
 /*!
 

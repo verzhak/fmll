@@ -18,8 +18,8 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
-	return xor();
-	// return image_analysis(argc, argv);
+	// return xor();
+	return image_analysis(argc, argv);
 }
 
 int image_analysis(const int argc, const char * argv[])
@@ -42,8 +42,8 @@ int image_analysis(const int argc, const char * argv[])
 
 	for(u = 0; u < N_NUM; u++)
 	{
-		fun[u] = & fmll_sigmoid;
-		d_fun[u] = & fmll_d_sigmoid;
+		fun[u] = & fmll_tanh;
+		d_fun[u] = & fmll_d_tanh;
 	}
 
 	srand48(drand48());
@@ -129,8 +129,8 @@ int xor()
 	uint16_t N[3] = {2, 1, 1};
 	uint32_t u;
 	double ** vec, ** d;
-	double (* fun[3])(double) = {& fmll_sigmoid, & fmll_sigmoid, & fmll_sigmoid};
-	double (* d_fun[3])(double) = {& fmll_d_sigmoid, & fmll_d_sigmoid, & fmll_d_sigmoid};
+	double (* fun[3])(double) = {& fmll_tanh, & fmll_tanh, & fmll_tanh};
+	double (* d_fun[3])(double) = {& fmll_d_tanh, & fmll_d_tanh, & fmll_d_tanh};
 
 	fmll_perceptron * perc = fmll_perceptron_init(2, 2, N, & fmll_weight_init_random_0_1, fun, d_fun);
 

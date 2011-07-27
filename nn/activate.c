@@ -4,8 +4,8 @@
 double fmll_sin_a = 1;
 double fmll_sin_b = 1;
 double fmll_sigmoid_a = 1;
-double fmll_atan_a = 1;
-double fmll_atan_b = 1;
+double fmll_tanh_a = 1;
+double fmll_tanh_b = 1;
 
 double fmll_sin(double x)
 {
@@ -29,16 +29,16 @@ double fmll_d_sigmoid(double x)
 	return fmll_sigmoid_a * f * (1 - f);
 }
 
-double fmll_atan(double x)
+double fmll_tanh(double x)
 {
-	return fmll_atan_a * atan(fmll_atan_b * x);
+	return fmll_tanh_a * tanh(fmll_tanh_b * x);
 }
 
-double fmll_d_atan(double x)
+double fmll_d_tanh(double x)
 {
-	double f = fmll_atan(x);
+	double f = fmll_tanh(x);
 
-	return fmll_atan_b * (fmll_atan_a - f) * (fmll_atan_a + f) / fmll_atan_a;
+	return fmll_tanh_b * (fmll_tanh_a - f) * (fmll_tanh_a + f) / fmll_tanh_a;
 }
 
 double fmll_line(double x)
