@@ -214,14 +214,14 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 
 	fmll_catch;
 
+		ret = -1;
+
+	fmll_finally;
+
 		fmll_free_ND(sum);
 		fmll_free_ND(prev_sum);
 		fmll_free_ND(d_w);
 		fmll_free_ND(d_w_moment);
-
-		ret = -1;
-
-	fmll_finally;
 
 	return ret;
 }

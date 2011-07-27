@@ -13,7 +13,16 @@
 #include "timing.h"
 #include "perceptron.h"
 
+int xor();
+int image_analysis(const int argc, const char * argv[]);
+
 int main(const int argc, const char * argv[])
+{
+	return xor();
+	// return image_analysis(argc, argv);
+}
+
+int image_analysis(const int argc, const char * argv[])
 {
 	if(argc != 4)
 	{
@@ -111,6 +120,48 @@ int main(const int argc, const char * argv[])
 	cvReleaseImage(& src_teach);
 	cvReleaseImage(& src_test);
 	cvReleaseImage(& dst);
+
+	return 0;
+}
+
+int xor()
+{
+	uint16_t N[3] = {2, 1, 1};
+	uint32_t u;
+	double ** vec, ** d;
+	double (* fun[3])(double) = {& fmll_sigmoid, & fmll_sigmoid, & fmll_sigmoid};
+	double (* d_fun[3])(double) = {& fmll_d_sigmoid, & fmll_d_sigmoid, & fmll_d_sigmoid};
+
+	fmll_perceptron * perc = fmll_perceptron_init(2, 2, N, & fmll_weight_init_random_0_1, fun, d_fun);
+
+	vec = (double **) fmll_alloc_2D(4, 2, sizeof(double));
+	d = (double **) fmll_alloc_2D(4, 1, sizeof(double));
+
+	vec[0][0] = 0;
+	vec[0][1] = 0;
+	vec[1][0] = 1;
+	vec[1][1] = 0;
+	vec[2][0] = 0;
+	vec[2][1] = 1;
+	vec[3][0] = 1;
+	vec[3][1] = 1;
+
+	d[0][0] = d[3][0] = 0;
+	d[1][0] = d[2][0] = 1;
+
+	fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_0_1, 0, 10000, 0.001, 0);
+
+	printf("\nXOR:\n\n");
+
+	for(u = 0; u < 4; u++)
+		printf("\t[%.0lf, %.0lf] = %.0lf = %lf\n", vec[u][0], vec[u][1], d[u][0], fmll_perceptron_run(perc, vec[u])[0]);
+
+	printf("\n");
+
+	fmll_free_ND(vec);
+	fmll_free_ND(d);
+
+	fmll_perceptron_destroy(perc);
 
 	return 0;
 }
