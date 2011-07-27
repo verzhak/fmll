@@ -45,5 +45,27 @@ double fmll_timing_next_beta_step_0_01(double beta);
 */
 double fmll_timing_next_beta_step_0_001(double beta);
 
+/*!
+
+\brief Увеличение коэффициента скорости обучения на 0.0001.
+
+\param beta - текущее значение скорости обучения.
+
+\return новое значение скорости обучения.
+
+*/
+double fmll_timing_next_beta_step_0_0001(double beta);
+
+/*!
+
+\brief Увеличение коэффициента скорости обучения на 0.00001.
+
+\param beta - текущее значение скорости обучения.
+
+\return новое значение скорости обучения.
+
+*/
+double fmll_timing_next_beta_step_0_00001(double beta);
+
 #endif
 

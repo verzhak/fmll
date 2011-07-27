@@ -35,7 +35,7 @@ typedef struct t_fmll_perceptron
 	double ** w;
 
 	/*! Вектор выходных значений. */
-	double * y;
+	double *** y;
 
 	/*! Размерность входного вектора. */
 	uint8_t dim;
@@ -57,7 +57,8 @@ typedef struct t_fmll_perceptron
 
 	/*! \cond HIDDEN_SYMBOLS */
 
-	double * t_y;
+	uint16_t max_N;
+	double ** net;
 
 	/*! \endcond */
 
@@ -108,13 +109,18 @@ double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 
 /*!
 
-\brief TODO.
+\brief Обучение перцептрона путем пакетного градиентного спуска с использованием алгоритма обратного распространения ошибки.
 
 \param perc - дескриптор перцептрона;
 \param vec - массив обучающих векторов;
+\param d - множество эталонных откликов;
 \param vec_num - количество векторов в массиве обучающих векторов;
 \param beta_0 - начальное значение скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;
-\param next_beta - указатель на функцию, пересчитывающую значение скорости обучения в начале каждой итерации обучения по значению скорости обучения на предыдущей итерации.
+\param next_beta - указатель на функцию, пересчитывающую значение скорости обучения в начале каждой итерации обучения по значению скорости обучения на предыдущей итерации;
+\param coef_moment - коэффициент момента;
+\param max_iter - максимальное количество итераций процесса обучения;
+\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
+\param d_E_thres - минимальное значение модуля производной функционала ошибки, при котором обучение будет остановлено.
 
 \return
 
@@ -122,7 +128,8 @@ double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_perceptron_teach_gradient(fmll_perceptron * perc, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double));
+int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
+		double beta_0, double (* next_beta)(double), double coef_moment, uint32_t max_iter, double E_thres, double d_E_thres);
 
 // ############################################################################
 

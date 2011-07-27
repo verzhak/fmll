@@ -27,7 +27,7 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 		fmll_som * som = NULL;
 		double ** w, ** coord;
-		uint16_t u, * tN;
+		uint16_t u, * tN = NULL;
 		int32_t v;
 		uint32_t num;
 
@@ -175,6 +175,7 @@ int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_n
 	fmll_try;
 
 		int8_t ret = 0;
+		int32_t * wn = NULL;
 
 		fmll_throw(beta_0 < 0 || beta_0 > 1);
 		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_mult < 0 || gamma_mult > 1));
@@ -182,11 +183,10 @@ int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_n
 
 		uint8_t dim = som->dim;
 		uint32_t u, v, q, index_winner, num = som->num;
-		int32_t * wn = fmll_alloc_1D(num, sizeof(int32_t));
 		double min, d, beta_gamma, beta = beta_0, ** w = som->w;
 		double (* distance)(const double *, const double *, uint8_t) = som->distance;
 
-		fmll_throw_null(wn);
+		fmll_throw_null((wn = fmll_alloc_1D(num, sizeof(int32_t))));
 		memset(wn, 0, num * sizeof(int32_t));
 
 		while(beta < 1.0000001)

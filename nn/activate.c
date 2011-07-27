@@ -1,9 +1,21 @@
 
 #include "activate.h"
 
+double fmll_sin_a = 1;
+double fmll_sin_b = 1;
 double fmll_sigmoid_a = 1;
 double fmll_atan_a = 1;
 double fmll_atan_b = 1;
+
+double fmll_sin(double x)
+{
+	return fmll_sin_a * sin(fmll_sin_b * x);
+}
+
+double fmll_d_sin(double x)
+{
+	return fmll_sin_a * fmll_sin_b * cos(fmll_sin_b * x);
+}
 
 double fmll_sigmoid(double x)
 {

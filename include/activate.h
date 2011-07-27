@@ -12,6 +12,12 @@
 
 #include "all.h"
 
+/*! Коэффициент A синуса. */
+extern double fmll_sin_a;
+
+/*! Коэффициент B синуса. */
+extern double fmll_sin_b;
+
 /*! Коэффициент A сигмоиды. */
 extern double fmll_sigmoid_a;
 
@@ -20,6 +26,32 @@ extern double fmll_atan_a;
 
 /*! Коэффициент B гиперболического тангенса. */
 extern double fmll_atan_b;
+
+/*!
+
+\brief Синус.
+
+Вычисляется по формуле:
+
+\f[
+	f(x) ~ = ~ A ~ \sin(Bx)
+\f]
+
+*/
+double fmll_sin(double x);
+
+/*!
+
+\brief Производная синуса.
+
+Вычисляется по формуле:
+
+\f[
+	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
+\f]
+
+*/
+double fmll_d_sin(double x);
 
 /*!
 
