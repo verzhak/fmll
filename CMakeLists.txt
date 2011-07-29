@@ -4,9 +4,12 @@ cmake_minimum_required(VERSION 2.8)
 find_package(OpenMP REQUIRED)
 find_package(PkgConfig REQUIRED)
 
+pkg_check_modules(PC_GSL QUIET gsl)
 pkg_check_modules(PC_MXML QUIET mxml)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} -Wall -pipe" CACHE string "" FORCE)
+string(REPLACE ";" " " PC_GSL_CFLAGS " ${PC_GSL_CFLAGS}")
+string(REPLACE ";" " " PC_MXML_CFLAGS " ${PC_MXML_CFLAGS}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_GSL_CFLAGS} ${PC_MXML_CFLAGS} -Wall -pipe" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
 
@@ -28,7 +31,7 @@ include_directories(include lib nn ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(lib/all.h.in all.h)
 
 add_library(fmll SHARED lib/memory.c lib/xml.c nn/activate.c nn/distance.c nn/weight_init.c nn/timing.c nn/various.c nn/perceptron.c nn/som.c)
-target_link_libraries(fmll m gsl gslcblas ${PC_MXML_LIBRARIES})
+target_link_libraries(fmll m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
 
 add_subdirectory(examples examples)
 
