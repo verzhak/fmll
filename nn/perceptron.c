@@ -79,6 +79,114 @@ void fmll_perceptron_destroy(fmll_perceptron * perc)
 	}
 }
 
+int8_t fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix)
+{
+	fmll_try;
+
+		int8_t ret = 0;
+		uint8_t layers_num = perc->layers_num, dim = perc->dim;
+		uint16_t c_N, p_N, * N = perc->N;
+		uint32_t u, i, j, k, t;
+		char node_name[4096];
+		double ** w = perc->w;
+		mxml_node_t * node, * content_node, * main_node = NULL;
+		
+		fmll_throw((xml_create(TYPE_PERCEPTRON, & main_node, & content_node)));
+		fmll_throw((xml_set_int(content_node, "dim", dim)));
+		fmll_throw((xml_set_int(content_node, "layers_num", layers_num)));
+
+		fmll_throw_null((node = mxmlNewElement(content_node, "N")));
+
+		for(u = 0; u < layers_num; u++)
+		{
+			sprintf(node_name, "N_%u", u);
+			fmll_throw((xml_set_int(node, node_name, N[u])));
+		}
+
+		fmll_throw_null((node = mxmlNewElement(content_node, "W")));
+
+		for(i = 0, t = 0, c_N = dim; i < layers_num; i++)
+		{
+			p_N = c_N;
+			c_N = N[i];
+
+			for(j = 0; j < c_N; j++, t++)
+				for(k = 0; k <= p_N; k++)
+				{
+					sprintf(node_name, "w_%u_%u", t, k);
+					fmll_throw((xml_set_double(node, node_name, w[t][k])));
+				}
+		}
+
+		fmll_throw(xml_save(fname_prefix, main_node));
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		xml_destroy(main_node);
+
+	return ret;
+}
+
+fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double))
+{
+	fmll_try;
+
+		fmll_perceptron * perc = NULL;
+		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
+		int dim, layers_num;
+		uint16_t c_N, p_N, * N = NULL;
+		uint32_t u, i, j, k, t;
+		double ** w;
+
+		fmll_throw((xml_load(fname_prefix, TYPE_PERCEPTRON, & main_node, & content_node)));
+
+		fmll_throw((xml_get_int(content_node, "dim", & dim)));
+		fmll_throw((xml_get_int(content_node, "layers_num", & layers_num)));
+		
+		fmll_throw_null((N = fmll_alloc_1D(layers_num, sizeof(uint16_t))));
+		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
+
+		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < layers_num; u++)
+		{
+			fmll_throw_null((sub_node));
+			N[u] = sub_node->child->value.integer;
+			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+		}
+
+		fmll_throw_null((perc = fmll_perceptron_init(dim, layers_num, N, & fmll_weight_init_null, fun, d_fun)));
+		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
+
+		for(i = 0, t = 0, c_N = dim, w = perc->w, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); i < layers_num; i++)
+		{
+			p_N = c_N;
+			c_N = N[i];
+
+			for(j = 0; j < c_N; j++, t++)
+				for(k = 0; k <= p_N; k++)
+				{
+					fmll_throw_null((sub_node));
+					w[t][k] = sub_node->child->value.real;
+					sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+				}
+		}
+
+	fmll_catch;
+
+		fmll_perceptron_destroy(perc);
+		perc = NULL;
+
+	fmll_finally;
+
+		fmll_free_ND(N);
+		xml_destroy(main_node);
+
+	return perc;
+}
+
 double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
 {
 	uint8_t layers_num = perc->layers_num, dim = perc->dim;

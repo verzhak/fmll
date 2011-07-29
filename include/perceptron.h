@@ -20,6 +20,8 @@
 #include "all.h"
 #include "exception.h"
 #include "memory.h"
+#include "xml.h"
+#include "weight_init.h"
 
 // ############################################################################
 
@@ -74,8 +76,8 @@ typedef struct t_fmll_perceptron
 \param layers_num - количество скрытых слоев;
 \param N - количество нейронов в каждом из скрытых слоев;
 \param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
-\param fun - массив функций активаций (своя функция активации для каждого из скрытых слоев);
-\param d_fun - массив производных функций активаций.
+\param fun - массив функций активации нейронов (своя функция активации для каждого из скрытых слоев);
+\param d_fun - массив производных функций активации нейронов.
 
 \return
 
@@ -94,6 +96,37 @@ fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const ui
 
 */
 void fmll_perceptron_destroy(fmll_perceptron * perc);
+
+/*!
+
+\brief Сохранение в XML-файл описателя перцептрона.
+
+\param perc - указатель на описатель перцептрона;
+\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml).
+
+\return
+
+	- 0 - в случае успешного сохранения описателя перцептрона;
+	- <> 0 - в случае некорректного завершения операции сохранения описателя перцептрона.
+
+*/
+int8_t fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix);
+
+/*!
+
+\brief Загрузка из XML-файла описателя перцептрона.
+
+\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml);
+\param fun - массив функций активации нейронов (своя функция активации для каждого из скрытых слоев);
+\param d_fun - массив производных функций активации нейронов.
+
+\return
+
+	- указатель на описатель перцептрона - в случае успешной загрузки описателя перцептрона;
+	- NULL - в случае некорректного завершения операции загрузки описателя перцептрона.
+
+*/
+fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double));
 
 /*!
 

@@ -27,13 +27,14 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 		fmll_som * som = NULL;
 		double ** w, ** coord;
-		uint16_t u, * tN = NULL;
+		uint16_t u, * tN;
 		int32_t v;
 		uint32_t num;
 
 		fmll_throw_null((som = fmll_alloc_1D(1, sizeof(fmll_som))));
 
 		som->w = som->coord = NULL;
+		som->N = NULL;
 
 		for(u = 0, num = 1; u < map_dim; u++)
 			num *= N[u];
@@ -42,7 +43,7 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 		w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double));
 		coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double));
-		tN = fmll_alloc_1D(map_dim, sizeof(uint16_t));
+		tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint16_t));
 
 		fmll_throw_null(w);
 		fmll_throw_null(coord);
@@ -77,8 +78,6 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 		
 	fmll_catch;
 
-		fmll_free_ND(tN);
-
 		fmll_som_destroy(som);
 		som = NULL;
 
@@ -93,8 +92,108 @@ void fmll_som_destroy(fmll_som * som)
 	{
 		fmll_free_ND(som->w);
 		fmll_free_ND(som->coord);
+		fmll_free_ND(som->N);
 		fmll_free_ND(som);
 	}
+}
+
+int8_t fmll_som_save(fmll_som * som, const char * fname_prefix)
+{
+	fmll_try;
+
+		int8_t ret = 0;
+		uint8_t map_dim = som->map_dim, dim = som->dim;
+		uint16_t * N = som->N;
+		uint32_t u, v, num = som->num;
+		char node_name[4096];
+		double ** w = som->w;
+		mxml_node_t * node, * main_node = NULL, * content_node;
+		
+		fmll_throw((xml_create(TYPE_SOM, & main_node, & content_node)));
+		fmll_throw((xml_set_int(content_node, "map_dim", map_dim)));
+		fmll_throw((xml_set_int(content_node, "dim", dim)));
+
+		fmll_throw_null((node = mxmlNewElement(content_node, "N")));
+
+		for(u = 0; u < map_dim; u++)
+		{
+			sprintf(node_name, "N_%u", u);
+			fmll_throw((xml_set_int(node, node_name, N[u])));
+		}
+
+		fmll_throw_null((node = mxmlNewElement(content_node, "W")));
+
+		for(u = 0; u < num; u++)
+			for(v = 0; v < dim; v++)
+			{
+				sprintf(node_name, "w_%u_%u", u, v);
+				fmll_throw((xml_set_double(node, node_name, w[u][v])));
+			}
+
+		fmll_throw(xml_save(fname_prefix, main_node));
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		xml_destroy(main_node);
+
+	return ret;
+}
+
+fmll_som * fmll_som_load(const char * fname_prefix, 
+		double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t))
+{
+	fmll_try;
+
+		fmll_som * som = NULL;
+		mxml_node_t * sub_node, * node, * main_node = NULL, * content_node;
+		int map_dim, dim;
+		uint16_t * N = NULL;
+		uint32_t u, v, num;
+		double ** w;
+
+		fmll_throw((xml_load(fname_prefix, TYPE_SOM, & main_node, & content_node)));
+
+		fmll_throw((xml_get_int(content_node, "map_dim", & map_dim)));
+		fmll_throw((xml_get_int(content_node, "dim", & dim)));
+
+		fmll_throw_null((N = fmll_alloc_1D(map_dim, sizeof(uint16_t))));
+		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
+
+		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < map_dim; u++)
+		{
+			fmll_throw_null((sub_node));
+			N[u] = sub_node->child->value.integer;
+			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+		}
+
+		fmll_throw_null((som = fmll_som_init(N, map_dim, dim, & fmll_weight_init_null, distance_w, distance)));
+		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
+
+		w = som->w;
+		num = som->num;
+
+		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < num; u++)
+			for(v = 0; v < dim; v++)
+			{
+				w[u][v] = sub_node->child->value.real;
+				sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+			}
+
+	fmll_catch;
+
+		fmll_som_destroy(som);
+		som = NULL;
+
+	fmll_finally;
+
+		fmll_free_ND(N);
+		xml_destroy(main_node);
+
+	return som;
 }
 
 uint32_t fmll_som_run(fmll_som * som, const double * vec)

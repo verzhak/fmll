@@ -22,6 +22,8 @@
 #include "all.h"
 #include "exception.h"
 #include "memory.h"
+#include "xml.h"
+#include "weight_init.h"
 
 // ############################################################################
 
@@ -53,6 +55,12 @@ typedef struct t_fmll_som
 
 	/*! Указатель на функцию, расчитывающую расстояние между векторами. */
 	double (* distance)(const double *, const double *, uint8_t);
+
+	/*! \cond HIDDEN_SYMBOLS */
+
+	uint16_t * N;
+
+	/*! \endcond */
 
 } fmll_som;
 
@@ -145,6 +153,38 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 */
 void fmll_som_destroy(fmll_som * som);
+
+/*!
+
+\brief Сохранение в XML-файл описателя нейронной карты.
+
+\param som - указатель на описатель нейронной карты;
+\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml).
+
+\return
+
+	- 0 - в случае успешного сохранения описателя нейронной карты;
+	- <> 0 - в случае некорректного завершения операции сохранения описателя нейронной карты.
+
+*/
+int8_t fmll_som_save(fmll_som * som, const char * fname_prefix);
+
+/*!
+
+\brief Загрузка из XML-файла описателя нейронной карты.
+
+\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml);
+\param distance_w - указатель на функцию, вычисляющую расстояния между нейронами на нейронной карте;
+\param distance - указатель на функцию, вычисляющую расстояния между векторами в классифицируемом векторном пространстве.
+
+\return
+
+	- указатель на описатель нейронной карты - в случае успешной загрузки описателя нейронной карты;
+	- NULL - в случае некорректного завершения операции загрузки описателя нейронной карты.
+
+*/
+fmll_som * fmll_som_load(const char * fname_prefix, 
+		double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t));
 
 /*!
 

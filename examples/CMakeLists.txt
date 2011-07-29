@@ -3,8 +3,6 @@ project(examples)
 
 find_package(OpenCV REQUIRED)
 
-include_directories(../include ../build)
-
 if(NOT CMAKE_BUILD_TYPE)
 
 	# Цель по умолчанию - Debug

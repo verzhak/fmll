@@ -6,12 +6,7 @@
 #include <opencv2/core/core_c.h>
 #include <opencv2/highgui/highgui_c.h>
 
-#include "memory.h"
-#include "various.h"
-#include "activate.h"
-#include "weight_init.h"
-#include "timing.h"
-#include "perceptron.h"
+#include <fmll/fmll.h>
 
 int xor();
 int image_analysis(const int argc, const char * argv[]);
@@ -112,6 +107,8 @@ int image_analysis(const int argc, const char * argv[])
 					cvSet2D(dst, v, u, pixel_red);
 			}
 		}
+
+	fmll_perceptron_save(perc, "perceptron");
 	
 	fmll_free_ND(x);
 	fmll_free_ND(d);
@@ -154,12 +151,32 @@ int xor()
 	// fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_0_1, 0, 10000, 0.001, 0);
 	fmll_perceptron_teach_lm(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
 
+	fmll_perceptron_save(perc, "perceptron");
+
 	printf("\nXOR:\n\n");
 
 	for(u = 0; u < 4; u++)
 		printf("\t[%.0lf, %.0lf] = %.0lf = %lf\n", vec[u][0], vec[u][1], d[u][0], fmll_perceptron_run(perc, vec[u])[0]);
 
 	printf("\n");
+
+	fmll_perceptron_destroy(perc);
+
+	perc = NULL;
+
+	if(
+		(perc = fmll_perceptron_load("perceptron", fun, d_fun)) != NULL
+	  )
+	{
+		printf("\nXOR after load:\n\n");
+		
+		fmll_perceptron_save(perc, "perceptron_2");
+
+		for(u = 0; u < 4; u++)
+			printf("\t[%.0lf, %.0lf] = %.0lf = %lf\n", vec[u][0], vec[u][1], d[u][0], fmll_perceptron_run(perc, vec[u])[0]);
+
+		printf("\n");
+	}
 
 	fmll_free_ND(vec);
 	fmll_free_ND(d);
