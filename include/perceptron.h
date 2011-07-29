@@ -131,6 +131,29 @@ double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
 		double beta_0, double (* next_beta)(double), double coef_moment, uint32_t max_iter, double E_thres, double d_E_thres);
 
+/*!
+
+\brief Обучение перцептрона по алгоритму Левенберга - Марквардта (один из квазиньютоновских методов).
+
+\param perc - дескриптор перцептрона;
+\param vec - массив обучающих векторов;
+\param d - множество эталонных откликов;
+\param vec_num - количество векторов в массиве обучающих векторов;
+\param eta_mult - множитель для начального значения коэффициента Марквардта;
+\param eta_coef - делитель коэффициента Марквардта (должен быть больше единицы);
+\param max_iter - максимальное количество итераций процесса обучения;
+\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
+\param d_E_thres - минимальное значение модуля производной функционала ошибки, при котором обучение будет остановлено.
+
+\return
+
+	- 0 - в случае успеха;
+	- <> 0 - в случае неудачи.
+
+*/
+int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
+		double eta_0, double eta_coef, uint32_t max_iter, double E_thres, double d_E_thres);
+
 // ############################################################################
 
 #endif

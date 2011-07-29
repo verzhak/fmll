@@ -38,7 +38,7 @@ double fmll_d_tanh(double x)
 {
 	double f = fmll_tanh(x);
 
-	return fmll_tanh_b * (fmll_tanh_a - f) * (fmll_tanh_a + f) / fmll_tanh_a;
+	return (fmll_tanh_a * fmll_tanh_b - f * f / fmll_tanh_a);
 }
 
 double fmll_line(double x)

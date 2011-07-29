@@ -14,10 +14,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include <math.h>
 #include <float.h>
+
 #include <omp.h>
+
+#include <gsl/gsl_linalg.h>
+#include <gsl/gsl_blas.h>
+#include <gsl/gsl_eigen.h>
+#include <gsl/gsl_permutation.h>
 
 #cmakedefine DEBUG
 

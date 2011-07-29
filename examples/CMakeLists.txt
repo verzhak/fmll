@@ -4,7 +4,6 @@ project(examples)
 find_package(OpenCV REQUIRED)
 
 include_directories(../include ../build)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pipe" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
 
