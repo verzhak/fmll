@@ -247,6 +247,7 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 			for(k = 0; k < p_N; k++)
 				d_w_moment[t][k] = 0;
 
+		/* Главный цикл алгоритма */
 		for(iter = 0, beta = (beta_0 > 0) ? beta_0 : (* next_beta)(0), E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 100); iter++)
 		{
@@ -270,16 +271,26 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 					for(k = 0; k < p_N; k++)
 						t_d_w[t_ind][t][k] = 0;
 
+				/* Для каждого вектора из обучающего множества векторов повторять */
 				for(u = t_ind; u < vec_num; u += t_num)
 				{
+					/* Прогнать перцептрон над вектором */
 					fmll_perceptron_run(perc, vec[u]);
 
+					/* 
+					 * Вычислить d f для всех f таких, что E = sum(f)
+					 *
+					 * Таким образом, fi соответствует i-му обучающему вектору,
+					 * d fi - отклонение выхода перцептрона для i-го обучающего вектора
+					 * от действительного значения аппроксимируемой функции для данного обучающего вектора
+					 */
 					for(j = 0, p_N = N[layers_num - 1]; j < p_N; j++)
 					{
 						sum[t_ind][j] = delta = (d[u][j] - y[t_ind][layers_num][j]);
 						t_E[t_ind] += delta * delta;
 					}
 
+					/* Для каждого скрытого слоя перцептрона, начиная с последнего, повторять */
 					for(i = layers_num - 1, t = num - 1; i >= 0; i--)
 					{
 						c_N = p_N;
@@ -290,16 +301,25 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 						for(k = 0; k < p_N; k++)
 							sum[t_ind][k] = 0;
 
+						/* Для каждого нейрона обрабатываемого скрытого слоя повторять */
 						for(j = c_N - 1; j >= 0; j--, t--)
 						{
+							/* Вычислить delta для обрабатываемого нейрона */
 							delta = prev_sum[t_ind][j] * ((* d_fun[i])(net[t_ind][t]));
 
+							/*
+							 * Учесть вклад очередного обучающего вектора в градиенты весов обрабатываемого нейрона
+							 *
+							 * Суммы произведений delta на весы нейронов обрабатываемого слоя учитывается при распространении
+							 * ошибки на предыдущий слой перцептрона
+							 */
 							for(k = 0; k < p_N; k++)
 							{
 								t_d_w[t_ind][t][k] += delta * y[t_ind][i][k];
 								sum[t_ind][k] += delta * w[t][k];
 							}
 
+							/* Учесть вклад очередного обучающего вектора в градиент порога обрабатываемого нейрона */
 							t_d_w[t_ind][t][p_N] -= delta;
 						}
 					}
@@ -309,12 +329,14 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 				{
 					E += t_E[t_ind];
 
+					/* Суммировать слагаемые градиентов весов нейронов перцептрона, вычисленные различными потоками */
 					for(t = 0, p_N = max_N + 1; t < num; t++)
 						for(k = 0; k < p_N; k++)
 							d_w[t][k] += t_d_w[t_ind][t][k];
 				}
 			}
 
+			/* Прибавить к весам нейронов уточняющие коэффициенты с учитыванием инерции (уточняющих весов на предыдущей итерации алгоритма обучения) */
 			for(t = 0, p_N = max_N + 1; t < num; t++)
 				for(k = 0; k < p_N; k++)
 					w[t][k] += (d_w_moment[t][k] = coef_moment * d_w_moment[t][k] + beta * d_w[t][k] / vec_num);
@@ -395,6 +417,12 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 			for(t_weight = 0; t_weight < num_weight; t_weight++)
 				sum_d_w[t_weight] = 0;
 
+			/*
+			 * ############################################################################ 
+			 *
+			 * Расчет градиента и матрицы Якоби методом обратного распространения ошибки
+			 */
+
 			#pragma omp parallel private(u, i, j, k, t_weight, t_w, delta, c_N, p_N, t_ind, t_prev_E, t_y, t_t_d_w, t_sum, t_prev_sum, t_net) default(shared)
 			{
 				t_ind = omp_get_thread_num();
@@ -455,14 +483,22 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 				}
 			}
 
-			// ############################################################################ 
-
 			for(t_weight = 0; t_weight < num_weight; t_weight++)
 				sum_d_w[t_weight] /= vec_num;
+
+			/*
+			 * ############################################################################
+			 *
+			 * Оценка матрицы Гессе, расчет уточняющих коэффициентов и корректировка весов нейронов перцептрона
+			 */
 
 			for(t_weight = 0; t_weight < num_weight; t_weight++)
 				d_w[t_weight] = 0;
 
+			/*
+			 * Начальное значение коэффициента eta на первой итерации алгоритма обучения
+			 * должно быть много больше наибольшего собственного значения матрицы Якоби
+			 */
 			if(is_eta_not_init)
 			{
 				gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1, & J_mat.matrix, & J_mat.matrix, 0, & JJ_mat.matrix);
@@ -479,10 +515,16 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 				is_eta_not_init = false;
 			}
 			else
+				/*
+				 * На последующих итерациях алгоритма обучения начальное значение коэффициента eta
+				 * устанавливается в eta / eta_coef, где eta_coef > 1
+				 */
 				eta /= eta_coef;
 
+			/* До тех пор, пока ошибка не уменьшится, повторять */
 			do
 			{
+				/* Убрать предыдущую корректировку весов нейронов перцептрона */
 				for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
 				{
 					p_N = c_N;
@@ -493,6 +535,7 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 							w[t_w][k] -= d_w[t_weight];
 				}
 
+				/* Создание единичной матрицы */
 				for(i = 0; i < num_weight; i++)
 				{
 					for(j = 0; j < i; j++)
@@ -506,11 +549,17 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 
 				gsl_permutation_init(perm);
 
+				/* Вычисление аппроксимации матрицы Гессе: JJ = J' * J + eta * E */
 				gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1, & J_mat.matrix, & J_mat.matrix, eta, & JJ_mat.matrix);
+
+				/* Вычисление обратной матрицы для матрицы JJ с помощью LU-декомпозиции */
 				gsl_linalg_LU_decomp(& JJ_mat.matrix, perm, & signum);
 				gsl_linalg_LU_invert(& JJ_mat.matrix, perm, & JJInv_mat.matrix);
+
+				/* Вычисление корректировки весов нейронов перцептрона как: d_w = - JJInv * grad */
 				gsl_blas_dgemv(CblasNoTrans, -1, & JJInv_mat.matrix, & sum_d_w_vec.vector, 0, & d_w_vec.vector);
 
+				/* Корректировка весов нейронов перцептрона */
 				for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
 				{
 					p_N = c_N;
@@ -523,6 +572,7 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 
 				E = 0;
 
+				/* Оценка ошибки */
 				#pragma omp parallel private(u, t_prev_E, r_y, j, p_N, t_ind) default(shared)
 				{
 					t_ind = omp_get_thread_num();
@@ -543,6 +593,7 @@ int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double **
 						E += t_prev_E;
 				}
 
+				/* Если ошибка увеличилась, то коэффициент eta увеличивается в eta_coef раз */
 				if(E >= prev_E)
 					eta *= eta_coef;
 			}
