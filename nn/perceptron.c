@@ -643,14 +643,22 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 			/*
 			 * ############################################################################ 
 			 *
-			 * Расчет градиента и матрицы Якоби методом обратного распространения ошибки
+			 * Расчет градиента (резидуальной ошибки) методом обратного распространения ошибки
 			 */
 
 			prev_E = E;
 			E_coef_E = coef_E * grad_Jacobian(perc, vec, d, vec_num, grad, NULL);
 
+			/* Расчет очередного вектора базиса */
 			if(iter)
 			{
+				/* 
+				 * Для не первой итерации существует предыдущий вектор базиса =>
+				 * необходимо рассчитать коэффициент beta, с которым предыдущий вектор базиса будет учтен
+				 * в рассчитываемом векторе
+				 *
+				 * Коэффициент beta рассчитывается по методу Полака - Рибьера
+				 */
 				for(t_weight = 0, beta_1 = 0, beta_2 = 0; t_weight < num_weight; t_weight++)
 				{
 					beta_1 += grad[t_weight] * (grad[t_weight] - prev_grad[t_weight]);
@@ -669,6 +677,7 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 				}
 			}
 			else
+				/* Для первой итерации вектор базиса равен обратному градиенту (резидуальной ошибке) */
 				for(t_weight = 0, beta_1 = 0, beta_2 = 0; t_weight < num_weight; t_weight++)
 				{
 					s[t_weight] = grad[t_weight];
@@ -679,8 +688,10 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 
 			do
 			{
+				/* Поиск оптимального коэффициента eta - линейный поиск по параболе минимизируемой квадратичной формы */
 				if(first_run)
 				{
+					/* Первая итерация алгоритма - инициализация массива eta[] */
 					eta[0] = drand48() - 0.5;
 					eta[2] = drand48() + 0.5 + 0.0000000001;
 					eta[1] = (eta[0] + eta[2]) / 2;
@@ -689,6 +700,10 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 				}
 				else
 				{
+					/* 
+					 * Не первая итерация алгоритма - пересчет eta[] в соответствии с расположением минимума
+					 * относительно предыдущих значений eta[]
+					 */
 					if(tE[0] > tE[1] && tE[2] > tE[1])
 					{
 						// Внутри
@@ -714,6 +729,7 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 					}
 				}
 
+				/* Расчет ошибки для каждой из eta[] */
 				for(u = 0; u < 3; u++)
 				{
 					for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
@@ -755,9 +771,8 @@ int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double *
 			}
 			while(fabs(tE[0] - tE[2]) > E_coef_E);
 
-			eta_1 = eta[1];
-
-			for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
+			/* Окончательная коррекция весов нейронной сети */
+			for(i = 0, c_N = dim, t_weight = 0, t_w = 0, eta_1 = eta[1]; i < layers_num; i++)
 			{
 				p_N = c_N;
 				c_N = N[i];
