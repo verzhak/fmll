@@ -13,8 +13,8 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
-	return xor();
-	// return image_analysis(argc, argv);
+	//return xor();
+	return image_analysis(argc, argv);
 }
 
 int image_analysis(const int argc, const char * argv[])
@@ -75,7 +75,8 @@ int image_analysis(const int argc, const char * argv[])
 	fmll_perceptron * perc = fmll_perceptron_init(3, N_NUM, N, & fmll_weight_init_random_0_1, fun, d_fun);
 
 	//fmll_perceptron_teach_gradient_batch(perc, x, d, size_teach.height * size_teach.width, 0, & fmll_timing_next_beta_step_0_01, 0.9, 10000, 0.001, 0.000001);
-	fmll_perceptron_teach_lm(perc, x, d, size_teach.height * size_teach.width, 100000, 5, 100000, 0.0005, 0);
+	//fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, size_teach.height * size_teach.width, 100000, 5, 100000, 0.0005, 0);
+	fmll_perceptron_teach_conjugate_gradient(perc, x, d, size_teach.height * size_teach.width, 100000, 0.0001, 0.001, 0);
 
 	for(v = 0; v < size_test.height; v++)
 		for(u = 0; u < size_test.width; u++)
@@ -149,7 +150,8 @@ int xor()
 	d[1][0] = d[2][0] = 1;
 
 	// fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_0_1, 0, 10000, 0.001, 0);
-	fmll_perceptron_teach_lm(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
+	// fmll_perceptron_teach_Levenberg_Marquardt(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
+	fmll_perceptron_teach_conjugate_gradient(perc, vec, d, 4, 1000, 0.00001, 0.001, 0.00000001);
 
 	fmll_perceptron_save(perc, "perceptron");
 

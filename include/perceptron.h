@@ -60,6 +60,7 @@ typedef struct t_fmll_perceptron
 	/*! \cond HIDDEN_SYMBOLS */
 
 	uint16_t max_N;
+	uint32_t num_weight;
 	double ** net;
 
 	/*! \endcond */
@@ -184,8 +185,30 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_perceptron_teach_lm(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
+int8_t fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
 		double eta_0, double eta_coef, uint32_t max_iter, double E_thres, double d_E_thres);
+
+/*!
+
+\brief Обучение перцептрона по алгоритму сопряженных градиентов.
+
+\param perc - дескриптор перцептрона;
+\param vec - массив обучающих векторов;
+\param d - множество эталонных откликов;
+\param vec_num - количество векторов в массиве обучающих векторов;
+\param max_iter - максимальное количество итераций процесса обучения;
+\param coef_E - множитель, определяющий максимальный размер области поиска оптимального значения параметра \f$\eta\f$, при достижении которого поиск очередного значения параметра \f$\eta\f$ будет завершен, как \f$\eta ~ E\f$, где \f$E\f$ - текущее значение функции ошибки; coef_E может принимать значения из диапазона (0, 1);
+\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
+\param d_E_thres - минимальное значение модуля производной функционала ошибки, при котором обучение будет остановлено.
+
+\return
+
+	- 0 - в случае успеха;
+	- <> 0 - в случае неудачи.
+
+*/
+int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
+		uint32_t max_iter, double coef_E, double E_thres, double d_E_thres);
 
 // ############################################################################
 
