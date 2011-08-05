@@ -5,12 +5,7 @@
 #include <opencv2/core/core_c.h>
 #include <opencv2/highgui/highgui_c.h>
 
-#include "memory.h"
-#include "distance.h"
-#include "various.h"
-#include "weight_init.h"
-#include "timing.h"
-#include "som.h"
+#include <fmll/fmll.h>
 
 int main(const int argc, const char * argv[])
 {

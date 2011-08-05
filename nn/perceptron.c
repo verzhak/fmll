@@ -13,7 +13,8 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, uint32_
 		uint16_t c_N, p_N, max_N = perc->max_N, * N = perc->N;
 		int32_t i, j, k, t_weight, t_w;
 		uint32_t u, num_weight = perc->num_weight, num = perc->num, t_ind, t_num = omp_get_max_threads();
-		double delta, E, t_E, * t_y, ** net = perc->net, *** y = perc->y;
+		double delta, E, t_E, ** net = perc->net, *** y = perc->y;
+		const double * t_y;
 		double * t_t_grad, * t_sum, * t_prev_sum, * t_net;
 		double ** w = perc->w, ** sum = NULL, ** prev_sum = NULL, ** t_grad = NULL;
 		double (** d_fun)(double) = perc->d_fun;
@@ -322,7 +323,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 	return perc;
 }
 
-double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
+const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
 {
 	uint8_t layers_num = perc->layers_num, dim = perc->dim;
 	uint16_t prev_num, N_u, * N = perc->N;

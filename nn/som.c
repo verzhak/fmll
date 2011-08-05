@@ -41,13 +41,9 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 		fmll_throw(! num);
 
-		w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double));
-		coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double));
-		tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint16_t));
-
-		fmll_throw_null(w);
-		fmll_throw_null(coord);
-		fmll_throw_null(tN);
+		fmll_throw_null((w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+		fmll_throw_null((coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double))));
+		fmll_throw_null((tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint16_t))));
 
 		som->num = num;
 		som->map_dim = map_dim;

@@ -58,22 +58,30 @@ int8_t xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t **
 
 int8_t xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
 {
-	BEGIN_XML_SET("int")
+	BEGIN_XML_SET("int");
+	
 	mxmlNewInteger(node, value);
+	
 	END_XML_SET;
 }
 
 int8_t xml_set_text(mxml_node_t * parent_node, const char * node_name, const char * value)
 {
-	BEGIN_XML_SET("text")
+	BEGIN_XML_SET("text");
+
 	mxmlNewText(node, 0, value);
+
 	END_XML_SET;
 }
 
 int8_t xml_set_double(mxml_node_t * parent_node, const char * node_name, double value)
 {
-	BEGIN_XML_SET("double")
-	mxmlNewReal(node, value);
+	BEGIN_XML_SET("double");
+
+	char tvalue[1024];
+	sprintf(tvalue, "%.17lf", value);
+	mxmlNewText(node, 0, tvalue);
+
 	END_XML_SET;
 }
 
@@ -98,21 +106,27 @@ int8_t xml_set_double(mxml_node_t * parent_node, const char * node_name, double 
 int8_t xml_get_int(mxml_node_t * node, const char * node_name, int * var)
 {
 	BEGIN_XML_GET;
+	
 	* var = sub_node->child->value.integer;
+	
 	END_XML_GET;
 }
 
 int8_t xml_get_text(mxml_node_t * node, const char * node_name, char * var)
 {
 	BEGIN_XML_GET;
+	
 	strcpy(var, sub_node->child->value.text.string);
+
 	END_XML_GET;
 }
 
 int8_t xml_get_double(mxml_node_t * node, const char * node_name, double * var)
 {
 	BEGIN_XML_GET;
+	
 	* var = sub_node->child->value.real;
+	
 	END_XML_GET;
 }
 

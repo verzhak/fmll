@@ -20,3 +20,6 @@ add_executable(ex_perceptron ex_perceptron.c)
 target_link_libraries(ex_perceptron fmll)
 target_link_libraries(ex_perceptron ${OpenCV_LIBS})
 
+add_executable(ex_pca ex_pca.c)
+target_link_libraries(ex_pca fmll)
+

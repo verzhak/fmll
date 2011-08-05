@@ -34,6 +34,7 @@
 #include <fmll/timing.h>
 #include <fmll/various.h>
 #include <fmll/weight_init.h>
+#include <fmll/pca.h>
 
 #endif
 
