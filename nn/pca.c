@@ -9,6 +9,7 @@ fmll_pca * fmll_pca_init(uint8_t dim, uint8_t num, double (* weight_init)())
 		double ** w;
 		uint32_t u, v;
 
+		fmll_throw((! dim || ! num || dim < num));
 		fmll_throw_null((pca = fmll_alloc_1D(1, sizeof(fmll_pca))));
 
 		pca->w = NULL;
