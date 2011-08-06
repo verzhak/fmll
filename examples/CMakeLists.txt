@@ -22,4 +22,5 @@ target_link_libraries(ex_perceptron ${OpenCV_LIBS})
 
 add_executable(ex_pca ex_pca.c)
 target_link_libraries(ex_pca fmll)
+target_link_libraries(ex_pca ${PC_GSL_LIBRARIES})
 

@@ -127,6 +127,8 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 \param PCA - дескриптор PCA-сети;
 \param vec - массив векторов;
 \param vec_num - количество векторов в массиве векторов;
+\param beta_0 - начальное значение коэффициента скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+\param next_beta - указатель на функцию, пересчитывающую значение скорости обучения в начале каждой итерации обучения по значению скорости обучения на предыдущей итерации;
 \param max_d - максимальное изменение весов нейронов PCA-сети на очередного итерации алгоритма самоорганизации, при котором процесс самоорганизации будет остановлен.
 
 \return
@@ -135,7 +137,7 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double max_d);
+int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double), double max_d);
 
 // ############################################################################ 
 

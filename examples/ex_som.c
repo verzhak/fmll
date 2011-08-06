@@ -40,7 +40,7 @@ int main(const int argc, const char * argv[])
 
 	fmll_som * som = fmll_som_init(N, 2, 3, & fmll_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
 
-	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
+	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
 
 	for(v = 0; v < som->num; v++)
 		printf("%u = [%lf, %lf, %lf]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);

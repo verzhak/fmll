@@ -138,21 +138,68 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 	return y;
 }
 
-int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double max_d)
+int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double), double max_d)
 {
 	fmll_try;
 
 		int8_t ret = 0;
 		uint8_t dim = pca->dim, num = pca->num;
-		double ** w = pca->w;
+		uint32_t t, u, v, q, iter = 0;
+		double d, sum, max = 0, beta = beta_0, * y = pca->y, ** w = pca->w, ** pw = NULL, ** tril_yy = NULL, ** tril_yy_w = NULL;
 
-		// TODO
+		fmll_throw(beta <= 0);
+		fmll_throw(beta >= 1);
+		fmll_throw_null((pw = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+		fmll_throw_null((tril_yy = (double **) fmll_alloc_2D(num, num, sizeof(double))));
+		fmll_throw_null((tril_yy_w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+
+		do
+		{
+			printf("Итерация = %u, beta = %.7lf, max = %.7lf\n", iter, beta, max);
+
+			memcpy((void *) (pw + num), (void *) (w + num), num * dim * sizeof(double));
+
+			for(t = 0; t < vec_num; t ++)
+			{
+				fmll_pca_run(pca, vec[t]);
+
+				for(u = 0; u < num; u ++)
+					for(v = 0; v < num; v ++)
+						tril_yy[u][v] = u < v ? 0 : y[u] * y[v];
+
+				for(u = 0; u < num; u ++)
+					for(v = 0; v < dim; v ++)
+					{
+						for(q = 0, sum = 0; q < num; q ++)
+							sum += tril_yy[u][q] * w[q][v];
+
+						tril_yy_w[u][v] = sum;
+					}
+
+				for(u = 0; u < num; u ++)
+					for(v = 0; v < dim; v ++)
+						w[u][v] += beta * (y[u] * vec[t][v] - tril_yy_w[u][v]);
+			}
+
+			for(u = 0, max = 0; u < num; u ++)
+				for(v = 0; v < dim; v ++)
+					if(max < (d = fabs(w[u][v] - pw[u][v])))
+						max = d;
+
+			iter ++;
+			beta = (* next_beta)(beta);
+		}
+		while(max > max_d && beta > 0);
 
 	fmll_catch;
 
 		ret = -1;
 
 	fmll_finally;
+
+		fmll_free_ND(pw);
+		fmll_free_ND(tril_yy);
+		fmll_free_ND(tril_yy_w);
 
 	return ret;
 }
