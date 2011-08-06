@@ -79,7 +79,7 @@ int main()
 		for(v = 0, norm = 0; v < dim; v ++)
 			norm += pca->w[u][v] * pca->w[u][v];
 
-		printf("\n\tНорма = %.11lf\n\n\tСвязь с собственными векторами, вычисленными средствами библиотеки GSL:\n\n\t\t", sqrt(norm));
+		printf("\n\tНорма = %.11lf\n\n\tСвязь с собственными векторами, вычисленными с помощью библиотеки GSL:\n\n\t\t", sqrt(norm));
 
 		for(v = 0; v < dim; v ++)
 		{
