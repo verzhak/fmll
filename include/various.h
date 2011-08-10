@@ -28,7 +28,7 @@
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_normalization(double ** vec, uint32_t vec_num, uint8_t dim);
+int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 
 /*!
 
@@ -44,7 +44,7 @@ int8_t fmll_normalization(double ** vec, uint32_t vec_num, uint8_t dim);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_centering(double ** vec, uint32_t vec_num, uint8_t dim);
+int fmll_centering(double ** vec, unsigned vec_num, unsigned dim);
 
 #endif
 

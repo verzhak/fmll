@@ -9,6 +9,7 @@
 
 	-# Создать перцептрон с помощью функции fmll_perceptron_init();
 	-# Обучить перцептрон с помощью одной из *_perceptron_teach_* функций;
+	-# Оценить качество обучения перцептрона с помощью функции fmll_perceptron_test();
 	-# Прогнать перцептрон над целевыми векторами с помощью функции fmll_perceptron_run();
 	-# Удалить перцептрон с помощью функции fmll_perceptron_destroy().
 
@@ -40,16 +41,16 @@ typedef struct t_fmll_perceptron
 	double *** y;
 
 	/*! Размерность входного вектора. */
-	uint8_t dim;
+	unsigned dim;
 
 	/*! Количество скрытых слоев. */
-	uint8_t layers_num;
+	unsigned layers_num;
 
 	/*! Количество нейронов в каждом из скрытых слоев. */
-	uint16_t * N;
+	unsigned * N;
 
 	/*! Суммарное количество нейронов во всех скрытых слоях. */
-	uint32_t num;
+	unsigned num;
 
 	/*! Массив функций активаций (своя функция активации для каждого из скрытых слоев). */
 	double (** fun)(double);
@@ -59,8 +60,7 @@ typedef struct t_fmll_perceptron
 
 	/*! \cond HIDDEN_SYMBOLS */
 
-	uint16_t max_N;
-	uint32_t num_weight;
+	unsigned max_N, num_weight;
 	double ** net;
 
 	/*! \endcond */
@@ -86,7 +86,7 @@ typedef struct t_fmll_perceptron
 	- NULL в случае неудачи.
 
 */
-fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const uint16_t * N,
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N,
 		double (* weight_init)(), double (** fun)(double), double (** d_fun)(double));
 
 /*!
@@ -111,7 +111,7 @@ void fmll_perceptron_destroy(fmll_perceptron * perc);
 	- <> 0 - в случае некорректного завершения операции сохранения описателя перцептрона.
 
 */
-int8_t fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix);
+int fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix);
 
 /*!
 
@@ -143,6 +143,36 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 
 /*!
 
+\brief Тестирование перцептрона.
+
+\param perc - указатель на описатель перцептрона;
+\param vec - тестовое множество векторов;
+\param d - множество эталонных откликов;
+\param deviation - допустимые отклонения для каждого из откликов;
+\param vec_num - количество векторов в тестовом множестве векторов;
+\param st_func - указатель на функцию, вызываемую после прогона перцептрона над каждым вектором из тестового множества (может принимать значение NULL);
+\param st_param - один из параметров функции (* st_func)() (если параметр st_func установлен в значение NULL, параметр st_param не используется).
+
+Массив deviation имеет размерность N x 2, где N - количество выходов перцептрона (количество нейронов в последнем слое перцептрона). Нулевой элемент второй размерности означает максимальное допустимое отклонение влево от соответствующего эталонного отклика, первый элемент - соответственно, вправо. Контроль за отношением нулевого элемента второй размерности к первому элементу сознательно не реализован.
+
+Функция (* st_func)() имеет следующие параметры:
+
+	-# указатель на описатель перцептрона;
+	-# указатель на обрабатываемый вектор;
+	-# указатель на вектор эталонных откликов, соответствующий обрабатываемому вектору;
+	-# указатель на вектор выходов перцептрона;
+	-# количество векторов в тестовом множестве векторов;
+	-# булева переменная, установленная в true, если вектор выходов перцептрона равен вектору эталонных откликов с точностью до указанных допустимых отклонений, и установленная в false - в противном случае;
+	-# значение параметра st_param.
+
+\return количество векторов из тестового множества векторов, вектор выходов перцептрона для которых равен соответствующим векторам эталонных откликов с точностью до указанных допустимых отклонений.
+
+*/
+unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double ** deviation, unsigned vec_num,
+		void (* st_func)(fmll_perceptron *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
+
+/*!
+
 \brief Обучение перцептрона путем пакетного градиентного спуска с использованием алгоритма обратного распространения ошибки.
 
 \param perc - дескриптор перцептрона;
@@ -162,8 +192,8 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, uint32_t max_iter, double E_thres, double d_E_thres);
+int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres);
 
 /*!
 
@@ -185,8 +215,8 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		double eta_0, double eta_coef, uint32_t max_iter, double E_thres, double d_E_thres);
+int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		double eta_0, double eta_coef, unsigned max_iter, double E_thres, double d_E_thres);
 
 /*!
 
@@ -207,8 +237,8 @@ int8_t fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double 
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		uint32_t max_iter, double coef_E, double E_thres, double d_E_thres);
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		unsigned max_iter, double coef_E, double E_thres, double d_E_thres);
 
 // ############################################################################
 

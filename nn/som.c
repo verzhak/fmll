@@ -3,7 +3,7 @@
 
 // ############################################################################ 
 
-double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index)
+double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index)
 {
 	if(index_winner == index)
 		return 1;
@@ -11,7 +11,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 	return 0;
 }
 
-double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index)
+double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index)
 {
 	double d = (* som->distance_w)(som->w[index_winner], som->w[index], som->map_dim);
 
@@ -20,16 +20,15 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 // ############################################################################ 
 
-fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
-		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t))
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(),
+		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
 {
 	fmll_try;
 
-		fmll_som * som = NULL;
+		int v;
+		unsigned u, num, * tN;
 		double ** w, ** coord;
-		uint16_t u, * tN;
-		int32_t v;
-		uint32_t num;
+		fmll_som * som = NULL;
 
 		fmll_throw_null((som = fmll_alloc_1D(1, sizeof(fmll_som))));
 
@@ -43,7 +42,7 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 
 		fmll_throw_null((w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
 		fmll_throw_null((coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double))));
-		fmll_throw_null((tN = som->N = fmll_alloc_1D(map_dim, sizeof(uint16_t))));
+		fmll_throw_null((tN = som->N = fmll_alloc_1D(map_dim, sizeof(unsigned))));
 
 		som->num = num;
 		som->map_dim = map_dim;
@@ -51,7 +50,7 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 		som->distance_w = distance_w;
 		som->distance = distance;
 
-		memset(tN, 0, map_dim * sizeof(uint16_t));
+		memset(tN, 0, map_dim * sizeof(unsigned));
 
 		for(u = 0; u < num; u++)
 		{
@@ -70,7 +69,7 @@ fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
 			}
 		}
 
-		memcpy(tN, N, map_dim * sizeof(uint16_t));
+		memcpy(tN, N, map_dim * sizeof(unsigned));
 		
 	fmll_catch;
 
@@ -93,17 +92,15 @@ void fmll_som_destroy(fmll_som * som)
 	}
 }
 
-int8_t fmll_som_save(fmll_som * som, const char * fname_prefix)
+int fmll_som_save(fmll_som * som, const char * fname_prefix)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint8_t map_dim = som->map_dim, dim = som->dim;
-		uint16_t * N = som->N;
-		uint32_t u, v, num = som->num;
+		int ret = 0;
+		unsigned u, v, num = som->num, map_dim = som->map_dim, dim = som->dim, * N = som->N;
 		char node_name[4096];
 		double ** w = som->w;
-		mxml_node_t * node, * main_node = NULL, * content_node;
+		mxml_node_t * node, * content_node, * main_node = NULL;
 		
 		fmll_throw((xml_create(TYPE_SOM, & main_node, & content_node)));
 		fmll_throw((xml_set_int(content_node, "map_dim", map_dim)));
@@ -140,23 +137,22 @@ int8_t fmll_som_save(fmll_som * som, const char * fname_prefix)
 }
 
 fmll_som * fmll_som_load(const char * fname_prefix, 
-		double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t))
+		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
 {
 	fmll_try;
 
-		fmll_som * som = NULL;
-		mxml_node_t * sub_node, * node, * main_node = NULL, * content_node;
 		int map_dim, dim;
-		uint16_t * N = NULL;
-		uint32_t u, v, num;
+		unsigned u, v, num, * N = NULL;
 		double ** w;
+		fmll_som * som = NULL;
+		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 
 		fmll_throw((xml_load(fname_prefix, TYPE_SOM, & main_node, & content_node)));
 
 		fmll_throw((xml_get_int(content_node, "map_dim", & map_dim)));
 		fmll_throw((xml_get_int(content_node, "dim", & dim)));
 
-		fmll_throw_null((N = fmll_alloc_1D(map_dim, sizeof(uint16_t))));
+		fmll_throw_null((N = fmll_alloc_1D(map_dim, sizeof(unsigned))));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < map_dim; u++)
@@ -192,12 +188,11 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 	return som;
 }
 
-uint32_t fmll_som_run(fmll_som * som, const double * vec)
+unsigned fmll_som_run(fmll_som * som, const double * vec)
 {
-	uint8_t dim = som->dim;
-	uint32_t u, index_winner, num = som->num;
+	unsigned u, index_winner, num = som->num, dim = som->dim;
 	double min, d, ** w = som->w;
-	double (* distance)(const double *, const double *, uint8_t) = som->distance;
+	double (* distance)(const double *, const double *, unsigned) = som->distance;
 
 	min = (* distance)(w[0], vec, dim);
 	index_winner = 0;
@@ -216,19 +211,18 @@ uint32_t fmll_som_run(fmll_som * som, const double * vec)
 	return index_winner;
 }
 
-int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t))
+int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned))
 {
 	fmll_try;
 
-		int8_t ret = 0;
+		int ret = 0;
 
 		fmll_throw(beta_0 < 0 || beta_0 > 1);
 		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_mult < 0 || gamma_mult > 1));
 		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_add < 0));
 
-		uint8_t dim = som->dim;
-		uint32_t u, v, q, index_winner, num = som->num;
+		unsigned u, v, q, index_winner, num = som->num, dim = som->dim;
 		double beta_gamma, beta = beta_0, ** w = som->w;
 
 		while(beta < 1.0000001)
@@ -264,25 +258,23 @@ int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, doub
 	return ret;
 }
 
-int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t), uint16_t max_win, uint16_t penalty)
+int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned), unsigned max_win, unsigned penalty)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		int32_t * wn = NULL;
+		int ret = 0,* wn = NULL;
 
 		fmll_throw(beta_0 < 0 || beta_0 > 1);
 		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_mult < 0 || gamma_mult > 1));
 		fmll_throw(neighbor == & fmll_som_neighbor_radial && (gamma_add < 0));
 
-		uint8_t dim = som->dim;
-		uint32_t u, v, q, index_winner, num = som->num;
+		unsigned u, v, q, index_winner, num = som->num, dim = som->dim;
 		double min, d, beta_gamma, beta = beta_0, ** w = som->w;
-		double (* distance)(const double *, const double *, uint8_t) = som->distance;
+		double (* distance)(const double *, const double *, unsigned) = som->distance;
 
-		fmll_throw_null((wn = fmll_alloc_1D(num, sizeof(int32_t))));
-		memset(wn, 0, num * sizeof(int32_t));
+		fmll_throw_null((wn = fmll_alloc_1D(num, sizeof(int))));
+		memset(wn, 0, num * sizeof(int));
 
 		while(beta < 1.0000001)
 		{
@@ -304,7 +296,7 @@ int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_n
 				}
 
 				if(++ wn[index_winner] == max_win)
-					wn[index_winner] = - ((int32_t) penalty);
+					wn[index_winner] = - ((int) penalty);
 
 				if(neighbor == & fmll_som_neighbor_wta)
 					for(q = 0; q < dim; q++)

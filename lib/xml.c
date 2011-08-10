@@ -1,11 +1,11 @@
 
 #include "xml.h"
 
-int8_t xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node)
+int xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node)
 {
 	fmll_try;
 
-		int8_t ret = 0;
+		int ret = 0;
 		mxml_node_t * node, * sub_node;
 
 		fmll_throw_null((main_node));
@@ -41,7 +41,7 @@ int8_t xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t **
 #define BEGIN_XML_SET(type) \
 	fmll_try;\
 \
-		int8_t ret = 0;\
+		int ret = 0;\
 		mxml_node_t * node;\
 \
 		fmll_throw_null((node = mxmlNewElement(parent_node, node_name)));\
@@ -56,7 +56,7 @@ int8_t xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t **
 \
 	return ret;
 
-int8_t xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
+int xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
 {
 	BEGIN_XML_SET("int");
 	
@@ -65,7 +65,7 @@ int8_t xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
 	END_XML_SET;
 }
 
-int8_t xml_set_text(mxml_node_t * parent_node, const char * node_name, const char * value)
+int xml_set_text(mxml_node_t * parent_node, const char * node_name, const char * value)
 {
 	BEGIN_XML_SET("text");
 
@@ -74,7 +74,7 @@ int8_t xml_set_text(mxml_node_t * parent_node, const char * node_name, const cha
 	END_XML_SET;
 }
 
-int8_t xml_set_double(mxml_node_t * parent_node, const char * node_name, double value)
+int xml_set_double(mxml_node_t * parent_node, const char * node_name, double value)
 {
 	BEGIN_XML_SET("double");
 
@@ -88,7 +88,7 @@ int8_t xml_set_double(mxml_node_t * parent_node, const char * node_name, double 
 #define BEGIN_XML_GET \
 	fmll_try;\
 \
-		int8_t ret = 0;\
+		int ret = 0;\
 		mxml_node_t * sub_node;\
 \
 		fmll_throw_null((sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST)));
@@ -103,7 +103,7 @@ int8_t xml_set_double(mxml_node_t * parent_node, const char * node_name, double 
 \
 	return ret;
 
-int8_t xml_get_int(mxml_node_t * node, const char * node_name, int * var)
+int xml_get_int(mxml_node_t * node, const char * node_name, int * var)
 {
 	BEGIN_XML_GET;
 	
@@ -112,7 +112,7 @@ int8_t xml_get_int(mxml_node_t * node, const char * node_name, int * var)
 	END_XML_GET;
 }
 
-int8_t xml_get_text(mxml_node_t * node, const char * node_name, char * var)
+int xml_get_text(mxml_node_t * node, const char * node_name, char * var)
 {
 	BEGIN_XML_GET;
 	
@@ -121,7 +121,7 @@ int8_t xml_get_text(mxml_node_t * node, const char * node_name, char * var)
 	END_XML_GET;
 }
 
-int8_t xml_get_double(mxml_node_t * node, const char * node_name, double * var)
+int xml_get_double(mxml_node_t * node, const char * node_name, double * var)
 {
 	BEGIN_XML_GET;
 	
@@ -153,11 +153,11 @@ mxml_type_t xml_load_callback(mxml_node_t *node)
 	  return MXML_OPAQUE;
 }
 
-int8_t xml_load(const char * fname_prefix, const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node)
+int xml_load(const char * fname_prefix, const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node)
 {
 	fmll_try;
 
-		int8_t ret = 0;
+		int ret = 0;
 		mxml_node_t * node, * sub_node, * sub_sub_node;
 		char fname[strlen(fname_prefix) + 5];
 		FILE * fl = NULL;
@@ -199,11 +199,11 @@ int8_t xml_load(const char * fname_prefix, const char * nn_type, mxml_node_t ** 
 	return ret;
 }
 
-int8_t xml_save(const char * fname_prefix, mxml_node_t * main_node)
+int xml_save(const char * fname_prefix, mxml_node_t * main_node)
 {
 	fmll_try;
 
-		int8_t ret = 0;
+		int ret = 0;
 		char fname[strlen(fname_prefix) + 5];
 		FILE * fl = NULL;
 

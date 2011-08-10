@@ -24,8 +24,7 @@ int main(const int argc, const char * argv[])
 	IplImage * dst_4 = cvCreateImage(size, IPL_DEPTH_8U, 3);
 	CvScalar pixel;
 	unsigned u, v, q;
-	uint16_t N[2] = {10, 10};
-	uint32_t index_winner;
+	unsigned index_winner, N[2] = {10, 10};
 	double ** vec = (double **) fmll_alloc_2D(size.height * size.width, 3, sizeof(double));
 
 	for(v = 0, q = 0; v < size.height; v++)
@@ -45,7 +44,7 @@ int main(const int argc, const char * argv[])
 	for(v = 0; v < som->num; v++)
 		printf("%u = [%lf, %lf, %lf]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);
 
-	uint32_t cur, base = 256 * 256 * 256;
+	unsigned cur, base = 256 * 256 * 256;
 
 	for(v = 0, q = 0; v < size.height; v++)
 		for(u = 0; u < size.width; u++, q++)

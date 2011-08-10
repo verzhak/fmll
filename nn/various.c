@@ -1,9 +1,9 @@
 
 #include "various.h"
 
-int8_t fmll_normalization(double ** vec, uint32_t vec_num, uint8_t dim)
+int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim)
 {
-	uint32_t u, v;
+	unsigned u, v;
 	double norm, * tvec;
 
 	for(u = 0; u < vec_num; u++)
@@ -22,12 +22,12 @@ int8_t fmll_normalization(double ** vec, uint32_t vec_num, uint8_t dim)
 	return 0;
 }
 
-int8_t fmll_centering(double ** vec, uint32_t vec_num, uint8_t dim)
+int fmll_centering(double ** vec, unsigned vec_num, unsigned dim)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint32_t u, v;
+		int ret = 0;
+		unsigned u, v;
 		double * mean = NULL;
 		
 		fmll_throw_null((mean = fmll_alloc_1D(dim, sizeof(double))));

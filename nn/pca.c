@@ -1,13 +1,13 @@
 
 #include "pca.h"
 
-fmll_pca * fmll_pca_init(uint8_t dim, uint8_t num, double (* weight_init)())
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)())
 {
 	fmll_try;
 
-		fmll_pca * pca = NULL;
 		double ** w;
-		uint32_t u, v;
+		unsigned u, v;
+		fmll_pca * pca = NULL;
 
 		fmll_throw((! dim || ! num || dim < num));
 		fmll_throw_null((pca = fmll_alloc_1D(1, sizeof(fmll_pca))));
@@ -45,13 +45,12 @@ void fmll_pca_destroy(fmll_pca * pca)
 	}
 }
 
-int8_t fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
+int fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint8_t dim = pca->dim, num = pca->num;
-		uint32_t u, v;
+		int ret = 0;
+		unsigned u, v, dim = pca->dim, num = pca->num;
 		char node_name[4096];
 		double ** w = pca->w;
 		mxml_node_t * node, * main_node = NULL, * content_node;
@@ -86,11 +85,11 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 {
 	fmll_try;
 
-		fmll_pca * pca = NULL;
-		mxml_node_t * sub_node, * node, * main_node = NULL, * content_node;
 		int dim, num;
-		uint32_t u, v;
+		unsigned u, v;
 		double ** w;
+		fmll_pca * pca = NULL;
+		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 
 		fmll_throw((xml_load(fname_prefix, TYPE_PCA, & main_node, & content_node)));
 
@@ -123,9 +122,8 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 
 const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 {
+	unsigned u, v, dim = pca->dim, num = pca->num;
 	double sum, * y = pca->y, ** w = pca->w;
-	uint8_t dim = pca->dim, num = pca->num;
-	uint32_t u, v;
 
 	for(u = 0; u < num; u++)
 	{
@@ -138,13 +136,12 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 	return y;
 }
 
-int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double), double max_d)
+int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint8_t dim = pca->dim, num = pca->num;
-		uint32_t t, u, v, q, iter = 0;
+		int ret = 0;
+		unsigned t, u, v, q, iter = 0, dim = pca->dim, num = pca->num;
 		double d, sum, max = 0, beta = beta_0, * y = pca->y, ** w = pca->w, ** pw = NULL, ** tril_yy = NULL, ** tril_yy_w = NULL;
 
 		fmll_throw(beta <= 0);

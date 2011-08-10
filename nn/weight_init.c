@@ -18,6 +18,16 @@ double fmll_weight_init_random_0_1()
 
 double fmll_weight_init_random_0_01()
 {
+	return drand48() / 10;
+}
+
+double fmll_weight_init_random_0_001()
+{
 	return drand48() / 100;
+}
+
+double fmll_weight_init_random_m05_05()
+{
+	return (drand48() - 0.5) / 5.0;
 }
 

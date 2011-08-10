@@ -5,14 +5,13 @@
 /* Вспомогательные функции */
 
 /* Расчет градиента и матрицы Якоби методом обратного распространения ошибки */
-double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num, double * grad, double ** J)
+double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, double * grad, double ** J)
 {
 	fmll_try;
 
-		uint8_t dim = perc->dim, layers_num = perc->layers_num;
-		uint16_t c_N, p_N, max_N = perc->max_N, * N = perc->N;
-		int32_t i, j, k, t_weight, t_w;
-		uint32_t u, num_weight = perc->num_weight, num = perc->num, t_ind, t_num = omp_get_max_threads();
+		int i, j, k, t_weight, t_w;
+		unsigned c_N, p_N, max_N = perc->max_N, * N = perc->N, dim = perc->dim, layers_num = perc->layers_num;
+		unsigned u, num_weight = perc->num_weight, num = perc->num, t_ind, t_num = omp_get_max_threads();
 		double delta, E, t_E, ** net = perc->net, *** y = perc->y;
 		const double * t_y;
 		double * t_t_grad, * t_sum, * t_prev_sum, * t_net;
@@ -136,7 +135,7 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, uint32_
 
 /* ############################################################################ */
 
-fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const uint16_t * N,
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N,
 		double (* weight_init)(), double (** fun)(double), double (** d_fun)(double))
 {
 	fmll_try;
@@ -145,8 +144,7 @@ fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const ui
 		double (** t_fun)(double);
 		double (** t_d_fun)(double);
 		double ** w;
-		uint16_t max_N, N_u, prev_num, * t_N;
-		uint32_t u, v, t, q, num_weight, num, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
+		unsigned u, v, t, q, num_weight, num, max_N, N_u, prev_num, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
 
 		fmll_throw_null((perc = fmll_alloc_1D(1, sizeof(fmll_perceptron))));
 
@@ -157,9 +155,11 @@ fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const ui
 
 		fmll_throw_null((t_fun = perc->fun = fmll_alloc_1D(layers_num, sizeof(double (*)(double)))));
 		fmll_throw_null((t_d_fun = perc->d_fun = fmll_alloc_1D(layers_num, sizeof(double (*)(double)))));
-		fmll_throw_null((t_N = perc->N = fmll_alloc_1D(layers_num, sizeof(uint16_t))));
+		fmll_throw_null((t_N = perc->N = fmll_alloc_1D(layers_num, sizeof(unsigned))));
 
-		for(u = 1, num = max_N = N[0]; u < layers_num; u++)
+		max_N = N[0] > dim ? N[0] : dim;
+
+		for(u = 1, num = N[0]; u < layers_num; u++)
 		{
 			num += N[u];
 
@@ -174,7 +174,7 @@ fmll_perceptron * fmll_perceptron_init(uint8_t dim, uint8_t layers_num, const ui
 		
 		memcpy(t_fun, fun, size);
 		memcpy(t_d_fun, d_fun, size);
-		memcpy(t_N, N, layers_num * sizeof(uint16_t));
+		memcpy(t_N, N, layers_num * sizeof(unsigned));
 
 		for(u = t = 0, N_u = dim, num_weight = 0; u < layers_num; u++)
 		{
@@ -215,14 +215,12 @@ void fmll_perceptron_destroy(fmll_perceptron * perc)
 	}
 }
 
-int8_t fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix)
+int fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint8_t layers_num = perc->layers_num, dim = perc->dim;
-		uint16_t c_N, p_N, * N = perc->N;
-		uint32_t u, i, j, k, t;
+		int ret = 0;
+		unsigned u, i, j, k, t, c_N, p_N, * N = perc->N, layers_num = perc->layers_num, dim = perc->dim;
 		char node_name[4096];
 		double ** w = perc->w;
 		mxml_node_t * node, * content_node, * main_node = NULL;
@@ -271,19 +269,18 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 {
 	fmll_try;
 
+		int dim, layers_num;
+		unsigned u, i, j, k, t, c_N, p_N, * N = NULL;
+		double ** w;
 		fmll_perceptron * perc = NULL;
 		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
-		int dim, layers_num;
-		uint16_t c_N, p_N, * N = NULL;
-		uint32_t u, i, j, k, t;
-		double ** w;
 
 		fmll_throw((xml_load(fname_prefix, TYPE_PERCEPTRON, & main_node, & content_node)));
 
 		fmll_throw((xml_get_int(content_node, "dim", & dim)));
 		fmll_throw((xml_get_int(content_node, "layers_num", & layers_num)));
 		
-		fmll_throw_null((N = fmll_alloc_1D(layers_num, sizeof(uint16_t))));
+		fmll_throw_null((N = fmll_alloc_1D(layers_num, sizeof(unsigned))));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < layers_num; u++)
@@ -325,9 +322,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 
 const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
 {
-	uint8_t layers_num = perc->layers_num, dim = perc->dim;
-	uint16_t prev_num, N_u, * N = perc->N;
-	uint32_t u, v, q, t, t_ind = omp_get_thread_num();
+	unsigned u, v, q, t, prev_num, N_u, dim = perc->dim, layers_num = perc->layers_num, * N = perc->N, t_ind = omp_get_thread_num();
 	double t_net, * c_y, ** y = perc->y[t_ind], * net = perc->net[t_ind], ** w = perc->w;
 	double * n_y = y[0];
 	double (** fun)(double) = perc->fun;
@@ -355,16 +350,43 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
 	return n_y;
 }
 
-int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, uint32_t max_iter, double E_thres, double d_E_thres)
+unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double ** deviation, unsigned vec_num,
+		void (* st_func)(fmll_perceptron *, double *, double *, const double *, unsigned, bool, void *), void * st_param)
+{
+	bool is_right;
+	unsigned u, v, no = 0, last_N = perc->N[perc->layers_num - 1];
+	const double * y;
+	double norm;
+
+	for(u = 0; u < vec_num; u++)
+	{
+		y = fmll_perceptron_run(perc, vec[u]);
+
+		for(v = 0, is_right = true; v < last_N && is_right; v++)
+		{
+			norm = y[v] - d[u][v];
+
+			if(norm < - deviation[v][0] || norm > deviation[v][1])
+			{
+				no++;
+				is_right = false;
+			}
+		}
+
+		if(st_func != NULL)
+			(* st_func)(perc, vec[u], d[u], y, vec_num, is_right, st_param);
+	}
+
+	return vec_num - no;
+}
+
+int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		uint8_t dim = perc->dim, layers_num = perc->layers_num;
-		uint16_t c_N, p_N, * N = perc->N;
-		int32_t i, j, k;
-		uint32_t iter, t_weight, t_w, num_weight = perc->num_weight;
+		int i, j, k, ret = 0;
+		unsigned iter, t_weight, t_w, c_N, p_N, dim = perc->dim, layers_num = perc->layers_num, num_weight = perc->num_weight, * N = perc->N;
 		double E, prev_E, beta, norm_E = 2 * vec_num * N[layers_num - 1], ** w = perc->w, * moment = NULL, * grad = NULL;
 
 		fmll_throw(beta_0 < 0 || beta_0 > 1);
@@ -420,17 +442,14 @@ int8_t fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** ve
 	return ret;
 }
 
-int8_t fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		double eta_mult, double eta_coef, uint32_t max_iter, double E_thres, double d_E_thres)
+int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		double eta_mult, double eta_coef, unsigned max_iter, double E_thres, double d_E_thres)
 {
 	fmll_try;
 
-		int8_t ret = 0;
-		int signum;
-		uint8_t dim = perc->dim, layers_num = perc->layers_num;
-		uint16_t c_N, p_N, * N = perc->N;
-		int32_t i, j, k, t_weight, t_w;
-		uint32_t u, iter, t_ind, num_weight = perc->num_weight, t_num = omp_get_max_threads();
+		int i, j, k, t_weight, t_w, signum, ret = 0;
+		unsigned c_N, p_N, u, iter, t_ind, dim = perc->dim, layers_num = perc->layers_num, num_weight = perc->num_weight, * N = perc->N;
+		unsigned t_num = omp_get_max_threads();
 		double eta, delta, E, prev_E, t_E, norm_E = 2 * vec_num * N[layers_num - 1], * t_y, *** y = perc->y;
 		double * grad = NULL, * eigen_val = NULL, * d_w = NULL;
 		double ** J = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = perc->w;
@@ -608,17 +627,15 @@ int8_t fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double 
 	return ret;
 }
 
-int8_t fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, uint32_t vec_num,
-		uint32_t max_iter, double coef_E, double E_thres, double d_E_thres)
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+		unsigned max_iter, double coef_E, double E_thres, double d_E_thres)
 {
 	fmll_try;
 
-		int8_t ret = 0;
 		bool first_run;
-		uint8_t dim = perc->dim, layers_num = perc->layers_num;
-		uint16_t c_N, p_N, * N = perc->N;
-		int32_t i, j, k, t_weight, t_w;
-		uint32_t u, v, iter, t_ind, num_weight = perc->num_weight, t_num = omp_get_max_threads();
+		int i, j, k, t_weight, t_w, ret = 0;
+		unsigned c_N, p_N, u, v, iter, t_ind, num_weight = perc->num_weight, dim = perc->dim, layers_num = perc->layers_num;
+		unsigned * N = perc->N, t_num = omp_get_max_threads();
 		double delta, E, E_coef_E, prev_E, t_E, beta_1, beta_2, beta, eta_1, eta[3], tE[3], norm_E = 2 * vec_num * N[layers_num - 1];
 		double * t_y, *** y = perc->y, * s = NULL, * prev_s = NULL,* grad = NULL, * prev_grad = NULL, * d_w = NULL, ** w = perc->w;
 

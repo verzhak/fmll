@@ -42,23 +42,23 @@ typedef struct t_fmll_som
 	double ** coord;
 
 	/*! Количество нейронов. */
-	uint32_t num;
+	unsigned num;
 
 	/*! Размерность нейронной карты. */
-	uint8_t map_dim;
+	unsigned map_dim;
 	
 	/*! Размерность классифицируемого векторного пространства. */
-	uint8_t dim;
+	unsigned dim;
 
 	/*! Указатель на функцию, расчитывающую расстояние между нейронами на карте нейронов. */
-	double (* distance_w)(const double *, const double *, uint8_t);
+	double (* distance_w)(const double *, const double *, unsigned);
 
 	/*! Указатель на функцию, расчитывающую расстояние между векторами. */
-	double (* distance)(const double *, const double *, uint8_t);
+	double (* distance)(const double *, const double *, unsigned);
 
 	/*! \cond HIDDEN_SYMBOLS */
 
-	uint16_t * N;
+	unsigned * N;
 
 	/*! \endcond */
 
@@ -84,7 +84,7 @@ typedef struct t_fmll_som
 \sa fmll_som_neighbor_radial().
 
 */
-double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index);
+double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index);
 
 /*!
 
@@ -115,7 +115,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 \sa fmll_som_neighbor_wta().
 
 */
-double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, uint32_t index_winner, uint32_t index);
+double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index);
 
 // ############################################################################
 
@@ -142,8 +142,8 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	- NULL - в случае неудачи.
 
 */
-fmll_som * fmll_som_init(const uint16_t * N, uint8_t map_dim, uint8_t dim,
-		double (* weight_init)(), double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t));
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
+		double (* weight_init)(), double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
 
 /*!
 
@@ -167,7 +167,7 @@ void fmll_som_destroy(fmll_som * som);
 	- <> 0 - в случае некорректного завершения операции сохранения описателя нейронной карты.
 
 */
-int8_t fmll_som_save(fmll_som * som, const char * fname_prefix);
+int fmll_som_save(fmll_som * som, const char * fname_prefix);
 
 /*!
 
@@ -184,7 +184,7 @@ int8_t fmll_som_save(fmll_som * som, const char * fname_prefix);
 
 */
 fmll_som * fmll_som_load(const char * fname_prefix,
-		double (* distance_w)(const double *, const double *, uint8_t), double (* distance)(const double *, const double *, uint8_t));
+		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
 
 /*!
 
@@ -196,7 +196,7 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 \return индекс нейрона - победителя.
 
 */
-uint32_t fmll_som_run(fmll_som * som, const double * vec);
+unsigned fmll_som_run(fmll_som * som, const double * vec);
 
 /*!
 
@@ -235,8 +235,8 @@ uint32_t fmll_som_run(fmll_som * som, const double * vec);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t));
+int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned));
 
 /*!
 
@@ -277,8 +277,8 @@ int8_t fmll_som_so_kohonen(fmll_som * som, double ** vec, uint32_t vec_num, doub
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, uint32_t, uint32_t), uint16_t max_win, uint16_t penalty);
+int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
+		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned), unsigned max_win, unsigned penalty);
 
 // ############################################################################
 

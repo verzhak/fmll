@@ -40,13 +40,13 @@ typedef struct t_fmll_pca
 	double * y;
 
 	/*! Размерность исходного векторного пространства. */
-	uint8_t dim;
+	unsigned dim;
 
 	/*!
 	 * Количество нейронов (размерность целевого векторного пространства).
 	 * Должно выполняться условие: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 	 */
-	uint8_t num;
+	unsigned num;
 
 } fmll_pca;
 
@@ -68,7 +68,7 @@ typedef struct t_fmll_pca
 	- NULL - в случае неудачи.
 
 */
-fmll_pca * fmll_pca_init(uint8_t dim, uint8_t num, double (* weight_init)());
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)());
 
 /*!
 
@@ -92,7 +92,7 @@ void fmll_pca_destroy(fmll_pca * pca);
 	- <> 0 - в случае некорректного завершения операции сохранения описателя PCA-сети.
 
 */
-int8_t fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
+int fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
 
 /*!
 
@@ -137,7 +137,7 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 	- <> 0 - в случае неудачи.
 
 */
-int8_t fmll_pca_so(fmll_pca * pca, double ** vec, uint32_t vec_num, double beta_0, double (* next_beta)(double), double max_d);
+int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d);
 
 // ############################################################################ 
 
