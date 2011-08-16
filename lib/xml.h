@@ -8,6 +8,8 @@
 #define TYPE_PERCEPTRON "perceptron"
 #define TYPE_SOM "som"
 #define TYPE_PCA "pca"
+#define TYPE_SVM "svm"
+#define TYPE_SVM_NET "svm_net"
 
 int xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node);
 int xml_set_int(mxml_node_t * parent_node, const char * node_name, int value);

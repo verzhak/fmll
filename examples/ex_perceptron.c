@@ -22,7 +22,7 @@ int image_analysis(const int argc, const char * argv[])
 {
 	if(argc != 3)
 	{
-		fprintf(stderr, "\nДемонстрация перцептрона.\n\nЗапуск программы:\n\nex_perceptron DIR IMAGE_1\n\nГде:\n\n\tDIR - путь и имя каталога, в котором должны содержаться следующие файлы:\n\n\t\tperceptron_teach.png - файл с изображением, на основании которого будет составлена обучающая выборка (R = 0, G = 237, B = 95 - класс 1; остальное - класс 0);\n\t\tperceptron_test.png - файл с изображением, классификация пикселей которого будет выполнена;\n\n\tIMAGE_1 - путь и имя файла, в который будет сохранено результирующее изображение (белый - правильно классифицированные пиксели, отнесенные к классу 1; черный - правильно классифицированные пиксели, отнесенные к классу 0, зеленый и красный - неклассифицированные пиксели, относящиеся к классам 1 и 0 соответственно).\n\n");
+		fprintf(stderr, "\nДемонстрация перцептрона.\n\nЗапуск программы:\n\nex_perceptron DIR IMAGE_1\n\nГде:\n\n\tDIR - путь и имя каталога, в котором должны содержаться следующие файлы:\n\n\t\tteach.png - файл с изображением, на основании которого будет составлена обучающая выборка (R = 0, G = 237, B = 95 - класс 1; остальное - класс 0);\n\t\ttest.png - файл с изображением, классификация пикселей которого будет выполнена;\n\n\tIMAGE_1 - путь и имя файла, в который будет сохранено результирующее изображение (белый - правильно классифицированные пиксели, отнесенные к классу 1; черный - правильно классифицированные пиксели, отнесенные к классу 0, зеленый и красный - неклассифицированные пиксели, относящиеся к классам 1 и 0 соответственно).\n\n");
 
 		return -1;
 	}
@@ -33,19 +33,13 @@ int image_analysis(const int argc, const char * argv[])
 	char fname[4096];
 	unsigned u, v, q, vec_num, vec_per_class, cl_ind, vec_class[5] = {0, 0, 0, 0, 0}, N[N_NUM] = {7, 5, 1};
 	double res, norm;
-	double (* fun[N_NUM])(double);
-	double (* d_fun[N_NUM])(double);
 
-	for(u = 0; u < N_NUM; u++)
-	{
-		fun[u] = & fmll_tanh;
-		d_fun[u] = & fmll_d_tanh;
-	}
+	// ############################################################################ 
 
-	sprintf(fname, "%s/perceptron_teach.png", argv[1]);
+	sprintf(fname, "%s/teach.png", argv[1]);
 	IplImage * src_teach = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
 
-	sprintf(fname, "%s/perceptron_test.png", argv[1]);
+	sprintf(fname, "%s/test.png", argv[1]);
 	IplImage * src_test = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
 
 	CvSize size_teach = cvGetSize(src_teach), size_test = cvGetSize(src_test);
@@ -97,15 +91,6 @@ int image_analysis(const int argc, const char * argv[])
 			}
 		}
 
-	srand48(drand48());
-
-	fmll_perceptron * perc = fmll_perceptron_init(3, N_NUM, N, & fmll_weight_init_random_0_1, fun, d_fun);
-
-	// fmll_perceptron_teach_gradient_batch(perc, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9,
-	//		10000, 0.001, 0.000001);
-	// fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, vec_num, 100000, 5, 100000, 0.0005, 0);
-	fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, 100000, 0.0001, 0.001, 0);
-
 	for(v = 0, q = 0; v < size_test.height; v++)
 		for(u = 0; u < size_test.width; u++, q++)
 		{
@@ -121,6 +106,33 @@ int image_analysis(const int argc, const char * argv[])
 			test_x[q][2] = pixel.val[2] / 255;
 		}
 
+	cvReleaseImage(& src_teach);
+	cvReleaseImage(& src_test);
+
+	// ############################################################################ 
+
+	double (* fun[N_NUM])(double);
+	double (* d_fun[N_NUM])(double);
+
+	for(u = 0; u < N_NUM; u++)
+	{
+		fun[u] = & fmll_tanh;
+		d_fun[u] = & fmll_d_tanh;
+	}
+
+	srand48(drand48());
+
+	fmll_perceptron * perc = fmll_perceptron_init(3, N_NUM, N, & fmll_weight_init_random_0_1, fun, d_fun);
+
+	// ############################################################################ 
+
+	// fmll_perceptron_teach_gradient_batch(perc, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9,
+	//		10000, 0.001, 0.000001);
+	// fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, vec_num, 100000, 5, 100000, 0.0005, 0);
+	fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, 100000, 0.0001, 0.001, 0);
+
+	// ############################################################################ 
+
 	double ** deviation = (double **) fmll_alloc_2D(1, 2, sizeof(double));
 	deviation[0][0] = 0.3;
 	deviation[0][1] = 0.3;
@@ -130,6 +142,8 @@ int image_analysis(const int argc, const char * argv[])
 	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
 
+	// ############################################################################ 
+
 	fmll_perceptron_save(perc, "perceptron");
 	fmll_perceptron_destroy(perc);
 	perc = fmll_perceptron_load("perceptron", fun, d_fun);
@@ -137,10 +151,9 @@ int image_analysis(const int argc, const char * argv[])
 	for(v = 0, q = 0, yes = 0; v < size_test.height; v++)
 		for(u = 0; u < size_test.width; u++, q++)
 		{
-			pixel = cvGet2D(src_test, v, u);
 			res = fmll_perceptron_run(perc, test_x[q])[0];
 
-			if(pixel.val[0] == 0 && pixel.val[1] == 237 && pixel.val[2] == 95)
+			if(test_d[q][0] == 1)
 			{
 				norm = res - 1.0;
 				flag = true;
@@ -169,15 +182,17 @@ int image_analysis(const int argc, const char * argv[])
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
+
+	// ############################################################################ 
 	
+	fmll_free_ND(deviation);
 	fmll_free_ND(x);
 	fmll_free_ND(d);
+	fmll_free_ND(test_x);
+	fmll_free_ND(test_d);
 	fmll_perceptron_destroy(perc);
 
 	cvSaveImage(argv[2], dst, NULL);
-
-	cvReleaseImage(& src_teach);
-	cvReleaseImage(& src_test);
 	cvReleaseImage(& dst);
 
 	return 0;
@@ -190,10 +205,8 @@ int xor()
 	double (* fun[3])(double) = {& fmll_tanh, & fmll_tanh, & fmll_tanh};
 	double (* d_fun[3])(double) = {& fmll_d_tanh, & fmll_d_tanh, & fmll_d_tanh};
 
-	srand48(drand48());
-
-	fmll_perceptron * perc = fmll_perceptron_init(2, 2, N, & fmll_weight_init_random_0_1, fun, d_fun);
-
+	// ############################################################################ 
+	
 	vec = (double **) fmll_alloc_2D(4, 2, sizeof(double));
 	d = (double **) fmll_alloc_2D(4, 1, sizeof(double));
 
@@ -209,9 +222,19 @@ int xor()
 	d[0][0] = d[3][0] = 0;
 	d[1][0] = d[2][0] = 1;
 
+	// ############################################################################ 
+	
+	srand48(drand48());
+
+	fmll_perceptron * perc = fmll_perceptron_init(2, 2, N, & fmll_weight_init_random_0_1, fun, d_fun);
+
+	// ############################################################################ 
+
 	fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
 	// fmll_perceptron_teach_Levenberg_Marquardt(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
 	// fmll_perceptron_teach_conjugate_gradient(perc, vec, d, 4, 1000, 0.00001, 0.001, 0.00000001);
+	
+	// ############################################################################ 
 
 	fmll_perceptron_save(perc, "perceptron");
 
@@ -224,7 +247,7 @@ int xor()
 
 	fmll_perceptron_destroy(perc);
 
-	perc = NULL;
+	// ############################################################################ 
 
 	if(
 		(perc = fmll_perceptron_load("perceptron", fun, d_fun)) != NULL
@@ -239,6 +262,8 @@ int xor()
 
 		printf("\n");
 	}
+
+	// ############################################################################ 
 
 	fmll_free_ND(vec);
 	fmll_free_ND(d);

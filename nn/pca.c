@@ -53,7 +53,7 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
 		unsigned u, v, dim = pca->dim, num = pca->num;
 		char node_name[4096];
 		double ** w = pca->w;
-		mxml_node_t * node, * main_node = NULL, * content_node;
+		mxml_node_t * sub_node, * node, * main_node = NULL, * content_node;
 		
 		fmll_throw((xml_create(TYPE_PCA, & main_node, & content_node)));
 		fmll_throw((xml_set_int(content_node, "dim", dim)));
@@ -62,13 +62,18 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
 		fmll_throw_null((node = mxmlNewElement(content_node, "W")));
 
 		for(u = 0; u < num; u++)
+		{
+			sprintf(node_name, "w_%u", u);
+			fmll_throw_null((sub_node = mxmlNewElement(node, node_name)));
+
 			for(v = 0; v < dim; v++)
 			{
-				sprintf(node_name, "w_%u_%u", u, v);
-				fmll_throw((xml_set_double(node, node_name, w[u][v])));
+				sprintf(node_name, "%u", v);
+				fmll_throw((xml_set_double(sub_node, node_name, w[u][v])));
 			}
+		}
 
-		fmll_throw(xml_save(fname_prefix, main_node));
+		fmll_throw((xml_save(fname_prefix, main_node)));
 
 	fmll_catch;
 
@@ -86,10 +91,11 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 	fmll_try;
 
 		int dim, num;
+		char node_name[4096];
 		unsigned u, v;
 		double ** w;
 		fmll_pca * pca = NULL;
-		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
+		mxml_node_t * sub_sub_node, * sub_node, * node, * content_node, * main_node = NULL;
 
 		fmll_throw((xml_load(fname_prefix, TYPE_PCA, & main_node, & content_node)));
 
@@ -99,14 +105,17 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 		fmll_throw_null((pca = fmll_pca_init(dim, num, & fmll_weight_init_null)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
 
-		w = pca->w;
+		for(u = 0, w = pca->w; u < num; u++)
+		{
+			sprintf(node_name, "w_%u", u);
+			fmll_throw_null((sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST)));
 
-		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < num; u++)
-			for(v = 0; v < dim; v++)
+			for(v = 0, sub_sub_node = mxmlFindElement(sub_node, sub_node, NULL, NULL, NULL, MXML_DESCEND_FIRST); v < dim; v++)
 			{
-				w[u][v] = sub_node->child->value.real;
-				sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+				w[u][v] = sub_sub_node->child->value.real;
+				sub_sub_node = mxmlFindElement(sub_sub_node, sub_node, NULL, NULL, NULL, MXML_DESCEND);
 			}
+		}
 
 	fmll_catch;
 
@@ -136,7 +145,7 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 	return y;
 }
 
-int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d)
+int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d, double * eigen)
 {
 	fmll_try;
 
@@ -187,6 +196,26 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 			beta = (* next_beta)(beta);
 		}
 		while(max > max_d && beta > 0);
+
+		if(eigen != NULL)
+		{
+			double fcrow[dim];
+
+			for(v = 0; v < dim; v++)
+				fcrow[v] = (vec[0][0] * vec[0][v]) / vec_num;
+
+			for(t = 1; t < vec_num; t++)
+				for(v = 0; v < dim; v++)
+					fcrow[v] += (vec[t][0] * vec[t][v]) / vec_num;
+
+			for(t = 0; t < num; t++)
+			{
+				for(v = 0, sum = 0; v < dim; v++)
+					sum += w[t][v] * fcrow[v];
+
+				eigen[t] = sum / w[t][0];
+			}
+		}
 
 	fmll_catch;
 

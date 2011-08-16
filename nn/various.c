@@ -37,10 +37,7 @@ int fmll_centering(double ** vec, unsigned vec_num, unsigned dim)
 
 		for(u = 0; u < vec_num; u++)
 			for(v = 0; v < dim; v++)
-				mean[v] += vec[u][v];
-
-		for(v = 0; v < dim; v++)
-			mean[v] /= vec_num;
+				mean[v] += vec[u][v] / vec_num;
 
 		for(u = 0; u < vec_num; u++)
 			for(v = 0; v < dim; v++)

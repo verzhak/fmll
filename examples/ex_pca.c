@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
@@ -9,10 +10,14 @@
 
 #include <fmll/fmll.h>
 
-int main()
+int mnist(const int argc, const char * argv[]);
+
+int main(const int argc, const char * argv[])
 {
-	unsigned u, v, t, vec_num = 10000, dim = 3;
-	double norm, sum, ** vec = (double **) fmll_alloc_2D(vec_num, dim, sizeof(double));
+//	return mnist(argc, argv);
+
+	unsigned u, v, t, vec_num = 10000, dim = 3, num = 3;
+	double norm, sum, eigen[dim], ** vec = (double **) fmll_alloc_2D(vec_num, dim, sizeof(double));
 
 	srand48(drand48());
 
@@ -23,18 +28,18 @@ int main()
 	
 	fmll_centering(vec, vec_num, dim);
 
-	fmll_pca * pca = fmll_pca_init(dim, dim, & fmll_weight_init_random_0_01);
-	fmll_pca_so(pca, vec, vec_num, 0.0001, & fmll_timing_next_beta_step_0, 0.0000001);
+	fmll_pca * pca = fmll_pca_init(dim, num, & fmll_weight_init_random_0_01);
+	fmll_pca_so(pca, vec, vec_num, 0.0001, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
 
 	printf("\nW = [ ");
 
-	for(u = 0; u < dim; u ++)
+	for(u = 0; u < num; u ++)
 	{
 		for(v = 0; v < dim - 1; v ++)
 			printf("%.11lf, ", pca->w[u][v]);
 
-		if(u == dim - 1)
-			printf("%.11lf]\n\n", pca->w[dim - 1][dim - 1]);
+		if(u == num - 1)
+			printf("%.11lf]\n\n", pca->w[num - 1][dim - 1]);
 		else
 			printf("%.11lf; ", pca->w[u][dim - 1]);
 	}
@@ -57,14 +62,21 @@ int main()
 	gsl_eigen_symmv(tcov, eval, evec, ws); // Значения элементов матрицы tcov изменяются в процессе расчета ее собственных значений и собственных векторов
 	gsl_eigen_symmv_free(ws);
 
-	printf("Собственные числа: ");
+	printf("Собственные числа (вычисленные с помощью библиотеки GSL): ");
 
 	for(u = 0; u < dim; u ++)
 		printf("%.11lf ", gsl_vector_get(eval, u));
 
 	printf("\n");
 
+	printf("Собственные числа (вычисленные с помощью библиотеки FMLL): ");
+
 	for(u = 0; u < dim; u ++)
+		printf("%.11lf ", eigen[u]);
+
+	printf("\n");
+
+	for(u = 0; u < num; u ++)
 	{
 		printf("\n%u:\n\n\tСобственное число = ", u);
 
@@ -104,7 +116,20 @@ int main()
 
 	pca = fmll_pca_load("pca");
 
-	for(u = 0; u < dim; u ++)
+	printf("\nW = [ ");
+
+	for(u = 0; u < num; u ++)
+	{
+		for(v = 0; v < dim - 1; v ++)
+			printf("%.11lf, ", pca->w[u][v]);
+
+		if(u == num - 1)
+			printf("%.11lf]\n\n", pca->w[num - 1][dim - 1]);
+		else
+			printf("%.11lf; ", pca->w[u][dim - 1]);
+	}
+
+	for(u = 0; u < num; u ++)
 	{
 		for(v = 0, norm = 0; v < dim; v ++)
 			norm += pca->w[u][v] * pca->w[u][v];
@@ -120,3 +145,103 @@ int main()
 	return 0;
 }
 
+int mnist(const int argc, const char * argv[])
+{
+	/*
+	 * Использована база изображений "MNIST - database of handwritten digits" (http://yann.lecun.com/exdb/mnist/index.html), спасибо Яну ЛеКунну (Yann LeCun)!
+	 */
+
+	fmll_try;
+
+		int ret = 0;
+		uint8_t buf[400];
+		unsigned v, u, dim, w_num, vec_num;
+		uint32_t height[2], width[2], num[2], magic[2];
+		double * eigen = NULL, ** vec = NULL;
+		FILE * fl[2] = {NULL, NULL};
+		fmll_pca * pca = NULL;
+
+		if(argc != 3)
+		{
+		//	fprintf(stderr, "\nДемонстрация перцептрона на изображениях из базы MNIST.\n\nЗапуск программы:\n\nex_perceptron TRAIN_DIR TEST_DIR\n\nГде:\n\n\tTRAIN_DIR - путь и имя каталога, в котором сохранены изображения, составляющие обучающую выборку изображений (изображения должны быть пронумерованы от 0 до N, где N - количество строк в файле labels, расположенного в том же каталоге; файл labels - файл меток исходных изображений (одна строка - одна метка));\n\tTEST_DIR - путь и имя каталога, в котором сохранены изображения, составляющие тестовую выборку изображений (принцип организации изображений в каталоге TEST_DIR тот же, что и принцип организации изображений в каталоге TRAIN_DIR).\n\n");
+		
+			fmll_throw(1);
+		}
+
+#define TO_LE(x) \
+        x = ((x & 0xFF000000) >> 24) + ((x & 0xFF0000) >> 8) + ((x & 0xFF00) << 8) + ((x & 0xFF) << 24);
+
+		for(u = 0; u < 2; u++)
+		{
+			fmll_throw_null((fl[u] = fopen(argv[u + 1], "r")));
+
+			fread(magic + u, 4, 1, fl[u]);
+			fread(num + u, 4, 1, fl[u]);
+			
+			TO_LE((* (magic + u)));
+			TO_LE((* (num + u)));
+		}
+
+		fmll_throw((magic[0] != 2051 || magic[1] != 2051));
+
+		fread(height, 4, 1, fl[0]);
+		fread(height + 1, 4, 1, fl[1]);
+		fread(width, 4, 1, fl[0]);
+		fread(width + 1, 4, 1, fl[1]);
+
+		TO_LE(height[0]);
+		TO_LE(height[1]);
+		TO_LE(width[0]);
+		TO_LE(width[1]);
+
+		w_num = dim = height[0] * width[0];
+		vec_num = 1000; //num[0];
+
+		fmll_throw(height[0] != height[1] || width[0] != width[1]);
+		fmll_throw_null((eigen = fmll_alloc_1D(dim, sizeof(double))));
+		fmll_throw_null((vec = (double **) fmll_alloc_2D(vec_num, dim, sizeof(double))));
+
+		for(v = 0; v < vec_num; v++)
+		{
+			if(v % 1000 == 999)
+				printf("Считывание: %u из %u (%lf %%)\n", v + 1, vec_num, (100.0 * (v + 1)) / vec_num);
+
+			fread(buf, 1, 400, fl[0]);
+
+			for(u = 0; u < dim; u++)
+			{
+				if(buf[u] > 127)
+					vec[v][u] = 1;
+				else
+					vec[v][u] = 0;
+			}
+		}
+
+		w_num = 50;
+
+		fmll_centering(vec, vec_num, dim);
+	
+		fmll_throw_null((pca = fmll_pca_init(dim, w_num, & fmll_weight_init_random_0_01)));
+		fmll_pca_so(pca, vec, vec_num, 0.0001, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
+		fmll_pca_save(pca, "pca");
+
+		for(v = 0; v < dim; v++)
+			printf("EV %u = %.11lf\n", v, eigen[v]);
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		for(u = 0; u < 2; u++)
+			if(fl[u] != NULL)
+				fclose(fl[u]);
+
+		fmll_free_ND(eigen);
+		fmll_free_ND(vec);
+
+		fmll_pca_destroy(pca);
+
+	return ret;
+}

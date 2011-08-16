@@ -97,10 +97,10 @@ int fmll_som_save(fmll_som * som, const char * fname_prefix)
 	fmll_try;
 
 		int ret = 0;
-		unsigned u, v, num = som->num, map_dim = som->map_dim, dim = som->dim, * N = som->N;
 		char node_name[4096];
+		unsigned u, v, num = som->num, map_dim = som->map_dim, dim = som->dim, * N = som->N;
 		double ** w = som->w;
-		mxml_node_t * node, * content_node, * main_node = NULL;
+		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 		
 		fmll_throw((xml_create(TYPE_SOM, & main_node, & content_node)));
 		fmll_throw((xml_set_int(content_node, "map_dim", map_dim)));
@@ -117,13 +117,19 @@ int fmll_som_save(fmll_som * som, const char * fname_prefix)
 		fmll_throw_null((node = mxmlNewElement(content_node, "W")));
 
 		for(u = 0; u < num; u++)
+		{
+			sprintf(node_name, "w_%u", u);
+			fmll_throw_null((sub_node = mxmlNewElement(node, node_name)));
+
 			for(v = 0; v < dim; v++)
 			{
-				sprintf(node_name, "w_%u_%u", u, v);
-				fmll_throw((xml_set_double(node, node_name, w[u][v])));
+				sprintf(node_name, "%u", v);
+				fmll_throw((xml_set_double(sub_node, node_name, w[u][v])));
 			}
+		}
 
-		fmll_throw(xml_save(fname_prefix, main_node));
+
+		fmll_throw((xml_save(fname_prefix, main_node)));
 
 	fmll_catch;
 
@@ -141,11 +147,12 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 {
 	fmll_try;
 
+		char node_name[4096];
 		int map_dim, dim;
 		unsigned u, v, num, * N = NULL;
 		double ** w;
 		fmll_som * som = NULL;
-		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
+		mxml_node_t * sub_sub_node, * sub_node, * node, * content_node, * main_node = NULL;
 
 		fmll_throw((xml_load(fname_prefix, TYPE_SOM, & main_node, & content_node)));
 
@@ -168,12 +175,18 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 		w = som->w;
 		num = som->num;
 
-		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < num; u++)
-			for(v = 0; v < dim; v++)
+		for(u = 0; u < num; u++)
+		{
+			sprintf(node_name, "w_%u", u);
+			fmll_throw_null((sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST)));
+
+			for(v = 0, sub_sub_node = mxmlFindElement(sub_node, sub_node, NULL, NULL, NULL, MXML_DESCEND_FIRST); v < dim; v++)
 			{
-				w[u][v] = sub_node->child->value.real;
-				sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
+				w[u][v] = sub_sub_node->child->value.real;
+				sub_sub_node = mxmlFindElement(sub_sub_node, sub_node, NULL, NULL, NULL, MXML_DESCEND);
 			}
+		}
+
 
 	fmll_catch;
 

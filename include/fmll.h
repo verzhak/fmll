@@ -35,6 +35,9 @@
 #include <fmll/various.h>
 #include <fmll/weight_init.h>
 #include <fmll/pca.h>
+#include <fmll/kernel.h>
+#include <fmll/svm.h>
+#include <fmll/svm_net.h>
 
 #endif
 
