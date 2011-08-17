@@ -236,49 +236,16 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 {
 	fmll_try;
 
-		int ret = 0;
-		unsigned v, u, dim = svm->dim;
-		double ** Q = NULL;
-		double (* K)(const double *, const double *, unsigned) = svm->K;
-
-		fmll_throw_null((Q = (double **) fmll_alloc_2D(vec_num, vec_num, sizeof(double))));
-
-		for(v = 0; v < vec_num; v++)
-		{
-			Q[v][v] = d[v] * d[v] * (* K)(vec[v], vec[v], dim);
-
-			for(u = v + 1; u < vec_num; u++)
-				Q[u][v] = Q[v][u] = d[v] * d[u] * (* K)(vec[v], vec[u], dim);
-		}
-
-		fmll_throw((fmll_svm_teach_smo_main(svm, vec, d, vec_num, C, selector, tau, max_iter, epsilon, Q)));
-
-	fmll_catch;
-
-		ret = -1;
-
-	fmll_finally;
-
-		fmll_free_ND(Q);
-
-	return ret;
-}
-
-int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
-		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double tau, unsigned max_iter, double epsilon, double ** Q)
-{
-	fmll_try;
-
 		int i, j, ret = 0;
 		unsigned u, v, iter, num, dim = svm->dim;
-		double a, b, sum, prev_lambda[2], * lambda = NULL, * grad = NULL, * w, ** s;
+		double a, b, sum, prev_lambda[2], * w, ** s, * lambda = NULL, * grad = NULL, ** Q = NULL;
 		double (* K)(const double *, const double *, unsigned) = svm->K;
 
 		fmll_throw((tau <= 0));
 		fmll_throw((epsilon <= 0));
 		fmll_throw_null((lambda = fmll_alloc_1D(vec_num, sizeof(double))));
 		fmll_throw_null((grad = fmll_alloc_1D(vec_num, sizeof(double))));
+		fmll_throw_null((Q = (double **) fmll_alloc_2D(vec_num, vec_num, sizeof(double))));
 
 		// ############################################################################ 
 
@@ -287,12 +254,19 @@ int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned ve
 
 		for(u = 0; u < vec_num; u++)
 		{
-			grad[u] = 0;
+			grad[u] = -1;
 
-			for(v = 0; v < vec_num; v++)
+			for(v = 0; v < u; v++)
 				grad[u] += lambda[v] * Q[u][v];
 
-			grad[u] --;
+			Q[u][u] = d[u] * d[u] * (* K)(vec[u], vec[u], dim);
+			grad[u] += lambda[u] * Q[u][u];
+
+			for(v = u + 1; v < vec_num; v++)
+			{
+				Q[v][u] = Q[u][v] = d[v] * d[u] * (* K)(vec[v], vec[u], dim);
+				grad[u] += lambda[v] * Q[u][v];
+			}
 		}
 
 		// ############################################################################ 
@@ -440,6 +414,7 @@ int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned ve
 
 		fmll_free_ND(lambda);
 		fmll_free_ND(grad);
+		fmll_free_ND(Q);
 
 	return ret;
 }

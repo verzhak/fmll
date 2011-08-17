@@ -215,16 +215,6 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
 		double tau, unsigned max_iter, double epsilon);
 
-/*! \cond HIDDEN_SYMBOLS */
-
-// Непосредственная реализация обучения SVM по алгоритму Sequential Minimal Optimization (SMO).
-
-int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
-		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double tau, unsigned max_iter, double epsilon, double ** Q);
-
-/*! \endcond */
-
 /*!
 
 \brief Выбор пары множителей Лагранжа - кандидатов на оптимизацию на очередной итерации алгоритма SMO, по эвристике, предложенной S.S. Keerthi, S.K. Shevade, C. Bhattacharyya, K.R.K. Murthy.

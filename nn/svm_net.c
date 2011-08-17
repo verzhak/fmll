@@ -190,27 +190,31 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 	fmll_try;
 
 		int ret = 0;
-		char * rd;
-		unsigned u, v, num = svm_net->num;
+		char * t_rd, ** rd;
+		unsigned u, v, t_ind, num = svm_net->num, t_num = omp_get_max_threads();
 		fmll_svm ** svm = svm_net->svm;
 
-		fmll_throw_null((rd = fmll_alloc_1D(vec_num, sizeof(char))));
+		fmll_throw_null((rd = (char **) fmll_alloc_2D(t_num, vec_num, sizeof(char))));
 
-		for(u = 0; u < num; u++)
+		#pragma omp parallel private(u, v, t_ind, t_rd) default(shared)
 		{
-			for(v = 0; v < vec_num; v++)
+			t_ind = omp_get_thread_num();
+			t_rd = rd[t_ind];
+
+			for(u = t_ind; u < num; u += t_num)
 			{
-				if(d[v] == u)
-					rd[v] = 1;
-				else
-					rd[v] = -1;
+				for(v = 0; v < vec_num; v++)
+				{
+					if(d[v] == u)
+						t_rd[v] = 1;
+					else
+						t_rd[v] = -1;
+				}
+
+				printf("\nМашина опорных векторов: %u из %u (%lf %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
+
+				fmll_svm_teach_smo(svm[u], vec, t_rd, vec_num, C[u], selector[u], tau[u], max_iter[u], epsilon[u]);
 			}
-
-			// TODO Распараллеливание в зависимости от ядра
-
-			printf("\nМашина опорных векторов: %u из %u (%lf %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
-
-			fmll_throw((fmll_svm_teach_smo(svm[u], vec, rd, vec_num, C[u], selector[u], tau[u], max_iter[u], epsilon[u])));
 		}
 
 	fmll_catch;

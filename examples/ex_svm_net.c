@@ -124,6 +124,7 @@ int image_analysis(const int argc, const char * argv[])
 		epsilon[u] = 1E-3;
 	}
 
+	// omp_set_num_threads(1);
 	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, selector, tau, max_iter, epsilon);
 
 	// ############################################################################ 
@@ -180,10 +181,7 @@ int image_analysis(const int argc, const char * argv[])
 					}
 				}
 				else
-				{
-					printf("%u %u\n", v, u);
 					cvSet2D(dst, v, u, pixel_black);
-				}
 			}
 			else if(res == -1)
 				cvSet2D(dst, v, u, pixel_yellow);
