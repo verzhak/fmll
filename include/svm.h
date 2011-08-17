@@ -86,13 +86,6 @@ fmll_svm * fmll_svm_init(unsigned dim, double (* K)(const double *, const double
 */
 void fmll_svm_destroy(fmll_svm * svm);
 
-/*! \cond HIDDEN_SYMBOLS */
-
-/* Ядро процесса сохранения в XML-файл описателя SVM */
-int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
-
-/*! \endcond */
-
 /*!
 
 \brief Сохранение в XML-файл описателя SVM.
@@ -110,8 +103,8 @@ int fmll_svm_save(fmll_svm * svm, const char * fname_prefix);
 
 /*! \cond HIDDEN_SYMBOLS */
 
-/* Ядро процесса загрузки описателя SVM из XML-файла */
-fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, unsigned));
+/* Ядро процесса сохранения в XML-файл описателя SVM */
+int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 
 /*! \endcond */
 
@@ -130,6 +123,13 @@ fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const dou
 */
 fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned));
 
+/*! \cond HIDDEN_SYMBOLS */
+
+/* Ядро процесса загрузки описателя SVM из XML-файла */
+fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, unsigned));
+
+/*! \endcond */
+
 /*!
 
 \brief Прогон SVM над вектором.
@@ -144,22 +144,112 @@ double fmll_svm_run(fmll_svm * svm, const double * vec);
 
 /*!
 
-\brief Обучение SVM TODO.
+\brief Тестирование SVM.
 
-\param svm - дескриптор SVM;
-\param vec - массив обучающих векторов;
+\param svm - указатель на описатель SVM;
+\param vec - тестовое множество векторов;
+\param d - множество эталонных откликов (-1 или +1);
+\param vec_num - количество векторов в тестовом множестве векторов;
+\param st_func - указатель на функцию, вызываемую после прогона SVM над каждым вектором из тестового множества (может принимать значение NULL);
+\param st_param - один из параметров функции (* st_func)() (если параметр st_func установлен в значение NULL, параметр st_param не используется).
+
+Функция (* st_func) обладает следующими параметрами:
+
+	-# указатель на описатель SVM;
+	-# указатель на обрабатываемый вектор;
+	-# эталонный отклик;
+	-# выход SVM;
+	-# количество векторов в тестовом множестве векторов;
+	-# булева переменная, установленная в true, если обрабатываемый	вектор классифицирован правильно, и установленная в false - в противном случае;
+	-# значение параметра st_param.
+
+\return количество векторов из тестового множества векторов, классифицированных правильно.
+
+*/
+unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num,
+		void (* st_func)(fmll_svm *, double *, char, double, unsigned, bool, void *), void * st_param);
+
+/*!
+
+\brief Обучение SVM по алгоритму Sequential Minimal Optimization (SMO).
+
+\param svm - указатель на описатель SVM;
+\param vec - множество обучающих векторов;
 \param d - номера классов обучающих векторов (-1 или +1);
-\param vec_num - количество векторов в массиве обучающих векторов;
-\param TODO - TODO.
+\param vec_num - мощность множества обучающих векторов;
+\param C - ширина полосы поиска коэффициентов \f$\lambda\f$;
+\param tau - малое положительное число, в некоторых эвристиках используемое при выборе второго из множителей Лагранжа - кандидатов на оптимизацию;
+\param selector - указатель на функцию, выбирающую пару множителей Лагранжа - кандидатов на оптимизацию на очередной итерации алгоритма;
+\param max_iter - максимальное количество итераций алгоритма обучения;
+\param epsilon - малое положительное число, при достижении которого разностью частных производных функции Лагранжа, умноженных на соответствующие эталонные отклики, взятые с обратным знаком, очередной пары множителей Лагранжа - кандидатов на оптимизацию - алгоритм будет остановлен.
+
+Функция (* selector) обладает следующими параметрами:
+
+	-# указатель на описатель SVM;
+	-# множество обучающих векторов;
+	-# номера классов обучающих векторов (-1 или +1);
+	-# мощность множества обучающих векторов;
+	-# указатель на переменную, в которой будет возвращен индекс первого множителя Лагранжа из пары множителей - кандидатов на оптимизацию;
+	-# указатель на переменную, в которой будет возвращен индекс второго множителя Лагранжа из пары множителей - кандидатов на оптимизацию;
+	-# ширина полосы поиска коэффициентов \f$\lambda\f$;
+	-# малое положительное число, в некоторых эвристиках используемое при выборе второго из множителей Лагранжа - кандидатов на оптимизацию;
+	-# малое положительное число, при достижении которого разностью частных производных функции Лагранжа, умноженных на соответствующие эталонные отклики, взятые с обратным знаком, очередной пары множителей Лагранжа - кандидатов на оптимизацию - алгоритм будет остановлен;
+	-# массив текущих значений множителей Лагранжа;
+	-# текущее значение градиента;
+	-# матрица значений ядра скалярного произведения, умноженного на значения эталонных откликов, для каждой пары векторов из множества обучающих векторов.
+
+Функция (* selector) возвращает:
+
+	- 0 - в случае, если очередная пара множителей Лагранжа - кандидатов на оптимизацию - найдена;
+	- <> 0 - в случае необходимости останова процесса обучения.
 
 \return
 
 	- 0 - в случае успеха;
 	- <> 0 - в случае неудачи.
 
+\sa fmll_svm_teach_smo_selector_keerthi, fmll_svm_teach_smo_selector_fan_chen_lin.
+
 */
-// int fmll_svm_teach_TODO(fmll_svm * svm, double ** vec, char * d, unsigned vec_num,
-//		TODO);
+int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
+		double tau, unsigned max_iter, double epsilon);
+
+/*! \cond HIDDEN_SYMBOLS */
+
+// Непосредственная реализация обучения SVM по алгоритму Sequential Minimal Optimization (SMO).
+
+int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
+		double tau, unsigned max_iter, double epsilon, double ** Q);
+
+/*! \endcond */
+
+/*!
+
+\brief Выбор пары множителей Лагранжа - кандидатов на оптимизацию на очередной итерации алгоритма SMO, по эвристике, предложенной S.S. Keerthi, S.K. Shevade, C. Bhattacharyya, K.R.K. Murthy.
+
+Данная эвристика использует информацию только о первой производной функции Лагранжа.
+
+\sa fmll_svm_teach_smo.
+
+*/
+
+int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
+		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
+
+/*!
+
+\brief Выбор пары множителей Лагранжа - кандидатов на оптимизацию на очередной итерации алгоритма SMO, по эвристике, предложенной Rong-En Fan'ом, Pai-Hsuen Chen'ом, Chih-Jen Lin'ем.
+
+Данная эвристика использует информацию о первой и второй производных функции Лагранжа.
+
+\sa fmll_svm_teach_smo.
+
+*/
+
+int fmll_svm_teach_smo_selector_fan_chen_lin(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
+		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
 
 // ############################################################################
 

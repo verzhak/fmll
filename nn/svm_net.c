@@ -148,7 +148,7 @@ int fmll_svm_net_run(fmll_svm_net * svm_net, const double * vec, double * y)
 		if(y != NULL)
 			y[u] = ty;
 
-		if(fabs(ty - 1) < 0.0000001 && ind != -2)
+		if(ty > 0 && ind != -2)
 		{
 			if(ind == -1)
 				ind = u;
@@ -158,5 +158,69 @@ int fmll_svm_net_run(fmll_svm_net * svm_net, const double * vec, double * y)
 	}
 
 	return ind;
+}
+
+unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num,
+		void (* st_func)(fmll_svm_net *, double *, unsigned, int, const double *, unsigned, bool, void *), void * st_param)
+{
+	bool is_right;
+	int res;
+	unsigned u, no = 0;
+	double y[svm_net->num];
+
+	for(u = 0; u < vec_num; u++)
+	{
+		if((res = fmll_svm_net_run(svm_net, vec[u], y)) != d[u])
+		{
+			no++;
+			is_right = false;
+		}
+
+		if(st_func != NULL)
+			(* st_func)(svm_net, vec[u], d[u], res, y, vec_num, is_right, st_param);
+	}
+
+	return vec_num - no;
+}
+
+int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C,
+		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
+		double * tau, unsigned * max_iter, double * epsilon)
+{
+	fmll_try;
+
+		int ret = 0;
+		char * rd;
+		unsigned u, v, num = svm_net->num;
+		fmll_svm ** svm = svm_net->svm;
+
+		fmll_throw_null((rd = fmll_alloc_1D(vec_num, sizeof(char))));
+
+		for(u = 0; u < num; u++)
+		{
+			for(v = 0; v < vec_num; v++)
+			{
+				if(d[v] == u)
+					rd[v] = 1;
+				else
+					rd[v] = -1;
+			}
+
+			// TODO Распараллеливание в зависимости от ядра
+
+			printf("\nМашина опорных векторов: %u из %u (%lf %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
+
+			fmll_throw((fmll_svm_teach_smo(svm[u], vec, rd, vec_num, C[u], selector[u], tau[u], max_iter[u], epsilon[u])));
+		}
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		fmll_free_ND(rd);
+
+	return ret;
 }
 

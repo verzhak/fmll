@@ -125,7 +125,7 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 
 \brief Обучение (самоорганизация) PCA-сети.
 
-\param pca - дескриптор PCA-сети;
+\param pca - указатель на описатель PCA-сети;
 \param vec - массив реализаций случайного вектора;
 \param vec_num - количество реализаций случайного вектора;
 \param beta_0 - начальное значение коэффициента скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;

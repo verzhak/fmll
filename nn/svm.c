@@ -35,6 +35,28 @@ void fmll_svm_destroy(fmll_svm * svm)
 	}
 }
 
+int fmll_svm_save(fmll_svm * svm, const char * fname_prefix)
+{
+	fmll_try;
+
+		int ret = 0;
+		mxml_node_t * content_node, * main_node = NULL;
+		
+		fmll_throw((xml_create(TYPE_SVM, & main_node, & content_node)));
+		fmll_throw((fmll_svm_save_main(svm, content_node)));
+		fmll_throw((xml_save(fname_prefix, main_node)));
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		xml_destroy(main_node);
+
+	return ret;
+}
+
 int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node)
 {
 	fmll_try;
@@ -82,26 +104,26 @@ int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node)
 	return ret;
 }
 
-int fmll_svm_save(fmll_svm * svm, const char * fname_prefix)
+fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned))
 {
 	fmll_try;
 
-		int ret = 0;
+		fmll_svm * svm = NULL;
 		mxml_node_t * content_node, * main_node = NULL;
-		
-		fmll_throw((xml_create(TYPE_SVM, & main_node, & content_node)));
-		fmll_throw((fmll_svm_save_main(svm, content_node)));
-		fmll_throw((xml_save(fname_prefix, main_node)));
+
+		fmll_throw((xml_load(fname_prefix, TYPE_SVM, & main_node, & content_node)));
+		fmll_throw_null((svm = fmll_svm_load_main(content_node, K)));
 
 	fmll_catch;
 
-		ret = -1;
+		fmll_svm_destroy(svm);
+		svm = NULL;
 
 	fmll_finally;
 
 		xml_destroy(main_node);
 
-	return ret;
+	return svm;
 }
 
 fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, unsigned))
@@ -159,28 +181,6 @@ fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const dou
 	return svm;
 }
 
-fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned))
-{
-	fmll_try;
-
-		fmll_svm * svm = NULL;
-		mxml_node_t * content_node, * main_node = NULL;
-
-		fmll_throw((xml_load(fname_prefix, TYPE_SVM, & main_node, & content_node)));
-		fmll_throw_null((svm = fmll_svm_load_main(content_node, K)));
-
-	fmll_catch;
-
-		fmll_svm_destroy(svm);
-		svm = NULL;
-
-	fmll_finally;
-
-		xml_destroy(main_node);
-
-	return svm;
-}
-
 double fmll_svm_run(fmll_svm * svm, const double * vec)
 {
 	unsigned u, dim = svm->dim, num = svm->num;
@@ -190,11 +190,393 @@ double fmll_svm_run(fmll_svm * svm, const double * vec)
 	for(u = 0; u < num; u++)
 		sum += w[u] * (* K)(s[u], vec, dim);
 
-	if(sum > 1)
+	if(sum > 1 - 1E-10)
 		sum = 1;
-	else if(sum < -1)
+	else if(sum < -1 + 1E-10)
 		sum = -1;
+	else if(fabs(sum) < 1E-10)
+		sum = 0;
 
 	return sum;
+}
+
+unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num,
+		void (* st_func)(fmll_svm *, double *, char, double, unsigned, bool, void *), void * st_param)
+{
+	bool is_right;
+	double res;
+	unsigned u, no = 0;
+
+	for(u = 0; u < vec_num; u++)
+	{
+		res = fmll_svm_run(svm, vec[u]);
+		
+		if(
+			(res > 0 && d[u] == -1)
+			||
+			(res < 0 && d[u] == 1)
+			||
+			res == 0
+		  )
+		{
+			no++;
+			is_right = false;
+		}
+
+		if(st_func != NULL)
+			(* st_func)(svm, vec[u], d[u], res, vec_num, is_right, st_param);
+	}
+
+	return vec_num - no;
+}
+
+int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
+		double tau, unsigned max_iter, double epsilon)
+{
+	fmll_try;
+
+		int ret = 0;
+		unsigned v, u, dim = svm->dim;
+		double ** Q = NULL;
+		double (* K)(const double *, const double *, unsigned) = svm->K;
+
+		fmll_throw_null((Q = (double **) fmll_alloc_2D(vec_num, vec_num, sizeof(double))));
+
+		for(v = 0; v < vec_num; v++)
+		{
+			Q[v][v] = d[v] * d[v] * (* K)(vec[v], vec[v], dim);
+
+			for(u = v + 1; u < vec_num; u++)
+				Q[u][v] = Q[v][u] = d[v] * d[u] * (* K)(vec[v], vec[u], dim);
+		}
+
+		fmll_throw((fmll_svm_teach_smo_main(svm, vec, d, vec_num, C, selector, tau, max_iter, epsilon, Q)));
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		fmll_free_ND(Q);
+
+	return ret;
+}
+
+int fmll_svm_teach_smo_main(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
+		double tau, unsigned max_iter, double epsilon, double ** Q)
+{
+	fmll_try;
+
+		int i, j, ret = 0;
+		unsigned u, v, iter, num, dim = svm->dim;
+		double a, b, sum, prev_lambda[2], * lambda = NULL, * grad = NULL, * w, ** s;
+		double (* K)(const double *, const double *, unsigned) = svm->K;
+
+		fmll_throw((tau <= 0));
+		fmll_throw((epsilon <= 0));
+		fmll_throw_null((lambda = fmll_alloc_1D(vec_num, sizeof(double))));
+		fmll_throw_null((grad = fmll_alloc_1D(vec_num, sizeof(double))));
+
+		// ############################################################################ 
+
+		for(u = 0; u < vec_num; u++)
+			lambda[u] = 0;
+
+		for(u = 0; u < vec_num; u++)
+		{
+			grad[u] = 0;
+
+			for(v = 0; v < vec_num; v++)
+				grad[u] += lambda[v] * Q[u][v];
+
+			grad[u] --;
+		}
+
+		// ############################################################################ 
+
+		for(iter = 0; iter < max_iter; iter++)
+		{
+			// ############################################################################ 
+			// Выбор
+
+			if((* selector)(svm, vec, d, vec_num, & i, & j, C, tau, epsilon, lambda, grad, Q))
+				break;
+
+			// ############################################################################ 
+			// Оптимизация
+
+			prev_lambda[0] = lambda[i];
+			prev_lambda[1] = lambda[j];
+
+			if((a = Q[i][i] + Q[j][j] - 2 * Q[i][j] * d[i] * d[j]) <= 0)
+				a = tau;
+
+			b = - d[i] * grad[i] + d[j] * grad[j];
+
+			/*
+
+			Задача: минимизировать квадратичную форму F(lambda) = (1 / 2 * lambdaT * Q * lambda + lambda) по переменным lambda[i] и lambda[j].
+
+			Решение:
+
+			1) Введем переменную t[i] = - t[j] = p[i]d[i] = - p[j]d[j]
+
+			Равенство t[i] = - t[j] следует из необходимости соблюдения одного из условий ККТ - условия дополняющей нежесткости: sum(p[i]d[i]) = 0.
+			Здесь p[i] и p[j] - искомые приращения, взятые с обратным знаком, для lambda[i] и lambda[j] соответственно;
+
+			2) F(lambda) = 1 / 2 * a * t[i]^2 + b * t[i]
+
+			См. Fan, Chen, Lin - стр. 1894 (6)
+
+			3) F'(lambda) = a * t[i] + b = 0
+
+			=>
+
+			t[i]opt = - b / a
+
+			4) p[i] = d[i] * (- b / a) = - d[i] * b / a
+			p[j] = - d[j] * (- b / a) = d[j] * b / a
+
+			Так как мы движемся в направлении анти-градиента, имеем:
+
+			lambda[i] -= p[i] => lambda[i] += d[i] * b / a
+			lambda[j] -= p[j] => lambda[i] -= d[j] * b / a
+
+			5) Условие дополняющей нежесткости: sum(d[i] * lambda[i]) = 0 (т.е. переменная sum == 0).
+
+			Изначально: выполняется, так как lambda инициализируется нулями.
+
+			lambda_new_new[j] = d[j] * (sum - d[i] * lambda_new[i]) = d[j] * (d[j] * lambda[j] + d[i] * lambda[i] - d[i] * (lambda[i] + d[i] * b / a)) =
+				lambda[j] + d[j] * d[i] * lambda[i] - d[j] * d[i] * lambda[i] + d[j] * b / a = lambda[j] + d[j] * b / a
+
+			d[j] * lambda_new_new[j] = d[j] * lambda[j] + b / a
+
+			lambda_new_new[i] = d[i] * (d[i] * lambda[i] + d[j] * lambda[j] - d[j] * lambda_new_new[j]) =
+				lambda[i] + d[i] * d[j] * lambda[j] - d[i] * d[j] * lambda[j] - d[i] * b / a = lambda[i] - d[i] * b / a
+
+			d[i] * lambda_new_new[i] = d[i] * lambda[i] - b / a
+
+			=>
+
+			sum_new_new = d[i] * lambda_new_new[i] + d[j] * lambda_new_new[j] = d[i] * lambda[i] + d[j] * lambda[j] = 0
+
+			*/
+
+			sum = d[i] * lambda[i] + d[j] * lambda[j];
+			lambda[i] += d[i] * b / a;
+			lambda[j] -= d[j] * b / a;
+
+			if(lambda[i] > C)
+				lambda[i] = C;
+			else if(lambda[i] < 0)
+				lambda[i] = 0;
+
+			lambda[j] = d[j] * (sum - d[i] * lambda[i]);
+
+			if(lambda[j] > C)
+				lambda[j] = C;
+			else if(lambda[j] < 0)
+				lambda[j] = 0;
+
+			lambda[i] = d[i] * (sum - d[j] * lambda[j]);
+
+			// ############################################################################ 
+			// Пересчет градиента
+
+			for(u = 0; u < vec_num; u++)
+				grad[u] += (lambda[i] - prev_lambda[0]) * Q[u][i] + (lambda[j] - prev_lambda[1]) * Q[u][j];
+
+			// ############################################################################ 
+
+			printf("Итерация = %u из %u (%lf %%)\n", iter + 1, max_iter, (100.0 * (iter + 1.0)) / max_iter);
+		}
+
+		// ############################################################################ 
+		// Расчет w, b и s
+
+		num = 0;
+
+		for(u = 0; u < vec_num; u++)
+			if(lambda[u] > 1E-10)
+				num++;
+
+		svm->num = num;
+
+		fmll_throw_null((w = svm->w = fmll_alloc_1D(num, sizeof(double))));
+		fmll_throw_null((s = svm->s = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+
+		for(u = 0, v = 0; u < vec_num; u++)
+			if(lambda[u] > 1E-10)
+			{
+				w[v] = lambda[u] * d[u];
+				memcpy(s[v], vec[u], dim * sizeof(double));
+
+				v++;
+			}
+
+		b = 0;
+
+		for(u = 0; u < vec_num; u++)
+			if(lambda[u] > 1E-10)
+			{
+				for(v = 0; v < num; v++)
+					b += w[v] * (* K)(s[v], vec[u], dim);
+
+				b -= d[u];
+			}
+
+		svm->b = b / num;
+		
+		// ############################################################################ 
+		
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		fmll_free_ND(lambda);
+		fmll_free_ND(grad);
+
+	return ret;
+}
+
+int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
+		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q)
+{
+	int i, j;
+	unsigned u;
+	double max, min;
+
+	i = -1;
+
+	for(u = 0; u < vec_num; u++)
+		if(
+			(
+				(lambda[u] < C && d[u] == 1)
+				||
+				(lambda[u] > 0 && d[u] == -1)
+			)
+			&&
+			(
+				i == -1
+				||
+				- d[u] * grad[u] > max
+			)
+		  )
+		{
+			i = u;
+			max = - d[u] * grad[u];
+		}
+
+	if(i == -1)
+		return -1;
+
+	j = -1;
+
+	for(u = 0; u < vec_num; u++)
+		if(
+			u != i
+			&&
+			(
+				(lambda[u] < C && d[u] == -1)
+				||
+				(lambda[u] > 0 && d[u] == 1)
+			)
+			&&
+			(
+				j == -1
+				||
+				- d[u] * grad[u] < min
+			)
+			&&
+			max > - d[u] * grad[u]
+		  )
+		{
+			j = u;
+			min = - d[u] * grad[u];
+		}
+
+	if(j == -1 || min >= max || max - min < epsilon)
+		return -1;
+
+	(* ri) = i;
+	(* rj) = j;
+
+	return 0;
+}
+
+int fmll_svm_teach_smo_selector_fan_chen_lin(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
+		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q)
+{
+	int i, j;
+	unsigned u;
+	double a, b, max, min;
+
+	i = -1;
+
+	for(u = 0; u < vec_num; u++)
+		if(
+			(
+				(lambda[u] < C && d[u] == 1)
+				||
+				(lambda[u] > 0 && d[u] == -1)
+			)
+			&&
+			(
+				i == -1
+				||
+				- d[u] * grad[u] > max
+			)
+		  )
+		{
+			i = u;
+			max = - d[u] * grad[u];
+		}
+
+	if(i == -1)
+		return -1;
+
+	j = -1;
+
+	for(u = 0; u < vec_num; u++)
+		if(u != i)
+		{
+			if((a = Q[u][u] + Q[i][i] - 2 * Q[u][i] * d[u] * d[i]) <= 0)
+				a = tau;
+
+			b = max + d[u] * grad[u];
+
+			if(
+				(
+					(lambda[u] < C && d[u] == -1)
+					||
+					(lambda[u] > 0 && d[u] == 1)
+				)
+				&&
+				(
+					j == -1
+					||
+					- b * b / a < min
+				)
+				&&
+				max > - d[u] * grad[u]
+			  )
+			{
+				j = u;
+				min = - b * b / a;
+			}
+		}
+
+	if(j == -1 || min >= max || max - min < epsilon)
+		return -1;
+
+	(* ri) = i;
+	(* rj) = j;
+
+	return 0;
 }
 

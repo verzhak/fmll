@@ -11,8 +11,8 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
-	return xor();
-	// return image_analysis(argc, argv);
+	// return xor();
+	return image_analysis(argc, argv);
 }
 
 int image_analysis(const int argc, const char * argv[])
@@ -67,9 +67,9 @@ int image_analysis(const int argc, const char * argv[])
 
 			if(vec_class[cl_ind] < vec_per_class)
 			{
-				x[q][0] = pixel.val[0] / 255;
-				x[q][1] = pixel.val[1] / 255;
-				x[q][2] = pixel.val[2] / 255;
+				x[q][0] = pixel.val[0];
+				x[q][1] = pixel.val[1];
+				x[q][2] = pixel.val[2];
 
 				vec_class[cl_ind]++;
 
@@ -92,9 +92,9 @@ int image_analysis(const int argc, const char * argv[])
 			else
 				test_d[q] = -1;
 
-			test_x[q][0] = pixel.val[0] / 255;
-			test_x[q][1] = pixel.val[1] / 255;
-			test_x[q][2] = pixel.val[2] / 255;
+			test_x[q][0] = pixel.val[0];
+			test_x[q][1] = pixel.val[1];
+			test_x[q][2] = pixel.val[2];
 		}
 
 	cvReleaseImage(& src_teach);
@@ -103,41 +103,19 @@ int image_analysis(const int argc, const char * argv[])
 	// ############################################################################ 
 	
 	double (* K)(const double *, const double *, unsigned) = & fmll_kernel_radial;
+	fmll_kernel_radial_sigma = 2;
+
 	fmll_svm * svm = fmll_svm_init(3, K);
 
-	// ############################################################################ 
-	// TODO Обучение
-
-	srand48(drand48());
-	
-	svm->num = 10;
-	svm->w = fmll_alloc_1D(svm->num, sizeof(double));
-	svm->s = (double **) fmll_alloc_2D(svm->num, svm->dim, sizeof(double));
-
-	for(u = 0; u < svm->num; u++)
-	{
-		svm->w[u] = drand48();
-
-		for(v = 0; v < svm->dim; v++)
-			svm->s[u][v] = drand48();
-	}
-
-	svm->b = drand48();
+	// fmll_svm_teach_smo(svm, x, d, vec_num, 1, & fmll_svm_teach_smo_selector_keerthi, 1E-12, 10000, 1E-3);
+	fmll_svm_teach_smo(svm, x, d, vec_num, 1, & fmll_svm_teach_smo_selector_fan_chen_lin, 1E-12, 10000, 1E-3);
 
 	// ############################################################################ 
-	// TODO Тестирование
 	
-	/*
-	double ** deviation = (double **) fmll_alloc_2D(1, 2, sizeof(double));
-	deviation[0][0] = 0.3;
-	deviation[0][1] = 0.3;
-
-	unsigned yes = fmll_perceptron_test(perc, test_x, test_d, deviation, size_test.width * size_test.height, NULL, NULL);
+	yes = fmll_svm_test(svm, test_x, test_d, size_test.width * size_test.height, NULL, NULL);
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
-
-	*/
 
 	// ############################################################################ 
 
@@ -150,7 +128,7 @@ int image_analysis(const int argc, const char * argv[])
 		{
 			res = fmll_svm_run(svm, test_x[q]);
 
-			if(res >= 1)
+			if(res > 0)
 			{
 				if(test_d[q] == 1)
 				{
@@ -160,7 +138,7 @@ int image_analysis(const int argc, const char * argv[])
 				else
 					cvSet2D(dst, v, u, pixel_green);
 			}
-			else if (res <= -1)
+			else if (res < 0)
 			{
 				if(test_d[q] == 1)
 					cvSet2D(dst, v, u, pixel_red);
@@ -171,7 +149,10 @@ int image_analysis(const int argc, const char * argv[])
 				}
 			}
 			else
+			{
+				printf("%lf\n", res);
 				cvSet2D(dst, v, u, pixel_blue);
+			}
 		}
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
@@ -191,18 +172,35 @@ int image_analysis(const int argc, const char * argv[])
 	return 0;
 }
 
+double kernel_for_xor(const double * v1, const double * v2, unsigned dim)
+{
+	return (
+			1
+			+
+			v1[0] * v1[0] * v2[0] * v2[0]
+			+
+			2 * v1[0] * v1[1] * v2[0] * v2[1]
+			+
+			v1[1] * v1[1] * v2[1] * v2[1]
+			+
+			2 * v1[0] * v2[0]
+			+
+			2 * v1[1] * v2[1]
+		   );
+}
+
 int xor()
 {
 	char d[4];
-	unsigned u, v;
+	unsigned u;
 	double ** vec = (double **) fmll_alloc_2D(4, 2, sizeof(double));
-	double (* K)(const double *, const double *, unsigned) = & fmll_kernel_radial;
+	double (* K)(const double *, const double *, unsigned) = & kernel_for_xor;
 
-	vec[0][0] = 0;
-	vec[0][1] = 0;
+	vec[0][0] = -1;
+	vec[0][1] = -1;
 	vec[1][0] = 1;
-	vec[1][1] = 0;
-	vec[2][0] = 0;
+	vec[1][1] = -1;
+	vec[2][0] = -1;
 	vec[2][1] = 1;
 	vec[3][0] = 1;
 	vec[3][1] = 1;
@@ -214,24 +212,8 @@ int xor()
 	
 	fmll_svm * svm = fmll_svm_init(3, K);
 
-	// ############################################################################ 
-	// TODO Обучение
-
-	srand48(drand48());
-	
-	svm->num = 10;
-	svm->w = fmll_alloc_1D(svm->num, sizeof(double));
-	svm->s = (double **) fmll_alloc_2D(svm->num, svm->dim, sizeof(double));
-
-	for(u = 0; u < svm->num; u++)
-	{
-		svm->w[u] = drand48();
-
-		for(v = 0; v < svm->dim; v++)
-			svm->s[u][v] = drand48();
-	}
-
-	svm->b = drand48();
+	fmll_svm_teach_smo(svm, vec, d, 4, 1, & fmll_svm_teach_smo_selector_keerthi, 1E-12, 100, 1E-3);
+	// fmll_svm_teach_smo(svm, vec, d, 4, 1, & fmll_svm_teach_smo_selector_fan_chen_lin, 1E-12, 100, 1E-3);
 
 	// ############################################################################ 
 

@@ -23,7 +23,7 @@ int image_analysis(const int argc, const char * argv[])
 	}
 
 	char fname[4096];
-	unsigned u, v, q, t, vec_per_class, vec_num, cl_ind, yes, res, vec_class[5] = {0, 0, 0, 0, 0};
+	unsigned u, v, q, vec_per_class, vec_num, cl_ind, yes, res, vec_class[5] = {0, 0, 0, 0, 0};
 
 	// ############################################################################ 
 
@@ -65,9 +65,9 @@ int image_analysis(const int argc, const char * argv[])
 
 			if(vec_class[cl_ind] < vec_per_class)
 			{
-				x[q][0] = pixel.val[0] / 255;
-				x[q][1] = pixel.val[1] / 255;
-				x[q][2] = pixel.val[2] / 255;
+				x[q][0] = pixel.val[0];
+				x[q][1] = pixel.val[1];
+				x[q][2] = pixel.val[2];
 				d[q] = cl_ind;
 
 				vec_class[cl_ind]++;
@@ -91,9 +91,9 @@ int image_analysis(const int argc, const char * argv[])
 			else
 				test_d[q] = 4;
 
-			test_x[q][0] = pixel.val[0] / 255;
-			test_x[q][1] = pixel.val[1] / 255;
-			test_x[q][2] = pixel.val[2] / 255;
+			test_x[q][0] = pixel.val[0];
+			test_x[q][1] = pixel.val[1];
+			test_x[q][2] = pixel.val[2];
 		}
 
 	cvReleaseImage(& src_teach);
@@ -110,39 +110,28 @@ int image_analysis(const int argc, const char * argv[])
 	fmll_svm_net * svm_net = fmll_svm_net_init(num, 3, K);
 
 	// ############################################################################ 
-	// TODO Обучение
 
-	for(u = 0; u < svm_net->num; u++)
+	unsigned max_iter[num];
+	double C[num], tau[num], epsilon[num];
+	int (* selector[num])(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **);
+
+	for(u = 0; u < num; u++)
 	{
-		svm_net->svm[u]->num = rand() % 10 + 1;
-		svm_net->svm[u]->w = fmll_alloc_1D(svm_net->svm[u]->num, sizeof(double));
-		svm_net->svm[u]->s = (double **) fmll_alloc_2D(svm_net->svm[u]->num, svm_net->svm[u]->dim, sizeof(double));
-
-		for(v = 0; v < svm_net->svm[u]->num; v++)
-		{
-			svm_net->svm[u]->w[v] = drand48();
-
-			for(t = 0; t < svm_net->svm[u]->dim; t++)
-				svm_net->svm[u]->s[v][t] = drand48();
-		}
-
-		svm_net->svm[u]->b = drand48();
+		C[u] = 1;
+		selector[u] = & fmll_svm_teach_smo_selector_fan_chen_lin;
+		tau[u] = 1E-12;
+		max_iter[u] = 10000;
+		epsilon[u] = 1E-3;
 	}
 
+	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, selector, tau, max_iter, epsilon);
+
 	// ############################################################################ 
-	// TODO Тестирование
+
+	yes = fmll_svm_net_test(svm_net, test_x, test_d, size_test.width * size_test.height, NULL, NULL);
 	
-	/*
-	double ** deviation = (double **) fmll_alloc_2D(1, 2, sizeof(double));
-	deviation[0][0] = 0.3;
-	deviation[0][1] = 0.3;
-
-	unsigned yes = fmll_perceptron_test(perc, test_x, test_d, deviation, size_test.width * size_test.height, NULL, NULL);
-
-	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
+	printf("\nВерно классифицированных пикселей: %u из %u (%.7lf %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
-
-	*/
 
 	// ############################################################################ 
 
@@ -191,7 +180,10 @@ int image_analysis(const int argc, const char * argv[])
 					}
 				}
 				else
+				{
+					printf("%u %u\n", v, u);
 					cvSet2D(dst, v, u, pixel_black);
+				}
 			}
 			else if(res == -1)
 				cvSet2D(dst, v, u, pixel_yellow);
