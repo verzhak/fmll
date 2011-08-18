@@ -26,6 +26,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 endif()
 
+add_definitions(-DBUILD)
 execute_process(COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/fmll ERROR_QUIET)
 include_directories(include lib nn ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(lib/all.h.in all.h)

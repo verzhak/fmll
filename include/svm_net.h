@@ -20,8 +20,13 @@
 #include "all.h"
 #include "exception.h"
 #include "memory.h"
-#include "xml.h"
 #include "svm.h"
+
+#ifdef BUILD
+
+	#include "xml.h"
+
+#endif
 
 // ############################################################################
 

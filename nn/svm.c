@@ -205,29 +205,29 @@ unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 {
 	bool is_right;
 	double res;
-	unsigned u, no = 0;
+	unsigned u, yes = 0;
 
 	for(u = 0; u < vec_num; u++)
 	{
 		res = fmll_svm_run(svm, vec[u]);
 		
 		if(
-			(res > 0 && d[u] == -1)
+			(res > 0 && d[u] == 1)
 			||
-			(res < 0 && d[u] == 1)
-			||
-			res == 0
+			(res < 0 && d[u] == -1)
 		  )
 		{
-			no++;
-			is_right = false;
+			yes++;
+			is_right = true;
 		}
+		else
+			is_right = false;
 
 		if(st_func != NULL)
 			(* st_func)(svm, vec[u], d[u], res, vec_num, is_right, st_param);
 	}
 
-	return vec_num - no;
+	return yes;
 }
 
 int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,

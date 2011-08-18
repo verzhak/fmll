@@ -165,22 +165,24 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 {
 	bool is_right;
 	int res;
-	unsigned u, no = 0;
+	unsigned u, yes = 0;
 	double y[svm_net->num];
 
 	for(u = 0; u < vec_num; u++)
 	{
-		if((res = fmll_svm_net_run(svm_net, vec[u], y)) != d[u])
+		if((res = fmll_svm_net_run(svm_net, vec[u], y)) == d[u])
 		{
-			no++;
-			is_right = false;
+			yes++;
+			is_right = true;
 		}
+		else
+			is_right = false;
 
 		if(st_func != NULL)
 			(* st_func)(svm_net, vec[u], d[u], res, y, vec_num, is_right, st_param);
 	}
 
-	return vec_num - no;
+	return yes;
 }
 
 int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C,

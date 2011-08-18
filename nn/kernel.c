@@ -3,7 +3,7 @@
 
 double fmll_kernel_radial_sigma = 1;
 double fmll_kernel_tanh_a = 1;
-double fmll_kernel_tanh_b = 1;
+double fmll_kernel_tanh_b = 0;
 
 double fmll_kernel_scalar_1(const double * v1, const double * v2, unsigned dim)
 {
