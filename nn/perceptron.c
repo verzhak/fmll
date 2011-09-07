@@ -18,9 +18,9 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, unsigne
 		double ** w = perc->w, ** sum = NULL, ** prev_sum = NULL, ** t_grad = NULL;
 		double (** d_fun)(double) = perc->d_fun;
 
-		fmll_throw_null((sum = (double **) fmll_alloc_2D(t_num, max_N, sizeof(double))));
-		fmll_throw_null((prev_sum = (double **) fmll_alloc_2D(t_num, max_N, sizeof(double))));
-		fmll_throw_null((t_grad = (double **) fmll_alloc_2D(t_num, num_weight, sizeof(double))));
+		fmll_throw_null((sum = (double **) fmll_alloc(sizeof(double), 2, t_num, max_N)));
+		fmll_throw_null((prev_sum = (double **) fmll_alloc(sizeof(double), 2, t_num, max_N)));
+		fmll_throw_null((t_grad = (double **) fmll_alloc(sizeof(double), 2, t_num, num_weight)));
 
 		E = 0;
 
@@ -126,9 +126,9 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, unsigne
 
 	fmll_finally;
 
-		fmll_free_ND(sum);
-		fmll_free_ND(prev_sum);
-		fmll_free_ND(t_grad);
+		fmll_free(sum);
+		fmll_free(prev_sum);
+		fmll_free(t_grad);
 
 	return E;
 }
@@ -146,16 +146,16 @@ fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const 
 		double ** w;
 		unsigned u, v, t, q, num_weight, num, max_N, N_u, prev_num, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
 
-		fmll_throw_null((perc = fmll_alloc_1D(1, sizeof(fmll_perceptron))));
+		fmll_throw_null((perc = fmll_alloc(sizeof(fmll_perceptron), 1, 1)));
 
 		perc->fun = perc->d_fun = NULL;
 		perc->N = NULL;
 		perc->y = NULL;
 		perc->w = NULL;
 
-		fmll_throw_null((t_fun = perc->fun = fmll_alloc_1D(layers_num, sizeof(double (*)(double)))));
-		fmll_throw_null((t_d_fun = perc->d_fun = fmll_alloc_1D(layers_num, sizeof(double (*)(double)))));
-		fmll_throw_null((t_N = perc->N = fmll_alloc_1D(layers_num, sizeof(unsigned))));
+		fmll_throw_null((t_fun = perc->fun = fmll_alloc(sizeof(double (*)(double)), 1, layers_num)));
+		fmll_throw_null((t_d_fun = perc->d_fun = fmll_alloc(sizeof(double (*)(double)), 1, layers_num)));
+		fmll_throw_null((t_N = perc->N = fmll_alloc(sizeof(unsigned), 1, layers_num)));
 
 		max_N = N[0] > dim ? N[0] : dim;
 
@@ -168,9 +168,9 @@ fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const 
 		}
 
 		fmll_throw(! (perc->num = num));
-		fmll_throw_null((w = perc->w = (double **) fmll_alloc_2D(num, max_N + 1, sizeof(double))));
-		fmll_throw_null((perc->y = (double ***) fmll_alloc_3D(t_num, layers_num + 1, max_N, sizeof(double))));
-		fmll_throw_null((perc->net = (double **) fmll_alloc_2D(t_num, num, sizeof(double))));
+		fmll_throw_null((w = perc->w = (double **) fmll_alloc(sizeof(double), 2, num, max_N + 1)));
+		fmll_throw_null((perc->y = (double ***) fmll_alloc(sizeof(double), 3, t_num, layers_num + 1, max_N)));
+		fmll_throw_null((perc->net = (double **) fmll_alloc(sizeof(double), 2, t_num, num)));
 		
 		memcpy(t_fun, fun, size);
 		memcpy(t_d_fun, d_fun, size);
@@ -205,13 +205,13 @@ void fmll_perceptron_destroy(fmll_perceptron * perc)
 {
 	if(perc != NULL)
 	{
-		fmll_free_ND(perc->w);
-		fmll_free_ND(perc->y);
-		fmll_free_ND(perc->N);
-		fmll_free_ND(perc->fun);
-		fmll_free_ND(perc->d_fun);
-		fmll_free_ND(perc->net);
-		fmll_free_ND(perc);
+		fmll_free(perc->w);
+		fmll_free(perc->y);
+		fmll_free(perc->N);
+		fmll_free(perc->fun);
+		fmll_free(perc->d_fun);
+		fmll_free(perc->net);
+		fmll_free(perc);
 	}
 }
 
@@ -289,7 +289,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 		fmll_throw((xml_get_int(content_node, "dim", & dim)));
 		fmll_throw((xml_get_int(content_node, "layers_num", & layers_num)));
 		
-		fmll_throw_null((N = fmll_alloc_1D(layers_num, sizeof(unsigned))));
+		fmll_throw_null((N = fmll_alloc(sizeof(unsigned), 1, layers_num)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < layers_num; u++)
@@ -331,7 +331,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 
 	fmll_finally;
 
-		fmll_free_ND(N);
+		fmll_free(N);
 		xml_destroy(main_node);
 
 	return perc;
@@ -410,8 +410,8 @@ int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, 
 		fmll_throw(! max_iter);
 		fmll_throw(E_thres < 0);
 		fmll_throw(d_E_thres < 0);
-		fmll_throw_null((grad = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((moment = fmll_alloc_1D(num_weight, sizeof(double))));
+		fmll_throw_null((grad = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((moment = fmll_alloc(sizeof(double), 1, num_weight)));
 
 		for(t_weight = 0; t_weight < num_weight; t_weight++)
 				moment[t_weight] = 0;
@@ -453,8 +453,8 @@ int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, 
 
 	fmll_finally;
 
-		fmll_free_ND(grad);
-		fmll_free_ND(moment);
+		fmll_free(grad);
+		fmll_free(moment);
 
 	return ret;
 }
@@ -479,12 +479,12 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_throw(! max_iter);
 		fmll_throw(E_thres < 0);
 		fmll_throw(d_E_thres < 0);
-		fmll_throw_null((grad = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((d_w = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((J = (double **) fmll_alloc_2D(vec_num, num_weight, sizeof(double))));
-		fmll_throw_null((JJ = (double **) fmll_alloc_2D(num_weight, num_weight, sizeof(double))));
-		fmll_throw_null((JJInv = (double **) fmll_alloc_2D(num_weight, num_weight, sizeof(double))));
-		fmll_throw_null((eigen_val = fmll_alloc_1D(num_weight, sizeof(double))));
+		fmll_throw_null((grad = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((d_w = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((J = (double **) fmll_alloc(sizeof(double), 2, vec_num, num_weight)));
+		fmll_throw_null((JJ = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
+		fmll_throw_null((JJInv = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
+		fmll_throw_null((eigen_val = fmll_alloc(sizeof(double), 1, num_weight)));
 		fmll_throw_null((perm = gsl_permutation_alloc(num_weight)));
 
 		grad_vec = gsl_vector_view_array(grad, num_weight); 
@@ -528,7 +528,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 
 				eta = eigen_val[0] * eta_mult;
 
-				fmll_free_ND(eigen_val);
+				fmll_free(eigen_val);
 				eigen_val = NULL;
 			}
 			else
@@ -631,12 +631,12 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 
 	fmll_finally;
 
-		fmll_free_ND(d_w);
-		fmll_free_ND(grad);
-		fmll_free_ND(J);
-		fmll_free_ND(JJ);
-		fmll_free_ND(JJInv);
-		fmll_free_ND(eigen_val);
+		fmll_free(d_w);
+		fmll_free(grad);
+		fmll_free(J);
+		fmll_free(JJ);
+		fmll_free(JJInv);
+		fmll_free(eigen_val);
 
 		if(perm != NULL)
 			gsl_permutation_free(perm);
@@ -660,11 +660,11 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 		fmll_throw(coef_E >= 1);
 		fmll_throw(E_thres < 0);
 		fmll_throw(d_E_thres < 0);
-		fmll_throw_null((grad = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((prev_grad = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((s = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((prev_s = fmll_alloc_1D(num_weight, sizeof(double))));
-		fmll_throw_null((d_w = fmll_alloc_1D(num_weight, sizeof(double))));
+		fmll_throw_null((grad = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((prev_grad = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((s = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((prev_s = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((d_w = fmll_alloc(sizeof(double), 1, num_weight)));
 
 		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
@@ -831,11 +831,11 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 
 	fmll_finally;
 
-		fmll_free_ND(d_w);
-		fmll_free_ND(grad);
-		fmll_free_ND(prev_grad);
-		fmll_free_ND(s);
-		fmll_free_ND(prev_s);
+		fmll_free(d_w);
+		fmll_free(grad);
+		fmll_free(prev_grad);
+		fmll_free(s);
+		fmll_free(prev_s);
 
 	return ret;
 }

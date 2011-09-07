@@ -30,7 +30,7 @@ fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, dou
 		double ** w, ** coord;
 		fmll_som * som = NULL;
 
-		fmll_throw_null((som = fmll_alloc_1D(1, sizeof(fmll_som))));
+		fmll_throw_null((som = fmll_alloc(sizeof(fmll_som), 1, 1)));
 
 		som->w = som->coord = NULL;
 		som->N = NULL;
@@ -40,9 +40,9 @@ fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, dou
 
 		fmll_throw(! num);
 
-		fmll_throw_null((w = som->w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
-		fmll_throw_null((coord = som->coord = (double **) fmll_alloc_2D(num, map_dim, sizeof(double))));
-		fmll_throw_null((tN = som->N = fmll_alloc_1D(map_dim, sizeof(unsigned))));
+		fmll_throw_null((w = som->w = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
+		fmll_throw_null((coord = som->coord = (double **) fmll_alloc(sizeof(double), 2, num, map_dim)));
+		fmll_throw_null((tN = som->N = fmll_alloc(sizeof(unsigned), 1, map_dim)));
 
 		som->num = num;
 		som->map_dim = map_dim;
@@ -85,10 +85,10 @@ void fmll_som_destroy(fmll_som * som)
 {
 	if(som != NULL)
 	{
-		fmll_free_ND(som->w);
-		fmll_free_ND(som->coord);
-		fmll_free_ND(som->N);
-		fmll_free_ND(som);
+		fmll_free(som->w);
+		fmll_free(som->coord);
+		fmll_free(som->N);
+		fmll_free(som);
 	}
 }
 
@@ -159,7 +159,7 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 		fmll_throw((xml_get_int(content_node, "map_dim", & map_dim)));
 		fmll_throw((xml_get_int(content_node, "dim", & dim)));
 
-		fmll_throw_null((N = fmll_alloc_1D(map_dim, sizeof(unsigned))));
+		fmll_throw_null((N = fmll_alloc(sizeof(unsigned), 1, map_dim)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "N", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(u = 0, sub_node = mxmlFindElement(node, node, NULL, NULL, NULL, MXML_DESCEND_FIRST); u < map_dim; u++)
@@ -195,7 +195,7 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 
 	fmll_finally;
 
-		fmll_free_ND(N);
+		fmll_free(N);
 		xml_destroy(main_node);
 
 	return som;
@@ -286,7 +286,7 @@ int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num,
 		double min, d, beta_gamma, beta = beta_0, ** w = som->w;
 		double (* distance)(const double *, const double *, unsigned) = som->distance;
 
-		fmll_throw_null((wn = fmll_alloc_1D(num, sizeof(int))));
+		fmll_throw_null((wn = fmll_alloc(sizeof(int), 1, num)));
 		memset(wn, 0, num * sizeof(int));
 
 		while(beta < 1.0000001)
@@ -333,7 +333,7 @@ int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num,
 
 	fmll_finally;
 
-		fmll_free_ND(wn);
+		fmll_free(wn);
 
 	return ret;
 }

@@ -7,7 +7,7 @@ fmll_svm * fmll_svm_init(unsigned dim, double (* K)(const double *, const double
 
 		fmll_svm * svm = NULL;
 		
-		fmll_throw_null((svm = fmll_alloc_1D(1, sizeof(fmll_svm))));
+		fmll_throw_null((svm = fmll_alloc(sizeof(fmll_svm), 1, 1)));
 		svm->dim = dim;
 		svm->w = NULL;
 		svm->s = NULL;
@@ -29,9 +29,9 @@ void fmll_svm_destroy(fmll_svm * svm)
 {
 	if(svm != NULL)
 	{
-		fmll_free_ND(svm->w);
-		fmll_free_ND(svm->s);
-		fmll_free_ND(svm);
+		fmll_free(svm->w);
+		fmll_free(svm->s);
+		fmll_free(svm);
 	}
 }
 
@@ -144,8 +144,8 @@ fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const dou
 
 		svm->num = num;
 
-		fmll_throw_null((w = svm->w = fmll_alloc_1D(num, sizeof(double))));
-		fmll_throw_null((s = svm->s = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+		fmll_throw_null((w = svm->w = fmll_alloc(sizeof(double), 1, num)));
+		fmll_throw_null((s = svm->s = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
 		fmll_throw((xml_get_double(content_node, "b", & svm->b)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
 
@@ -243,9 +243,9 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 
 		fmll_throw((tau <= 0));
 		fmll_throw((epsilon <= 0));
-		fmll_throw_null((lambda = fmll_alloc_1D(vec_num, sizeof(double))));
-		fmll_throw_null((grad = fmll_alloc_1D(vec_num, sizeof(double))));
-		fmll_throw_null((Q = (double **) fmll_alloc_2D(vec_num, vec_num, sizeof(double))));
+		fmll_throw_null((lambda = fmll_alloc(sizeof(double), 1, vec_num)));
+		fmll_throw_null((grad = fmll_alloc(sizeof(double), 1, vec_num)));
+		fmll_throw_null((Q = (double **) fmll_alloc(sizeof(double), 2, vec_num, vec_num)));
 
 		// ############################################################################ 
 
@@ -379,8 +379,8 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 
 		svm->num = num;
 
-		fmll_throw_null((w = svm->w = fmll_alloc_1D(num, sizeof(double))));
-		fmll_throw_null((s = svm->s = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+		fmll_throw_null((w = svm->w = fmll_alloc(sizeof(double), 1, num)));
+		fmll_throw_null((s = svm->s = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
 
 		for(u = 0, v = 0; u < vec_num; u++)
 			if(lambda[u] > 1E-10)
@@ -412,9 +412,9 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 
 	fmll_finally;
 
-		fmll_free_ND(lambda);
-		fmll_free_ND(grad);
-		fmll_free_ND(Q);
+		fmll_free(lambda);
+		fmll_free(grad);
+		fmll_free(Q);
 
 	return ret;
 }

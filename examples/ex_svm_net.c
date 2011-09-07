@@ -42,10 +42,10 @@ int image_analysis(const int argc, const char * argv[])
 	vec_per_class = size_teach.height * size_teach.width / 2000;
 	vec_num = vec_per_class * 5;
 
-	double ** x = (double **) fmll_alloc_2D(vec_num, 3, sizeof(double));
-	unsigned * d = fmll_alloc_1D(vec_num, sizeof(unsigned));
-	double ** test_x = (double **) fmll_alloc_2D(size_test.height * size_test.width, 3, sizeof(double));
-	unsigned * test_d = fmll_alloc_1D(size_test.height * size_test.width, sizeof(unsigned));
+	double ** x = (double **) fmll_alloc(sizeof(double), 2, vec_num, 3);
+	unsigned * d = fmll_alloc(sizeof(unsigned), 1, vec_num);
+	double ** test_x = (double **) fmll_alloc(sizeof(double), 2, size_test.height * size_test.width, 3);
+	unsigned * test_d = fmll_alloc(sizeof(unsigned), 1, size_test.height * size_test.width);
 
 	for(v = 0, q = 0; v < size_teach.height; v++)
 		for(u = 0; u < size_teach.width; u++)
@@ -194,10 +194,10 @@ int image_analysis(const int argc, const char * argv[])
 
 	// ############################################################################ 
 	
-	fmll_free_ND(x);
-	fmll_free_ND(d);
-	fmll_free_ND(test_x);
-	fmll_free_ND(test_d);
+	fmll_free(x);
+	fmll_free(d);
+	fmll_free(test_x);
+	fmll_free(test_d);
 	fmll_svm_net_destroy(svm_net);
 
 	cvSaveImage(argv[2], dst, NULL);

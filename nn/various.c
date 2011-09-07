@@ -30,7 +30,7 @@ int fmll_centering(double ** vec, unsigned vec_num, unsigned dim)
 		unsigned u, v;
 		double * mean = NULL;
 		
-		fmll_throw_null((mean = fmll_alloc_1D(dim, sizeof(double))));
+		fmll_throw_null((mean = fmll_alloc(sizeof(double), 1, dim)));
 
 		for(v = 0; v < dim; v++)
 			mean[v] = 0;
@@ -49,7 +49,7 @@ int fmll_centering(double ** vec, unsigned vec_num, unsigned dim)
 
 	fmll_finally;
 
-		fmll_free_ND(mean);
+		fmll_free(mean);
 
 	return ret;
 }

@@ -53,10 +53,10 @@ int image_analysis(const int argc, const char * argv[])
 	vec_per_class = size_teach.height * size_teach.width / 2000;
 	vec_num = vec_per_class * 5;
 
-	double ** x = (double **) fmll_alloc_2D(vec_num, 3, sizeof(double));
-	double ** d = (double **) fmll_alloc_2D(vec_num, 1, sizeof(double));
-	double ** test_x = (double **) fmll_alloc_2D(size_test.height * size_test.width, 3, sizeof(double));
-	double ** test_d = (double **) fmll_alloc_2D(size_test.height * size_test.width, 1, sizeof(double));
+	double ** x = (double **) fmll_alloc(sizeof(double), 2, vec_num, 3);
+	double ** d = (double **) fmll_alloc(sizeof(double), 2, vec_num, 1);
+	double ** test_x = (double **) fmll_alloc(sizeof(double), 2, size_test.height * size_test.width, 3);
+	double ** test_d = (double **) fmll_alloc(sizeof(double), 2, size_test.height * size_test.width, 1);
 
 	for(v = 0, q = 0; v < size_teach.height; v++)
 		for(u = 0; u < size_teach.width; u++)
@@ -133,7 +133,7 @@ int image_analysis(const int argc, const char * argv[])
 
 	// ############################################################################ 
 
-	double ** deviation = (double **) fmll_alloc_2D(1, 2, sizeof(double));
+	double ** deviation = (double **) fmll_alloc(sizeof(double), 2, 1, 2);
 	deviation[0][0] = 0.3;
 	deviation[0][1] = 0.3;
 
@@ -185,11 +185,11 @@ int image_analysis(const int argc, const char * argv[])
 
 	// ############################################################################ 
 	
-	fmll_free_ND(deviation);
-	fmll_free_ND(x);
-	fmll_free_ND(d);
-	fmll_free_ND(test_x);
-	fmll_free_ND(test_d);
+	fmll_free(deviation);
+	fmll_free(x);
+	fmll_free(d);
+	fmll_free(test_x);
+	fmll_free(test_d);
 	fmll_perceptron_destroy(perc);
 
 	cvSaveImage(argv[2], dst, NULL);
@@ -207,8 +207,8 @@ int xor()
 
 	// ############################################################################ 
 	
-	vec = (double **) fmll_alloc_2D(4, 2, sizeof(double));
-	d = (double **) fmll_alloc_2D(4, 1, sizeof(double));
+	vec = (double **) fmll_alloc(sizeof(double), 2, 4, 2);
+	d = (double **) fmll_alloc(sizeof(double), 2, 4, 1);
 
 	vec[0][0] = 0;
 	vec[0][1] = 0;
@@ -265,8 +265,8 @@ int xor()
 
 	// ############################################################################ 
 
-	fmll_free_ND(vec);
-	fmll_free_ND(d);
+	fmll_free(vec);
+	fmll_free(d);
 
 	fmll_perceptron_destroy(perc);
 

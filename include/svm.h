@@ -106,12 +106,16 @@ void fmll_svm_destroy(fmll_svm * svm);
 */
 int fmll_svm_save(fmll_svm * svm, const char * fname_prefix);
 
+#ifdef BUILD
+
 /*! \cond HIDDEN_SYMBOLS */
 
 /* Ядро процесса сохранения в XML-файл описателя SVM */
 int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 
 /*! \endcond */
+
+#endif
 
 /*!
 
@@ -128,12 +132,16 @@ int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 */
 fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned));
 
+#ifdef BUILD
+
 /*! \cond HIDDEN_SYMBOLS */
 
 /* Ядро процесса загрузки описателя SVM из XML-файла */
 fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, unsigned));
 
 /*! \endcond */
+
+#endif
 
 /*!
 

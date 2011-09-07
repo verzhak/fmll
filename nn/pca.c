@@ -10,13 +10,13 @@ fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)())
 		fmll_pca * pca = NULL;
 
 		fmll_throw((! dim || ! num || dim < num));
-		fmll_throw_null((pca = fmll_alloc_1D(1, sizeof(fmll_pca))));
+		fmll_throw_null((pca = fmll_alloc(sizeof(fmll_pca), 1, 1)));
 
 		pca->w = NULL;
 		pca->y = NULL;
 
-		fmll_throw_null((w = pca->w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
-		fmll_throw_null((pca->y = (double *) fmll_alloc_1D(num, sizeof(double))));
+		fmll_throw_null((w = pca->w = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
+		fmll_throw_null((pca->y = (double *) fmll_alloc(sizeof(double), 1, num)));
 
 		pca->dim = dim;
 		pca->num = num;
@@ -39,9 +39,9 @@ void fmll_pca_destroy(fmll_pca * pca)
 {
 	if(pca != NULL)
 	{
-		fmll_free_ND(pca->w);
-		fmll_free_ND(pca->y);
-		fmll_free_ND(pca);
+		fmll_free(pca->w);
+		fmll_free(pca->y);
+		fmll_free(pca);
 	}
 }
 
@@ -155,9 +155,9 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 
 		fmll_throw(beta <= 0);
 		fmll_throw(beta >= 1);
-		fmll_throw_null((pw = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
-		fmll_throw_null((tril_yy = (double **) fmll_alloc_2D(num, num, sizeof(double))));
-		fmll_throw_null((tril_yy_w = (double **) fmll_alloc_2D(num, dim, sizeof(double))));
+		fmll_throw_null((pw = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
+		fmll_throw_null((tril_yy = (double **) fmll_alloc(sizeof(double), 2, num, num)));
+		fmll_throw_null((tril_yy_w = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
 
 		do
 		{
@@ -223,9 +223,9 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 
 	fmll_finally;
 
-		fmll_free_ND(pw);
-		fmll_free_ND(tril_yy);
-		fmll_free_ND(tril_yy_w);
+		fmll_free(pw);
+		fmll_free(tril_yy);
+		fmll_free(tril_yy_w);
 
 	return ret;
 }

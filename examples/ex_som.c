@@ -24,8 +24,8 @@ int main(const int argc, const char * argv[])
 	IplImage * dst_4 = cvCreateImage(size, IPL_DEPTH_8U, 3);
 	CvScalar pixel;
 	unsigned u, v, q;
-	unsigned index_winner, N[2] = {10, 10};
-	double ** vec = (double **) fmll_alloc_2D(size.height * size.width, 3, sizeof(double));
+	unsigned index_winner, N[4] = {5, 5, 5, 5};
+	double ** vec = (double **) fmll_alloc(sizeof(double), 2, size.height * size.width, 3);
 
 	for(v = 0, q = 0; v < size.height; v++)
 		for(u = 0; u < size.width; u++, q++)
@@ -37,7 +37,7 @@ int main(const int argc, const char * argv[])
 			vec[q][2] = pixel.val[2];
 		}
 
-	fmll_som * som = fmll_som_init(N, 2, 3, & fmll_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
+	fmll_som * som = fmll_som_init(N, 4, 3, & fmll_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
 
 	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
 
@@ -98,7 +98,7 @@ int main(const int argc, const char * argv[])
 			}
 	}
 
-	fmll_free_ND(vec);
+	fmll_free(vec);
 	fmll_som_destroy(som);
 
 	cvSaveImage(argv[2], dst_1, NULL);

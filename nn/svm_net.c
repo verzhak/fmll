@@ -9,8 +9,8 @@ fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const
 		fmll_svm ** svm;
 		fmll_svm_net * svm_net = NULL;
 
-		fmll_throw_null((svm_net = fmll_alloc_1D(1, sizeof(fmll_svm_net))));
-		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc_1D(num, sizeof(fmll_svm *))));
+		fmll_throw_null((svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1)));
+		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num)));
 		svm_net->num = num;
 
 		for(u = 0; u < num; u++)
@@ -42,10 +42,10 @@ void fmll_svm_net_destroy(fmll_svm_net * svm_net)
 			for(u = 0; u < num; u++)
 				fmll_svm_destroy(svm[u]);
 
-			fmll_free_ND(svm);
+			fmll_free(svm);
 		}
 
-		fmll_free_ND(svm_net);
+		fmll_free(svm_net);
 	}
 }
 
@@ -94,13 +94,13 @@ fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const 
 		fmll_svm_net * svm_net = NULL;
 		mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 
-		fmll_throw_null((svm_net = fmll_alloc_1D(1, sizeof(fmll_svm_net))));
+		fmll_throw_null((svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1)));
 		fmll_throw((xml_load(fname_prefix, TYPE_SVM_NET, & main_node, & content_node)));
 		fmll_throw((xml_get_int(content_node, "num", & num)));
 
 		svm_net->num = num;
 
-		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc_1D(num, sizeof(fmll_svm *))));
+		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "SVM", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(u = 0; u < num; u++)
@@ -196,7 +196,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 		unsigned u, v, t_ind, num = svm_net->num, t_num = omp_get_max_threads();
 		fmll_svm ** svm = svm_net->svm;
 
-		fmll_throw_null((rd = (char **) fmll_alloc_2D(t_num, vec_num, sizeof(char))));
+		fmll_throw_null((rd = (char **) fmll_alloc(sizeof(char), 2, t_num, vec_num)));
 
 		#pragma omp parallel private(u, v, t_ind, t_rd) default(shared)
 		{
@@ -225,7 +225,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 
 	fmll_finally;
 
-		fmll_free_ND(rd);
+		fmll_free(rd);
 
 	return ret;
 }
