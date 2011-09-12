@@ -25,6 +25,8 @@
  * etc...
  */
 
+#include <stdbool.h>
+
 #include <fmll/activate.h>
 #include <fmll/distance.h>
 #include <fmll/exception.h>
