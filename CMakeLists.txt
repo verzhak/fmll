@@ -27,7 +27,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_definitions(-DBUILD)
-execute_process(COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/fmll ERROR_QUIET)
 include_directories(include lib nn ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(lib/all.h.in all.h)
 
@@ -39,6 +38,9 @@ target_link_libraries(fmll m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
 add_library(fmll-static STATIC ${fmll_sources})
 target_link_libraries(fmll-static m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
 set_target_properties(fmll-static PROPERTIES OUTPUT_NAME "fmll")
+
+install(TARGETS fmll fmll-static LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 
 add_subdirectory(examples examples)
 

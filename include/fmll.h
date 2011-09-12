@@ -27,6 +27,24 @@
 
 #include <stdbool.h>
 
+#ifdef BUILD
+
+#include <activate.h>
+#include <distance.h>
+#include <exception.h>
+#include <memory.h>
+#include <perceptron.h>
+#include <som.h>
+#include <timing.h>
+#include <various.h>
+#include <weight_init.h>
+#include <pca.h>
+#include <kernel.h>
+#include <svm.h>
+#include <svm_net.h>
+
+#else
+
 #include <fmll/activate.h>
 #include <fmll/distance.h>
 #include <fmll/exception.h>
@@ -40,6 +58,8 @@
 #include <fmll/kernel.h>
 #include <fmll/svm.h>
 #include <fmll/svm_net.h>
+
+#endif
 
 #endif
 

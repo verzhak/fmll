@@ -8,7 +8,7 @@
 #include <gsl/gsl_eigen.h>
 #include <gsl/gsl_statistics_double.h>
 
-#include <fmll/fmll.h>
+#include <fmll.h>
 
 int main(const int argc, const char * argv[])
 {

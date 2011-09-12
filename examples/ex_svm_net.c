@@ -4,7 +4,7 @@
 #include <opencv2/core/core_c.h>
 #include <opencv2/highgui/highgui_c.h>
 
-#include <fmll/fmll.h>
+#include <fmll.h>
 
 int image_analysis(const int argc, const char * argv[]);
 
