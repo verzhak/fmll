@@ -10,7 +10,11 @@
 #ifndef TIMING_H
 #define TIMING_H
 
+#ifdef BUILD
+
 #include "all.h"
+
+#endif
 
 /*!
 

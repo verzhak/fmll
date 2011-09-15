@@ -18,13 +18,12 @@
 #ifndef PERCEPTRON_H
 #define PERCEPTRON_H
 
-#include "all.h"
-#include "exception.h"
-#include "memory.h"
-#include "weight_init.h"
-
 #ifdef BUILD
 
+	#include "all.h"
+	#include "exception.h"
+	#include "memory.h"
+	#include "weight_init.h"
 	#include "xml.h"
 
 #endif

@@ -10,8 +10,12 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#ifdef BUILD
+
 #include "all.h"
 #include "exception.h"
+
+#endif
 
 /*!
 
@@ -23,7 +27,7 @@
 
 \return
 
-	- указатель на массив в случае успеха;
+	- указатель на массив в случае успешного выделения памяти;
 	- NULL в случае неудачи.
 
 */

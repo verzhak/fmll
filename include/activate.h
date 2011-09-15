@@ -10,7 +10,11 @@
 #ifndef ACTIVATE_H
 #define ACTIVATE_H
 
+#ifdef BUILD
+
 #include "all.h"
+
+#endif
 
 /*!
 

@@ -118,14 +118,14 @@ int image_analysis(const int argc, const char * argv[])
 	for(u = 0; u < num; u++)
 	{
 		C[u] = 1;
-		selector[u] = & fmll_svm_teach_smo_selector_fan_chen_lin;
 		tau[u] = 1E-12;
+		selector[u] = & fmll_svm_teach_smo_selector_fan_chen_lin;
 		max_iter[u] = 10000;
 		epsilon[u] = 1E-3;
 	}
 
 	// omp_set_num_threads(1);
-	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, selector, tau, max_iter, epsilon);
+	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, tau, selector, max_iter, epsilon);
 
 	// ############################################################################ 
 

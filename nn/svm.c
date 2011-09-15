@@ -230,9 +230,9 @@ unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 	return yes;
 }
 
-int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C, double tau,
 		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double tau, unsigned max_iter, double epsilon)
+		unsigned max_iter, double epsilon)
 {
 	fmll_try;
 

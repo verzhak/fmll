@@ -10,9 +10,13 @@
 #ifndef VARIOUS_H
 #define VARIOUS_H
 
+#ifdef BUILD
+
 #include "all.h"
 #include "memory.h"
 #include "exception.h"
+
+#endif
 
 /*!
 

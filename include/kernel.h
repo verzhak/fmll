@@ -10,7 +10,11 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
+#ifdef BUILD
+
 #include "all.h"
+
+#endif
 
 /*!
 

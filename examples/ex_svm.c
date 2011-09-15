@@ -107,8 +107,8 @@ int image_analysis(const int argc, const char * argv[])
 
 	fmll_svm * svm = fmll_svm_init(3, K);
 
-	// fmll_svm_teach_smo(svm, x, d, vec_num, 1, & fmll_svm_teach_smo_selector_keerthi, 1E-12, 10000, 1E-3);
-	fmll_svm_teach_smo(svm, x, d, vec_num, 1, & fmll_svm_teach_smo_selector_fan_chen_lin, 1E-12, 10000, 1E-3);
+	// fmll_svm_teach_smo(svm, x, d, vec_num, 1, 1E-12, & fmll_svm_teach_smo_selector_keerthi, 10000, 1E-3);
+	fmll_svm_teach_smo(svm, x, d, vec_num, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 10000, 1E-3);
 
 	// ############################################################################ 
 	
@@ -212,8 +212,8 @@ int xor()
 	
 	fmll_svm * svm = fmll_svm_init(3, K);
 
-	fmll_svm_teach_smo(svm, vec, d, 4, 1, & fmll_svm_teach_smo_selector_keerthi, 1E-12, 100, 1E-3);
-	// fmll_svm_teach_smo(svm, vec, d, 4, 1, & fmll_svm_teach_smo_selector_fan_chen_lin, 1E-12, 100, 1E-3);
+	fmll_svm_teach_smo(svm, vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_keerthi, 100, 1E-3);
+	// fmll_svm_teach_smo(svm, vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 100, 1E-3);
 
 	// ############################################################################ 
 

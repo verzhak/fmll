@@ -17,13 +17,12 @@
 #ifndef SVM_H
 #define SVM_H
 
-#include "all.h"
-#include "exception.h"
-#include "memory.h"
-#include "kernel.h"
-
 #ifdef BUILD
 
+	#include "all.h"
+	#include "exception.h"
+	#include "memory.h"
+	#include "kernel.h"
 	#include "xml.h"
 
 #endif
@@ -224,9 +223,9 @@ unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 \sa fmll_svm_teach_smo_selector_keerthi, fmll_svm_teach_smo_selector_fan_chen_lin.
 
 */
-int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C,
+int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C, double tau,
 		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double tau, unsigned max_iter, double epsilon);
+		unsigned max_iter, double epsilon);
 
 /*!
 
@@ -237,7 +236,6 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 \sa fmll_svm_teach_smo.
 
 */
-
 int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
 		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
 
@@ -250,7 +248,6 @@ int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d,
 \sa fmll_svm_teach_smo.
 
 */
-
 int fmll_svm_teach_smo_selector_fan_chen_lin(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
 		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
 

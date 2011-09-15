@@ -185,9 +185,9 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 	return yes;
 }
 
-int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C,
+int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C, double * tau,
 		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double * tau, unsigned * max_iter, double * epsilon)
+		unsigned * max_iter, double * epsilon)
 {
 	fmll_try;
 
@@ -215,7 +215,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 
 				printf("\nМашина опорных векторов: %u из %u (%lf %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
 
-				fmll_svm_teach_smo(svm[u], vec, t_rd, vec_num, C[u], selector[u], tau[u], max_iter[u], epsilon[u]);
+				fmll_svm_teach_smo(svm[u], vec, t_rd, vec_num, C[u], tau[u], selector[u], max_iter[u], epsilon[u]);
 			}
 		}
 

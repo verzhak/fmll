@@ -10,7 +10,11 @@
 #ifndef WEIGHT_INIT_H
 #define WEIGHT_INIT_H
 
+#ifdef BUILD
+
 #include "all.h"
+
+#endif
 
 /*!
 

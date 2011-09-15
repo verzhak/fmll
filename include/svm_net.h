@@ -17,13 +17,12 @@
 #ifndef SVM_NET_H
 #define SVM_NET_H
 
-#include "all.h"
-#include "exception.h"
-#include "memory.h"
-#include "svm.h"
-
 #ifdef BUILD
 
+	#include "all.h"
+	#include "exception.h"
+	#include "memory.h"
+	#include "svm.h"
 	#include "xml.h"
 
 #endif
@@ -52,8 +51,8 @@ typedef struct t_fmll_svm_net
 
 \brief Создание нейронной сети, состоящей из нескольких машин опорных векторов.
 
-\param dim - размерность векторного пространства;
 \param num - количество машин опорных векторов;
+\param dim - размерность векторного пространства;
 \param K - массив указателей на функции, вычисляющие ядра скалярных произведений.
 
 \return
@@ -173,9 +172,9 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 \sa fmll_svm_teach_smo.
 
 */
-int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C,
+int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C, double * tau,
 		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		double * tau, unsigned * max_iter, double * epsilon);
+		unsigned * max_iter, double * epsilon);
 
 // ############################################################################
 
