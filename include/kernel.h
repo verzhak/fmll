@@ -139,7 +139,7 @@ extern double fmll_kernel_tanh_a;
 
 \brief Коэффициент \f$B\f$ гиперболического тангенса.
 
-Значение по умолчанию: 1.
+Значение по умолчанию: 0.
 
 \sa fmll_kernel_tanh.
 
