@@ -16,9 +16,11 @@
 
 #endif
 
+// ############################################################################ 
+
 /*!
 
-\brief Полином первой степени.
+\brief Однородный полином первой степени.
 
 \param v1 - первый вектор;
 \param v2 - второй вектор;
@@ -27,17 +29,17 @@
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = v_1^T v_2 + 1
+	K(v_1, v_2) = v_1^T v_2
 \f]
 
 \return результат вычисления ядра скалярного произведения.
 
 */
-double fmll_kernel_scalar_1(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2, unsigned dim);
 
 /*!
 
-\brief Полином второй степени.
+\brief Однородный полином второй степени.
 
 \param v1 - первый вектор;
 \param v2 - второй вектор;
@@ -46,17 +48,17 @@ double fmll_kernel_scalar_1(const double * v1, const double * v2, unsigned dim);
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = \left ( v_1^T v_2 + 1 \right )^2
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^2
 \f]
 
 \return результат вычисления ядра скалярного произведения.
 
 */
-double fmll_kernel_scalar_2(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2, unsigned dim);
 
 /*!
 
-\brief Полином третьей степени.
+\brief Однородный полином третьей степени.
 
 \param v1 - первый вектор;
 \param v2 - второй вектор;
@@ -65,17 +67,17 @@ double fmll_kernel_scalar_2(const double * v1, const double * v2, unsigned dim);
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = \left ( v_1^T v_2 + 1 \right )^3
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^3
 \f]
 
 \return результат вычисления ядра скалярного произведения.
 
 */
-double fmll_kernel_scalar_3(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2, unsigned dim);
 
 /*!
 
-\brief Полином четвертой степени.
+\brief Однородный полином четвертой степени.
 
 \param v1 - первый вектор;
 \param v2 - второй вектор;
@@ -84,13 +86,93 @@ double fmll_kernel_scalar_3(const double * v1, const double * v2, unsigned dim);
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = \left ( v_1^T v_2 + 1 \right )^4
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^4
 \f]
 
 \return результат вычисления ядра скалярного произведения.
 
 */
-double fmll_kernel_scalar_4(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2, unsigned dim);
+
+// ############################################################################ 
+
+/*!
+
+\brief Неоднородный полином первой степени.
+
+\param v1 - первый вектор;
+\param v2 - второй вектор;
+\param dim - размерность векторного пространства.
+
+Ядро скалярного произведения вычисляется по формуле:
+
+\f[
+	K(v_1, v_2) = v_1^T v_2 + 1
+\f]
+
+\return результат вычисления ядра скалярного произведения.
+
+*/
+double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * v2, unsigned dim);
+
+/*!
+
+\brief Неоднородный полином второй степени.
+
+\param v1 - первый вектор;
+\param v2 - второй вектор;
+\param dim - размерность векторного пространства.
+
+Ядро скалярного произведения вычисляется по формуле:
+
+\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^2
+\f]
+
+\return результат вычисления ядра скалярного произведения.
+
+*/
+double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * v2, unsigned dim);
+
+/*!
+
+\brief Неоднородный полином третьей степени.
+
+\param v1 - первый вектор;
+\param v2 - второй вектор;
+\param dim - размерность векторного пространства.
+
+Ядро скалярного произведения вычисляется по формуле:
+
+\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^3
+\f]
+
+\return результат вычисления ядра скалярного произведения.
+
+*/
+double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * v2, unsigned dim);
+
+/*!
+
+\brief Неоднородный полином четвертой степени.
+
+\param v1 - первый вектор;
+\param v2 - второй вектор;
+\param dim - размерность векторного пространства.
+
+Ядро скалярного произведения вычисляется по формуле:
+
+\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^4
+\f]
+
+\return результат вычисления ядра скалярного произведения.
+
+*/
+double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * v2, unsigned dim);
+
+// ############################################################################ 
 
 /*!
 
@@ -114,7 +196,7 @@ extern double fmll_kernel_radial_sigma;
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = exp \left ( - \frac{1}{2\sigma^2} | v_1 - v_2 |^2 \right )
+	K(v_1, v_2) = exp \left ( - \frac{1}{2\sigma^2} | v_1 - v_2 |^2 \right )
 \f]
 
 \return результат вычисления ядра скалярного произведения.
@@ -123,6 +205,8 @@ extern double fmll_kernel_radial_sigma;
 
 */
 double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
+
+// ############################################################################ 
 
 /*!
 
@@ -157,7 +241,7 @@ extern double fmll_kernel_tanh_b;
 Ядро скалярного произведения вычисляется по формуле:
 
 \f[
-	K(v1, v2) = tanh \left ( A v_1^T v_2 + B \right )
+	K(v_1, v_2) = tanh \left ( A v_1^T v_2 + B \right )
 \f]
 
 \return результат вычисления ядра скалярного произведения.
@@ -166,6 +250,29 @@ extern double fmll_kernel_tanh_b;
 
 */
 double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
+
+// ############################################################################ 
+
+/*!
+
+\brief Пересечение.
+
+\param v1 - первый вектор;
+\param v2 - второй вектор;
+\param dim - размерность векторного пространства.
+
+Ядро скалярного произведения вычисляется по формуле:
+
+\f[
+	K(v_1, v_2) = \sum_{i = 1}^{dim} \min(v_{1i}, v_{2i})
+\f]
+
+\return результат вычисления ядра скалярного произведения.
+
+*/
+double fmll_kernel_intersection(const double * v1, const double * v2, unsigned dim);
+
+// ############################################################################ 
 
 #endif
 
