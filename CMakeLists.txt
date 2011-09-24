@@ -35,11 +35,7 @@ set(fmll_sources lib/memory.c lib/xml.c nn/activate.c nn/distance.c nn/weight_in
 add_library(fmll SHARED ${fmll_sources})
 target_link_libraries(fmll m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
 
-add_library(fmll-static STATIC ${fmll_sources})
-target_link_libraries(fmll-static m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
-set_target_properties(fmll-static PROPERTIES OUTPUT_NAME "fmll")
-
-install(TARGETS fmll fmll-static LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+install(TARGETS fmll LIBRARY DESTINATION lib)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 
 add_subdirectory(examples examples)

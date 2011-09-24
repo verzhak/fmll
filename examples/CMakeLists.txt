@@ -26,10 +26,10 @@ target_link_libraries(ex_pca fmll)
 target_link_libraries(ex_pca ${PC_GSL_LIBRARIES})
 
 add_executable(ex_svm ex_svm.c)
-target_link_libraries(ex_svm fmll-static) # Вот так можно линковать пример со статической версией библиотеки fmll
+target_link_libraries(ex_svm fmll)
 target_link_libraries(ex_svm ${OpenCV_LIBS})
 
 add_executable(ex_svm_net ex_svm_net.c)
-target_link_libraries(ex_svm_net fmll-static) # Вот так можно линковать пример со статической версией библиотеки fmll
+target_link_libraries(ex_svm_net fmll)
 target_link_libraries(ex_svm_net ${OpenCV_LIBS})
 
