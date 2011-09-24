@@ -7,10 +7,10 @@
 
 */
 
-#ifndef WEIGHT_INIT_H
-#define WEIGHT_INIT_H
+#ifndef FMLL_WEIGHT_INIT_H
+#define FMLL_WEIGHT_INIT_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 

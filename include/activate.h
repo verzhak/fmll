@@ -7,10 +7,10 @@
 
 */
 
-#ifndef ACTIVATE_H
-#define ACTIVATE_H
+#ifndef FMLL_ACTIVATE_H
+#define FMLL_ACTIVATE_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 

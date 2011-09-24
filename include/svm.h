@@ -14,10 +14,10 @@
 
 */
 
-#ifndef SVM_H
-#define SVM_H
+#ifndef FMLL_SVM_H
+#define FMLL_SVM_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 	#include "all.h"
 	#include "exception.h"
@@ -105,7 +105,7 @@ void fmll_svm_destroy(fmll_svm * svm);
 */
 int fmll_svm_save(fmll_svm * svm, const char * fname_prefix);
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 /*! \cond HIDDEN_SYMBOLS */
 
@@ -131,7 +131,7 @@ int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 */
 fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned));
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 /*! \cond HIDDEN_SYMBOLS */
 

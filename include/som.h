@@ -16,10 +16,10 @@
 
 */
 
-#ifndef SOM_H
-#define SOM_H
+#ifndef FMLL_SOM_H
+#define FMLL_SOM_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 	#include "all.h"
 	#include "exception.h"

@@ -7,10 +7,10 @@
 
 */
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef FMLL_MEMORY_H
+#define FMLL_MEMORY_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 #include "exception.h"

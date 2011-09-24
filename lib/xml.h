@@ -1,6 +1,6 @@
 
-#ifndef XML_H
-#define XML_H
+#ifndef FMLL_XML_H
+#define FMLL_XML_H
 
 #include "all.h"
 #include "exception.h"

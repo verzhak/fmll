@@ -27,7 +27,7 @@
 
 #include <stdbool.h>
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include <activate.h>
 #include <distance.h>

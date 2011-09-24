@@ -7,8 +7,8 @@
 
 */
 
-#ifndef EXCEPTION_H
-#define EXCEPTION_H
+#ifndef FMLL_EXCEPTION_H
+#define FMLL_EXCEPTION_H
 
 /*! \brief Начало блока перехвата исключений. */
 #define fmll_try __label__ catch_label, finally_label;
@@ -37,7 +37,7 @@
 \param condition - условие, по истинности которого будет возбуждено исключение.
 
 */
-#ifdef DEBUG
+#ifdef FMLL_DEBUG
 
 	#define fmll_throw(condition) \
 if((condition))\

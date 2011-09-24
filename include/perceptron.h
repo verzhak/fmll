@@ -15,10 +15,10 @@
 
 */
 
-#ifndef PERCEPTRON_H
-#define PERCEPTRON_H
+#ifndef FMLL_PERCEPTRON_H
+#define FMLL_PERCEPTRON_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 	#include "all.h"
 	#include "exception.h"

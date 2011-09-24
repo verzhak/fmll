@@ -14,10 +14,10 @@
 
 */
 
-#ifndef SVM_NET_H
-#define SVM_NET_H
+#ifndef FMLL_SVM_NET_H
+#define FMLL_SVM_NET_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 	#include "all.h"
 	#include "exception.h"

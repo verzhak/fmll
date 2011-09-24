@@ -7,10 +7,10 @@
 
 */
 
-#ifndef VARIOUS_H
-#define VARIOUS_H
+#ifndef FMLL_VARIOUS_H
+#define FMLL_VARIOUS_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 #include "memory.h"

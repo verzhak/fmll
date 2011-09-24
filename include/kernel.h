@@ -7,10 +7,10 @@
 
 */
 
-#ifndef KERNEL_H
-#define KERNEL_H
+#ifndef FMLL_KERNEL_H
+#define FMLL_KERNEL_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 

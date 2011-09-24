@@ -7,10 +7,10 @@
 
 */
 
-#ifndef DISTANCE_H
-#define DISTANCE_H
+#ifndef FMLL_DISTANCE_H
+#define FMLL_DISTANCE_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 

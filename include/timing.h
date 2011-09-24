@@ -7,10 +7,10 @@
 
 */
 
-#ifndef TIMING_H
-#define TIMING_H
+#ifndef FMLL_TIMING_H
+#define FMLL_TIMING_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 #include "all.h"
 

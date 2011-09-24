@@ -1,7 +1,7 @@
 
-#ifndef ALL_H
+#ifndef FMLL_ALL_H
 
-#define ALL_H
+#define FMLL_ALL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@
 #include <gsl/gsl_eigen.h>
 #include <gsl/gsl_permutation.h>
 
-#cmakedefine DEBUG
+#cmakedefine FMLL_DEBUG
 
 #define LIB_NAME "FMLL - Four of Meaningless Letters Library (ANN Library)"
 #define ID "0x251C816"

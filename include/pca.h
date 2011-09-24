@@ -15,10 +15,10 @@
 
 */
 
-#ifndef PCA_H
-#define PCA_H
+#ifndef FMLL_PCA_H
+#define FMLL_PCA_H
 
-#ifdef BUILD
+#ifdef FMLL_BUILD
 
 	#include "all.h"
 	#include "exception.h"

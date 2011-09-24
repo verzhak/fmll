@@ -22,11 +22,11 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-	set(DEBUG 1)
+	set(FMLL_DEBUG 1)
 
 endif()
 
-add_definitions(-DBUILD)
+add_definitions(-DFMLL_BUILD)
 include_directories(include lib nn ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(lib/all.h.in all.h)
 
