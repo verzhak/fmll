@@ -42,6 +42,7 @@
 #include <kernel.h>
 #include <svm.h>
 #include <svm_net.h>
+#include <mathematic.h>
 
 #else
 
@@ -58,6 +59,7 @@
 #include <fmll/kernel.h>
 #include <fmll/svm.h>
 #include <fmll/svm_net.h>
+#include <fmll/mathematic.h>
 
 #endif
 

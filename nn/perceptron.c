@@ -464,15 +464,14 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 {
 	fmll_try;
 
-		int i, j, k, t_weight, t_w, signum, ret = 0;
+		int i, j, k, t_weight, t_w, ret = 0;
 		unsigned c_N, p_N, u, iter, t_ind, dim = perc->dim, layers_num = perc->layers_num, num_weight = perc->num_weight, * N = perc->N;
 		unsigned t_num = omp_get_max_threads();
 		double eta, delta, E, prev_E, t_E, norm_E = 2 * vec_num * N[layers_num - 1], * t_y, *** y = perc->y;
 		double * grad = NULL, * eigen_val = NULL, * d_w = NULL;
-		double ** J = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = perc->w;
-		gsl_permutation * perm = NULL;
+		double ** J = NULL, ** JT = NULL, ** I = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = perc->w;
 		gsl_matrix_view J_mat, JJ_mat, JJInv_mat;
-		gsl_vector_view grad_vec, eigen_val_vec, d_w_vec;
+		gsl_vector_view eigen_val_vec;
 
 		fmll_throw(eta_mult < 1);
 		fmll_throw(eta_coef <= 1);
@@ -482,17 +481,16 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_throw_null((grad = fmll_alloc(sizeof(double), 1, num_weight)));
 		fmll_throw_null((d_w = fmll_alloc(sizeof(double), 1, num_weight)));
 		fmll_throw_null((J = (double **) fmll_alloc(sizeof(double), 2, vec_num, num_weight)));
+		fmll_throw_null((JT = (double **) fmll_alloc(sizeof(double), 2, num_weight, vec_num)));
+		fmll_throw_null((I = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJ = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJInv = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((eigen_val = fmll_alloc(sizeof(double), 1, num_weight)));
-		fmll_throw_null((perm = gsl_permutation_alloc(num_weight)));
 
-		grad_vec = gsl_vector_view_array(grad, num_weight); 
-		d_w_vec = gsl_vector_view_array(d_w, num_weight); 
 		J_mat = gsl_matrix_view_array((double *) (J + vec_num), vec_num, num_weight);
 		JJ_mat = gsl_matrix_view_array((double *) (JJ + num_weight), num_weight, num_weight);
 		JJInv_mat = gsl_matrix_view_array((double *) (JJInv + num_weight), num_weight, num_weight);
-		eigen_val_vec = gsl_vector_view_array(eigen_val, num_weight); 
+		eigen_val_vec = gsl_vector_view_array(eigen_val, num_weight);
 
 		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
@@ -564,17 +562,20 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 						JJ[i][j] = 0;
 				}
 
-				gsl_permutation_init(perm);
-
 				/* Вычисление аппроксимации матрицы Гессе: JJ = J' * J + eta * E */
-				gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1, & J_mat.matrix, & J_mat.matrix, eta, & JJ_mat.matrix);
+				fmll_throw(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_init_main_diag(I, eta, num_weight, num_weight));
+				fmll_throw(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_sum(I, JJ, JJ, num_weight, num_weight));
 
-				/* Вычисление обратной матрицы для матрицы JJ с помощью LU-декомпозиции */
-				gsl_linalg_LU_decomp(& JJ_mat.matrix, perm, & signum);
-				gsl_linalg_LU_invert(& JJ_mat.matrix, perm, & JJInv_mat.matrix);
+				/* Вычисление обратной матрицы для матрицы JJ */
+				fmll_throw(fmll_math_matrix_inv(JJ, JJInv, num_weight));
 
-				/* Вычисление корректировки весов нейронов перцептрона как: d_w = - JJInv * grad */
-				gsl_blas_dgemv(CblasNoTrans, 1, & JJInv_mat.matrix, & grad_vec.vector, 0, & d_w_vec.vector);
+				/*
+				 * Вычисление корректировки весов нейронов перцептрона: d_w = - JJInv * grad
+				 * (минус учитывается далее при корректировке весов нейронов перцептрона)
+				 */
+				fmll_throw(fmll_math_matrix_mult_vector(JJInv, grad, d_w, num_weight, num_weight));
 
 				/* Корректировка весов нейронов перцептрона */
 				for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
@@ -634,12 +635,11 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_free(d_w);
 		fmll_free(grad);
 		fmll_free(J);
+		fmll_free(JT);
+		fmll_free(I);
 		fmll_free(JJ);
 		fmll_free(JJInv);
 		fmll_free(eigen_val);
-
-		if(perm != NULL)
-			gsl_permutation_free(perm);
 
 	return ret;
 }

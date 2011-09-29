@@ -14,8 +14,8 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
-	// return xor();
-	return image_analysis(argc, argv);
+	return xor();
+	// return image_analysis(argc, argv);
 }
 
 int image_analysis(const int argc, const char * argv[])
@@ -230,8 +230,8 @@ int xor()
 
 	// ############################################################################ 
 
-	fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
-	// fmll_perceptron_teach_Levenberg_Marquardt(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
+	// fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
+	fmll_perceptron_teach_Levenberg_Marquardt(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0.000000001);
 	// fmll_perceptron_teach_conjugate_gradient(perc, vec, d, 4, 1000, 0.00001, 0.001, 0.00000001);
 	
 	// ############################################################################ 

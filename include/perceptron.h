@@ -25,6 +25,7 @@
 	#include "memory.h"
 	#include "weight_init.h"
 	#include "xml.h"
+	#include "mathematic.h"
 
 #endif
 

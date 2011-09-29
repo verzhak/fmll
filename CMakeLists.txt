@@ -30,7 +30,7 @@ add_definitions(-DFMLL_BUILD)
 include_directories(include lib nn ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(lib/all.h.in all.h)
 
-set(fmll_sources lib/memory.c lib/xml.c nn/activate.c nn/distance.c nn/weight_init.c nn/timing.c nn/various.c nn/perceptron.c nn/som.c nn/pca.c nn/kernel.c nn/svm.c nn/svm_net.c)
+set(fmll_sources lib/memory.c lib/xml.c mathematic/matrix.c nn/activate.c nn/distance.c nn/weight_init.c nn/timing.c nn/various.c nn/perceptron.c nn/som.c nn/pca.c nn/kernel.c nn/svm.c nn/svm_net.c)
 
 add_library(fmll SHARED ${fmll_sources})
 target_link_libraries(fmll m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
