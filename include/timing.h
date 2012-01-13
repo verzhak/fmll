@@ -3,7 +3,15 @@
 
 \file
 
-\brief Расписание обучения нейронных сетей.
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Расписание обучения нейронных сетей.
+
+\endlang
 
 */
 
@@ -18,121 +26,253 @@
 
 /*!
 
-\brief Уменьшение коэффициента скорости обучения на 0.1.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Уменьшение коэффициента скорости обучения на 0.1.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_minus_0_1(double beta);
 
 /*!
 
-\brief Уменьшение коэффициента скорости обучения на 0.01.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Уменьшение коэффициента скорости обучения на 0.01.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_minus_0_01(double beta);
 
 /*!
 
-\brief Уменьшение коэффициента скорости обучения на 0.001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Уменьшение коэффициента скорости обучения на 0.001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_minus_0_001(double beta);
 
 /*!
 
-\brief Уменьшение коэффициента скорости обучения на 0.0001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Уменьшение коэффициента скорости обучения на 0.0001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_minus_0_0001(double beta);
 
 /*!
 
-\brief Уменьшение коэффициента скорости обучения на 0.00001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Уменьшение коэффициента скорости обучения на 0.00001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_minus_0_00001(double beta);
 
 /*!
 
-\brief Коэффициент скорости обучения остается неизменным.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return beta.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Коэффициент скорости обучения остается неизменным.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return beta.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_0(double beta);
 
 /*!
 
-\brief Увеличение коэффициента скорости обучения на 0.1.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Увеличение коэффициента скорости обучения на 0.1.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_plus_0_1(double beta);
 
 /*!
 
-\brief Увеличение коэффициента скорости обучения на 0.01.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Увеличение коэффициента скорости обучения на 0.01.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_plus_0_01(double beta);
 
 /*!
 
-\brief Увеличение коэффициента скорости обучения на 0.001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Увеличение коэффициента скорости обучения на 0.001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_plus_0_001(double beta);
 
 /*!
 
-\brief Увеличение коэффициента скорости обучения на 0.0001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Увеличение коэффициента скорости обучения на 0.0001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_plus_0_0001(double beta);
 
 /*!
 
-\brief Увеличение коэффициента скорости обучения на 0.00001.
+\en
 
-\param beta - текущее значение скорости обучения.
+	\brief TODO.
 
-\return новое значение скорости обучения.
+	\param beta - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Увеличение коэффициента скорости обучения на 0.00001.
+
+	\param beta - текущее значение скорости обучения.
+
+	\return новое значение скорости обучения.
+
+\endlang
 
 */
 double fmll_timing_next_beta_step_plus_0_00001(double beta);

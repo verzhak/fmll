@@ -3,7 +3,15 @@
 
 \file
 
-\brief Дополнительный функционал.
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Дополнительный функционал.
+
+\endlang
 
 */
 
@@ -20,32 +28,66 @@
 
 /*!
 
-\brief Нормирование векторов.
+\en
 
-\param vec - множество векторов;
-\param vec_num - размер множества векторов;
-\param dim - размерность векторного пространства.
+	\brief TODO.
 
-\return
+	\param vec - TODO;
+	\param vec_num - TODO;
+	\param dim - TODO.
 
-	- 0 - в случае успеха;
-	- <> 0 - в случае неудачи.
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Нормирование векторов.
+
+	\param vec - множество векторов;
+	\param vec_num - размер множества векторов;
+	\param dim - размерность векторного пространства.
+
+	\return
+
+		- 0 - в случае успеха;
+		- <> 0 - в случае неудачи.
+
+\endlang
 
 */
 int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 
 /*!
 
-\brief Центрирование векторов (вычитание из каждой компоненты вектора ее эмпирического математического ожидания).
+\en
 
-\param vec - множество векторов;
-\param vec_num - размер множества векторов;
-\param dim - размерность векторного пространства.
+	\brief TODO (TODO).
 
-\return
+	\param vec - TODO;
+	\param vec_num - TODO;
+	\param dim - TODO.
 
-	- 0 - в случае успеха;
-	- <> 0 - в случае неудачи.
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Центрирование векторов (вычитание из каждой компоненты вектора ее эмпирического математического ожидания).
+
+	\param vec - множество векторов;
+	\param vec_num - размер множества векторов;
+	\param dim - размерность векторного пространства.
+
+	\return
+
+		- 0 - в случае успеха;
+		- <> 0 - в случае неудачи.
+
+\endlang
 
 */
 int fmll_centering(double ** vec, unsigned vec_num, unsigned dim);

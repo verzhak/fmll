@@ -1,0 +1,8 @@
+
+@INCLUDE = Doxyfile_main
+
+PROJECT_BRIEF          = "Библиотека языка программирования C, содержащая реализации искусственных нейронных сетей различных типов и архитектур"
+OUTPUT_DIRECTORY       = doc/ru
+OUTPUT_LANGUAGE        = Russian
+ENABLED_SECTIONS       = russian
+

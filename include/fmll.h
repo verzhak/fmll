@@ -3,27 +3,48 @@
 
 \file
 
-\brief Главный заголовочный файл библиотеки.
+\en
+
+	\brief TODO
+
+\ru
+
+	\brief Главный заголовочный файл библиотеки
+
+\endlang
 
 */
 
 #ifndef FMLL_H
 #define FMLL_H
 
-/*! \mainpage My Personal Index Page
- * 
- * TODO
- *
- * \section intro_sec Introduction
- *
- * This is the introduction.
- *
- * \section install_sec Installation
- *
- * \subsection step1 Step 1: Opening the box
- *  
- * etc...
- */
+/*! 
+
+\en
+
+	\mainpage My Personal Index Page
+
+	TODO
+
+	\section intro_sec Introduction
+
+	This is the introduction.
+
+	\section install_sec Installation
+
+	\subsection step1 Step 1: Opening the box
+ 
+	etc...
+
+\ru
+
+	\mainpage My Personal Index Page
+
+	TODO
+
+\endlang
+
+*/
 
 #include <stdbool.h>
 

@@ -1,0 +1,8 @@
+
+@INCLUDE = Doxyfile_main
+
+PROJECT_BRIEF          = "TODO"
+OUTPUT_DIRECTORY       = doc/en
+OUTPUT_LANGUAGE        = English
+ENABLED_SECTIONS       = english
+

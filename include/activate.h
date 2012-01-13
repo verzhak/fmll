@@ -3,7 +3,15 @@
 
 \file
 
-\brief Функции активации нейронов.
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Функции активации нейронов.
+
+\endlang
 
 */
 
@@ -18,9 +26,19 @@
 
 /*!
 
-\brief Коэффициент A синуса.
+\en
 
-Значение по умолчанию: 1.
+	\brief TODO.
+
+	TODO.
+
+\ru
+
+	\brief Коэффициент A синуса.
+
+	Значение по умолчанию: 1.
+
+\endlang
 
 \sa fmll_sin, fmll_d_sin.
 
@@ -29,9 +47,19 @@ extern double fmll_sin_a;
 
 /*!
 
-\brief Коэффициент B синуса.
+\en
 
-Значение по умолчанию: 1.
+	\brief TODO.
+
+	TODO.
+
+\ru
+
+	\brief Коэффициент B синуса.
+
+	Значение по умолчанию: 1.
+
+\endlang
 
 \sa fmll_sin, fmll_d_sin.
 
@@ -40,9 +68,19 @@ extern double fmll_sin_b;
 
 /*!
 
-\brief Коэффициент A сигмоиды.
+\en
 
-Значение по умолчанию: 1.
+	\brief TODO.
+
+	TODO.
+
+\ru
+
+	\brief Коэффициент A сигмоиды.
+
+	Значение по умолчанию: 1.
+
+\endlang
 
 \sa fmll_sigmoid, fmll_d_sigmoid.
 
@@ -51,9 +89,19 @@ extern double fmll_sigmoid_a;
 
 /*!
 
-\brief Коэффициент A гиперболического тангенса.
+\en
 
-Значение по умолчанию: 1.
+	\brief TODO.
+
+	TODO.
+
+\ru
+
+	\brief Коэффициент A гиперболического тангенса.
+
+	Значение по умолчанию: 1.
+
+\endlang
 
 \sa fmll_tanh, fmll_d_tanh.
 
@@ -62,9 +110,19 @@ extern double fmll_tanh_a;
 
 /*!
 
-\brief Коэффициент B гиперболического тангенса.
+\en
 
-Значение по умолчанию: 1.
+	\brief TODO.
+
+	TODO.
+
+\ru
+
+	\brief Коэффициент B гиперболического тангенса.
+
+	Значение по умолчанию: 1.
+
+\endlang
 
 \sa fmll_tanh, fmll_d_tanh.
 
@@ -73,9 +131,19 @@ extern double fmll_tanh_b;
 
 /*!
 
-\brief Синус.
+\en
 
-Вычисляется по формуле:
+	\brief TODO.
+
+	TODO:
+
+\ru
+
+	\brief Синус.
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f(x) ~ = ~ A ~ \sin(Bx)
@@ -88,9 +156,19 @@ double fmll_sin(double x);
 
 /*!
 
-\brief Производная синуса.
+\en
 
-Вычисляется по формуле:
+	\brief TODO.
+
+	TODO:
+
+\ru
+
+	\brief Производная синуса.
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
@@ -103,9 +181,19 @@ double fmll_d_sin(double x);
 
 /*!
 
-\brief Сигмоида (логистическая функция).
+\en
 
-Вычисляется по формуле:
+	\brief TODO (TODO).
+
+	TODO:
+
+\ru
+
+	\brief Сигмоида (логистическая функция).
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
@@ -118,9 +206,19 @@ double fmll_sigmoid(double x);
 
 /*!
 
-\brief Производная сигмоиды (производная логистической функции).
+\en
 
-Вычисляется по формуле:
+	\brief TODO (TODO).
+
+	TODO:
+
+\ru
+
+	\brief Производная сигмоиды (производная логистической функции).
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
@@ -133,9 +231,19 @@ double fmll_d_sigmoid(double x);
 
 /*!
 
-\brief Гиперболический тангенс.
+\en
 
-Вычисляется по формуле:
+	\brief TODO.
+
+	TODO:
+
+\ru
+
+	\brief Гиперболический тангенс.
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f(x) ~ = ~ A ~ \tanh(Bx)
@@ -148,9 +256,19 @@ double fmll_tanh(double x);
 
 /*!
 
-\brief Производная тангенса.
+\en
 
-Вычисляется по формуле:
+	\brief TODO.
+
+	TODO:
+
+\ru
+
+	\brief Производная тангенса.
+
+	Вычисляется по формуле:
+
+\endlang
 
 \f[
 	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
@@ -163,14 +281,30 @@ double fmll_d_tanh(double x);
 
 /*!
 
-\brief Прямая \f$y ~ = ~ x\f$.
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Прямая \f$y ~ = ~ x\f$.
+
+\endlang
 
 */
 double fmll_line(double x);
 
 /*!
 
-\brief Коэффициент прямой \f$y ~ = ~ x\f$ (всегда единица).
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Коэффициент прямой \f$y ~ = ~ x\f$ (всегда единица).
+
+\endlang
 
 */
 double fmll_d_line(double x);

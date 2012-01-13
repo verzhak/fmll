@@ -1,3 +1,4 @@
+
 # Doxyfile 1.7.4
 
 # This file describes the settings to be used by the documentation system
@@ -37,7 +38,7 @@ PROJECT_NUMBER         =
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Библиотека языка программирования C, содержащая реализации искусственных нейронных сетей различных типов и архитектур"
+# PROJECT_BRIEF          = "Библиотека языка программирования C, содержащая реализации искусственных нейронных сетей различных типов и архитектур"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is
 # included in the documentation. The maximum height of the logo should not
@@ -52,7 +53,7 @@ PROJECT_LOGO           =
 # If a relative path is entered, it will be relative to the location
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = doc
+# OUTPUT_DIRECTORY       = doc/ru
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create
 # 4096 sub-directories (in 2 levels) under the output directory of each output
@@ -74,8 +75,7 @@ CREATE_SUBDIRS         = NO
 # Polish, Portuguese, Romanian, Russian, Serbian, Serbian-Cyrillic, Slovak,
 # Slovene, Spanish, Swedish, Ukrainian, and Vietnamese.
 
-# OUTPUT_LANGUAGE        = English # TODO
-OUTPUT_LANGUAGE        = Russian
+# OUTPUT_LANGUAGE        = Russian
 
 # If the BRIEF_MEMBER_DESC tag is set to YES (the default) Doxygen will
 # include brief member descriptions after the members that are listed in
@@ -194,7 +194,9 @@ TAB_SIZE               = 8
 # will result in a user-defined paragraph with heading "Side Effects:".
 # You can put \n's in the value part of an alias to insert newlines.
 
-ALIASES                =
+ALIASES  = "en=\if english" \
+           "ru=\endif \if russian" \
+           "endlang=\endif" \
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C
 # sources only. Doxygen will then generate output that is more tailored for C.
@@ -497,7 +499,7 @@ GENERATE_DEPRECATEDLIST= YES
 # The ENABLED_SECTIONS tag can be used to enable conditional
 # documentation sections, marked by \if sectionname ... \endif.
 
-ENABLED_SECTIONS       =
+# ENABLED_SECTIONS       = russian
 
 # The MAX_INITIALIZER_LINES tag determines the maximum number of lines
 # the initial value of a variable or macro consists of for it to appear in

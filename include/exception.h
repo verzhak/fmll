@@ -3,25 +3,77 @@
 
 \file
 
-\brief Обработка исключительных ситуаций
+\en
+
+	\brief TODO
+
+\ru
+
+	\brief Обработка исключительных ситуаций
+
+\endlang
 
 */
 
 #ifndef FMLL_EXCEPTION_H
 #define FMLL_EXCEPTION_H
 
-/*! \brief Начало блока перехвата исключений. */
+/*!
+
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Начало блока перехвата исключений.
+
+\endlang
+
+*/
 #define fmll_try __label__ catch_label, finally_label;
 
-/*! \brief Начало блока обработки исключений. */
+/*!
+
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Начало блока обработки исключений.
+
+\endlang
+
+*/
 #define fmll_catch goto finally_label; catch_label:
 
-/*! \brief Начало гарантированного завершения блока кода. */
+/*!
+
+\en
+
+	\brief TODO.
+	
+\ru
+
+	\brief Начало гарантированного завершения блока кода.
+
+\endlang
+
+*/
 #define fmll_finally finally_label:
 
 /*!
 
-\brief Переход на finally-блок.
+\en
+
+	\brief TODO.
+
+\ru
+
+	\brief Переход на finally - блок.
+
+\endlang
 
 \sa fmll_finally
 
@@ -32,9 +84,19 @@
 
 \def fmll_throw
 
-\brief Условное возбуждение исключения.
+\en
 
-\param condition - условие, по истинности которого будет возбуждено исключение.
+	\brief TODO.
+
+	\param condition - TODO.
+
+\ru
+
+	\brief Условное возбуждение исключения.
+
+	\param condition - условие, по истинности которого будет возбуждено исключение.
+
+\endlang
 
 */
 #ifdef FMLL_DEBUG
@@ -56,9 +118,19 @@ if((condition)) \
 
 /*!
 
-\brief Возбуждение исключения в случае, если указатель равен NULL.
+\en
 
-\param pointer - проверяемый указатель.
+	\brief TODO.
+
+	\param pointer - TODO.
+
+\ru
+
+	\brief Возбуждение исключения в случае, если указатель равен NULL.
+
+	\param pointer - проверяемый указатель.
+
+\endlang
 
 */
 #define fmll_throw_null(pointer) fmll_throw((pointer) == NULL)

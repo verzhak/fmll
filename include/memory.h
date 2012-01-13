@@ -3,7 +3,15 @@
 
 \file
 
-\brief Управление памятью.
+\en
+
+	\brief TODO
+
+\ru
+
+	\brief Управление памятью
+
+\endlang
 
 */
 
@@ -19,25 +27,52 @@
 
 /*!
 
-\brief Создание N-х мерного массива
+\en
 
-\param type_size - размер (в байтах) элемента массива;
-\param dim - количество размерностей массива;
-\param ... - размер массива по каждой из размерностей.
+	\brief TODO.
 
-\return
+	\param type_size - TODO;
+	\param dim - TODO;
+	\param ... - TODO.
 
-	- указатель на массив в случае успешного выделения памяти;
-	- NULL в случае неудачи.
+	\return
+
+		- TODO;
+		- NULL - TODO.
+
+\ru
+
+	\brief Создание N-х мерного массива.
+
+	\param type_size - размер (в байтах) элемента массива;
+	\param dim - количество размерностей массива;
+	\param ... - размер массива по каждой из размерностей.
+
+	\return
+
+		- указатель на массив в случае успешного выделения памяти;
+		- NULL - в случае неудачи.
+
+\endlang
 
 */
 void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 /*!
 
-\brief Освобождение памяти, занятой массивом
+\en
 
-\param mem - указатель на массив.
+	\brief TODO.
+
+	\param mem - TODO.
+
+\ru
+
+	\brief Освобождение памяти, занятой массивом.
+
+	\param mem - указатель на массив.
+
+\endlang
 
 */
 void fmll_free(void * mem);

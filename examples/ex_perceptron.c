@@ -128,8 +128,8 @@ int image_analysis(const int argc, const char * argv[])
 
 	// fmll_perceptron_teach_gradient_batch(perc, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9,
 	//		10000, 0.001, 0.000001);
-	// fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, vec_num, 100000, 5, 100000, 0.0005, 0);
-	fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, 100000, 0.0001, 0.001, 0);
+	fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, vec_num, 100000, 5, 100000, 0.0005, 0);
+	// fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, 100000, 0.0001, 0.001, 0);
 
 	// ############################################################################ 
 
