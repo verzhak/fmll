@@ -244,3 +244,28 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows)
 	return 0;
 }
 
+int fmll_math_matrix_eigen(double ** M, double * eigen, unsigned rows)
+{
+	unsigned v, u;
+
+	// TODO
+	
+	// ############################################################################ 
+	
+	printf("eig([");
+
+	for(v = 0; v < rows; v++)
+	{
+		for(u = 0; u < rows - 1; u++)
+			printf("%f, ", M[v][u]);
+
+		printf("%f; ", M[v][rows - 1]);
+	}
+
+	printf("])\n");
+
+	// ############################################################################ 
+
+	return 1;
+}
+

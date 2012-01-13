@@ -4,12 +4,10 @@ cmake_minimum_required(VERSION 2.8)
 find_package(OpenMP REQUIRED)
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(PC_GSL QUIET gsl)
 pkg_check_modules(PC_MXML QUIET mxml)
 
-string(REPLACE ";" " " PC_GSL_CFLAGS " ${PC_GSL_CFLAGS}")
 string(REPLACE ";" " " PC_MXML_CFLAGS " ${PC_MXML_CFLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_GSL_CFLAGS} ${PC_MXML_CFLAGS} -Wall -pipe" CACHE string "" FORCE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Wall -pipe" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
 
@@ -33,7 +31,7 @@ configure_file(lib/all.h.in all.h)
 set(fmll_sources lib/memory.c lib/xml.c mathematic/matrix.c nn/activate.c nn/distance.c nn/weight_init.c nn/timing.c nn/various.c nn/perceptron.c nn/som.c nn/pca.c nn/kernel.c nn/svm.c nn/svm_net.c)
 
 add_library(fmll SHARED ${fmll_sources})
-target_link_libraries(fmll m ${PC_GSL_LIBRARIES} ${PC_MXML_LIBRARIES})
+target_link_libraries(fmll m ${PC_MXML_LIBRARIES})
 
 install(TARGETS fmll LIBRARY DESTINATION lib)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")

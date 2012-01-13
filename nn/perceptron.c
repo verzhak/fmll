@@ -468,10 +468,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		unsigned c_N, p_N, u, iter, t_ind, dim = perc->dim, layers_num = perc->layers_num, num_weight = perc->num_weight, * N = perc->N;
 		unsigned t_num = omp_get_max_threads();
 		double eta, delta, E, prev_E, t_E, norm_E = 2 * vec_num * N[layers_num - 1], * t_y, *** y = perc->y;
-		double * grad = NULL, * eigen_val = NULL, * d_w = NULL;
+		double * grad = NULL, * eigen = NULL, * d_w = NULL;
 		double ** J = NULL, ** JT = NULL, ** I = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = perc->w;
-		gsl_matrix_view J_mat, JJ_mat, JJInv_mat;
-		gsl_vector_view eigen_val_vec;
 
 		fmll_throw(eta_mult < 1);
 		fmll_throw(eta_coef <= 1);
@@ -485,12 +483,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_throw_null((I = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJ = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJInv = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
-		fmll_throw_null((eigen_val = fmll_alloc(sizeof(double), 1, num_weight)));
-
-		J_mat = gsl_matrix_view_array((double *) (J + vec_num), vec_num, num_weight);
-		JJ_mat = gsl_matrix_view_array((double *) (JJ + num_weight), num_weight, num_weight);
-		JJInv_mat = gsl_matrix_view_array((double *) (JJInv + num_weight), num_weight, num_weight);
-		eigen_val_vec = gsl_vector_view_array(eigen_val, num_weight);
+		fmll_throw_null((eigen = fmll_alloc(sizeof(double), 1, num_weight)));
 
 		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
@@ -516,18 +509,16 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 			 * Начальное значение коэффициента eta на первой итерации алгоритма обучения
 			 * должно быть много больше наибольшего собственного значения матрицы Якоби
 			 */
-			if(eigen_val != NULL)
+			if(eigen != NULL)
 			{
-				gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1, & J_mat.matrix, & J_mat.matrix, 0, & JJ_mat.matrix);
+				fmll_throw(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_eigen(JJ, eigen, num_weight));
 
-				gsl_eigen_symmv_workspace * eigen_workspace = gsl_eigen_symmv_alloc(num_weight);
-				gsl_eigen_symmv(& JJ_mat.matrix, & eigen_val_vec.vector, & JJInv_mat.matrix, eigen_workspace);
-				gsl_eigen_symmv_free(eigen_workspace);
+				eta = eigen[0] * eta_mult;
 
-				eta = eigen_val[0] * eta_mult;
-
-				fmll_free(eigen_val);
-				eigen_val = NULL;
+				fmll_free(eigen);
+				eigen = NULL;
 			}
 			else
 				/*
@@ -639,7 +630,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_free(I);
 		fmll_free(JJ);
 		fmll_free(JJInv);
-		fmll_free(eigen_val);
+		fmll_free(eigen);
 
 	return ret;
 }

@@ -441,5 +441,40 @@ int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
 */
 int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param M - TODO;
+	\param eigen - TODO;
+	\param rows - TODO.
+
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Расчет собственных чисел матрицы.
+
+	\param M - матрица;
+	\param eigen - вектор, в котором будут сохранены собственные числа матрицы в порядке их убывания;
+	\param rows - количество строк в матрице M, количество компонент в векторе eigen.
+
+	Матрица M суть есть квадратная матрица с размером стороны равным rows.
+
+	\return
+
+		- 0 - в случае успешного выполнения операции;
+		- <> 0 - в случае неудачного завершения выполнения операции.
+
+\endlang
+
+*/
+int fmll_math_matrix_eigen(double ** M, double * eigen, unsigned rows);
+
 #endif
 
