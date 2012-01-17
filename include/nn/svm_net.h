@@ -30,10 +30,10 @@
 #ifdef FMLL_BUILD
 
 	#include "all.h"
-	#include "exception.h"
-	#include "memory.h"
-	#include "svm.h"
-	#include "xml.h"
+	#include "private/xml.h"
+	#include "lib/exception.h"
+	#include "lib/memory.h"
+	#include "nn/svm.h"
 
 #endif
 

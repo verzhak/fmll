@@ -50,37 +50,37 @@
 
 #ifdef FMLL_BUILD
 
-#include <activate.h>
-#include <distance.h>
-#include <exception.h>
-#include <memory.h>
-#include <perceptron.h>
-#include <som.h>
-#include <timing.h>
-#include <various.h>
-#include <weight_init.h>
-#include <pca.h>
-#include <kernel.h>
-#include <svm.h>
-#include <svm_net.h>
-#include <mathematic.h>
+	#include <lib/exception.h>
+	#include <lib/memory.h>
+	#include <math/matrix.h>
+	#include <nn/activate.h>
+	#include <nn/distance.h>
+	#include <nn/timing.h>
+	#include <nn/various.h>
+	#include <nn/weight_init.h>
+	#include <nn/kernel.h>
+	#include <nn/perceptron.h>
+	#include <nn/som.h>
+	#include <nn/pca.h>
+	#include <nn/svm.h>
+	#include <nn/svm_net.h>
 
 #else
 
-#include <fmll/activate.h>
-#include <fmll/distance.h>
-#include <fmll/exception.h>
-#include <fmll/memory.h>
-#include <fmll/perceptron.h>
-#include <fmll/som.h>
-#include <fmll/timing.h>
-#include <fmll/various.h>
-#include <fmll/weight_init.h>
-#include <fmll/pca.h>
-#include <fmll/kernel.h>
-#include <fmll/svm.h>
-#include <fmll/svm_net.h>
-#include <fmll/mathematic.h>
+	#include <fmll/lib/exception.h>
+	#include <fmll/lib/memory.h>
+	#include <fmll/math/matrix.h>
+	#include <fmll/nn/activate.h>
+	#include <fmll/nn/distance.h>
+	#include <fmll/nn/timing.h>
+	#include <fmll/nn/various.h>
+	#include <fmll/nn/weight_init.h>
+	#include <fmll/nn/kernel.h>
+	#include <fmll/nn/perceptron.h>
+	#include <fmll/nn/som.h>
+	#include <fmll/nn/pca.h>
+	#include <fmll/nn/svm.h>
+	#include <fmll/nn/svm_net.h>
 
 #endif
 

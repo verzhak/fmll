@@ -1,5 +1,5 @@
 
-#include "kernel.h"
+#include "nn/kernel.h"
 
 double fmll_kernel_radial_sigma = 1;
 double fmll_kernel_tanh_a = 1;

@@ -1,5 +1,5 @@
 
-#include "pca.h"
+#include "nn/pca.h"
 
 fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)())
 {

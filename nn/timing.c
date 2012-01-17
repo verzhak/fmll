@@ -1,5 +1,5 @@
 
-#include "timing.h"
+#include "nn/timing.h"
 
 #define SIMPLE_STEP_MINUS(step) return beta - (step);
 #define SIMPLE_STEP_PLUS(step) return beta + (step);

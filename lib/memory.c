@@ -1,5 +1,5 @@
 
-#include "memory.h"
+#include "lib/memory.h"
 
 void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 {

@@ -1,5 +1,5 @@
 
-#include "svm_net.h"
+#include "nn/svm_net.h"
 
 fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const double *, const double *, unsigned))
 {

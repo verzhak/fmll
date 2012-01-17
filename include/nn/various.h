@@ -20,9 +20,9 @@
 
 #ifdef FMLL_BUILD
 
-#include "all.h"
-#include "memory.h"
-#include "exception.h"
+	#include "all.h"
+	#include "lib/exception.h"
+	#include "lib/memory.h"
 
 #endif
 

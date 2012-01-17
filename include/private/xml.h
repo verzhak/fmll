@@ -3,7 +3,7 @@
 #define FMLL_XML_H
 
 #include "all.h"
-#include "exception.h"
+#include "lib/exception.h"
 
 #define TYPE_PERCEPTRON "perceptron"
 #define TYPE_SOM "som"

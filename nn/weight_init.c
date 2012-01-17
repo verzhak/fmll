@@ -1,5 +1,5 @@
 
-#include "weight_init.h"
+#include "nn/weight_init.h"
 
 double fmll_weight_init_null()
 {

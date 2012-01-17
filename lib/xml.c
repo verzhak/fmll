@@ -1,5 +1,5 @@
 
-#include "xml.h"
+#include "private/xml.h"
 
 int xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** content_node)
 {

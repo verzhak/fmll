@@ -1,5 +1,5 @@
 
-#include "svm.h"
+#include "nn/svm.h"
 
 fmll_svm * fmll_svm_init(unsigned dim, double (* K)(const double *, const double *, unsigned))
 {

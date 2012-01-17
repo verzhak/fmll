@@ -31,10 +31,10 @@
 #ifdef FMLL_BUILD
 
 	#include "all.h"
-	#include "exception.h"
-	#include "memory.h"
-	#include "weight_init.h"
-	#include "xml.h"
+	#include "private/xml.h"
+	#include "lib/exception.h"
+	#include "lib/memory.h"
+	#include "nn/weight_init.h"
 
 #endif
 

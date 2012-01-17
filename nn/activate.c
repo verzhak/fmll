@@ -1,5 +1,5 @@
 
-#include "activate.h"
+#include "nn/activate.h"
 
 double fmll_sin_a = 1;
 double fmll_sin_b = 1;

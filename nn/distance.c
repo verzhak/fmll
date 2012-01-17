@@ -1,5 +1,5 @@
 
-#include "distance.h"
+#include "nn/distance.h"
 
 double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, unsigned dim)
 {
