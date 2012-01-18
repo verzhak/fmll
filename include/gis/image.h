@@ -24,6 +24,12 @@
 	#include "lib/exception.h"
 	#include "lib/memory.h"
 
+	#include <gdal.h>
+	#include <gdal_alg.h>
+	#include <ogr_api.h>
+	#include <ogr_srs_api.h>
+	#include <cpl_string.h>
+
 #endif
 
 #endif

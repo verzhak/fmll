@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 find_package(OpenMP REQUIRED)
 find_package(PkgConfig REQUIRED)
+find_package(GDAL REQUIRED)
 
 pkg_check_modules(PC_MXML QUIET mxml)
 
@@ -55,7 +56,7 @@ target_link_libraries(fmll_nn_perceptron fmll_nn_base)
 target_link_libraries(fmll_nn_som fmll_nn_base)
 target_link_libraries(fmll_nn_pca fmll_nn_base)
 target_link_libraries(fmll_nn_svm fmll_nn_base)
-target_link_libraries(fmll_gis_base fmll_lib fmll_math)
+target_link_libraries(fmll_gis_base fmll_lib fmll_math ${GDAL_LIBRARY})
 target_link_libraries(fmll_gis_fires fmll_gis_base)
 
 install(TARGETS fmll_lib LIBRARY DESTINATION lib)
@@ -70,8 +71,8 @@ install(TARGETS fmll_gis_fires LIBRARY DESTINATION lib)
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/lib DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/math DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/gis DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/nn DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/gis DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 
 add_subdirectory(gis/plugin/qgis gis/plugin/qgis)
 add_subdirectory(examples examples)
