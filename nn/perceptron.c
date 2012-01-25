@@ -468,7 +468,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		unsigned c_N, p_N, u, iter, t_ind, dim = perc->dim, layers_num = perc->layers_num, num_weight = perc->num_weight, * N = perc->N;
 		unsigned t_num = omp_get_max_threads();
 		double eta, delta, E, prev_E, t_E, norm_E = 2 * vec_num * N[layers_num - 1], * t_y, *** y = perc->y;
-		double * grad = NULL, * eigen = NULL, * d_w = NULL;
+		double * grad = NULL, * eigen_real = NULL, * eigen_complex = NULL, * d_w = NULL;
 		double ** J = NULL, ** JT = NULL, ** I = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = perc->w;
 
 		fmll_throw(eta_mult < 1);
@@ -483,7 +483,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_throw_null((I = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJ = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
 		fmll_throw_null((JJInv = (double **) fmll_alloc(sizeof(double), 2, num_weight, num_weight)));
-		fmll_throw_null((eigen = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((eigen_real = fmll_alloc(sizeof(double), 1, num_weight)));
+		fmll_throw_null((eigen_complex = fmll_alloc(sizeof(double), 1, num_weight)));
 
 		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
@@ -505,27 +506,31 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 			for(t_weight = 0; t_weight < num_weight; t_weight++)
 				d_w[t_weight] = 0;
 
-			/*
-			 * Начальное значение коэффициента eta на первой итерации алгоритма обучения
-			 * должно быть много больше наибольшего собственного значения матрицы Якоби
-			 */
-			if(eigen != NULL)
-			{
-				fmll_throw(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
-				fmll_throw(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
-				fmll_throw(fmll_math_matrix_eigen(JJ, eigen, num_weight));
-
-				eta = eigen[0] * eta_mult;
-
-				fmll_free(eigen);
-				eigen = NULL;
-			}
-			else
+			if(iter)
 				/*
 				 * На последующих итерациях алгоритма обучения начальное значение коэффициента eta
 				 * устанавливается в eta / eta_coef, где eta_coef > 1
 				 */
 				eta /= eta_coef;
+			else
+			{
+				/*
+				 * Начальное значение коэффициента eta на первой итерации алгоритма обучения
+				 * должно быть много больше наибольшего собственного значения матрицы Якоби
+				 */
+
+				fmll_throw(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
+				fmll_throw(fmll_math_matrix_eigen(JJ, eigen_real, eigen_complex, num_weight, 1E-15));
+
+				eta = 100 * (eigen_real[0] * eigen_real[0] + eigen_complex[0] * eigen_complex[0]) * eta_mult;
+
+				fmll_free(eigen_real);
+				fmll_free(eigen_complex);
+
+				eigen_real = NULL;
+				eigen_complex = NULL;
+			}
 
 			/* До тех пор, пока ошибка не уменьшится, повторять */
 			do
@@ -557,7 +562,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 				fmll_throw(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
 				fmll_throw(fmll_math_matrix_init_main_diag(I, eta, num_weight, num_weight));
 				fmll_throw(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
-				fmll_throw(fmll_math_matrix_sum(I, JJ, JJ, num_weight, num_weight));
+				fmll_throw(fmll_math_matrix_sum(1, I, 1, JJ, JJ, num_weight, num_weight));
 
 				/* Вычисление обратной матрицы для матрицы JJ */
 				fmll_throw(fmll_math_matrix_inv(JJ, JJInv, num_weight));
@@ -630,7 +635,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_free(I);
 		fmll_free(JJ);
 		fmll_free(JJInv);
-		fmll_free(eigen);
+		fmll_free(eigen_real);
+		fmll_free(eigen_complex);
 
 	return ret;
 }

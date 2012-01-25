@@ -67,6 +67,41 @@ int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, un
 
 	\brief TODO.
 
+	\param F - TODO;
+	\param T - TODO;
+	\param rows - TODO;
+	\param cols - TODO.
+
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Копирование матрицы.
+
+	\param F - исходная матрица;
+	\param T - результирующая матрица;
+	\param rows - количество строк в матрицах F и T;
+	\param cols - количество столбцов в матрицах F и T.
+
+	\return
+
+		- 0 - в случае успешного выполнения операции;
+		- <> 0 - в случае неудачного завершения выполнения операции.
+
+\endlang
+
+*/
+int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols);
+
+/*!
+
+\en
+
+	\brief TODO.
+
 	\param M - TODO;
 	\param R - TODO;
 	\param rows - TODO;
@@ -102,11 +137,52 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 
 	\brief TODO.
 
+	\param M - TODO;
+	\param rows - TODO;
+	\param cols - TODO.
+
+	\return
+
+		- >= 0 - TODO;
+		- < 0 - TODO.
+
+\ru
+
+	\brief Эвклидова норма матрицы.
+
+	\param M - матрица;
+	\param rows - количество строк в матрице M;
+	\param cols - количество столбцов в матрице M.
+
+	\return
+
+		- >= 0 - норма матрицы;
+		- < 0 - в случае неудачного завершения расчета нормы.
+
+\endlang
+
+*/
+double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
+
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param alpha_1 - TODO;
 	\param M1 - TODO;
+	\param alpha_2 - TODO;
 	\param M2 - TODO;
 	\param R - TODO;
 	\param rows - TODO;
 	\param cols - TODO.
+
+\f[
+
+	sum = \alpha_1 M_1 + \alpha_2 M_2
+
+\f]
 
 	\return
 
@@ -115,13 +191,21 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 
 \ru
 
-	\brief Суммирование матриц.
+	\brief Суммирование матриц с домножением обоих слагаемых на вещественное число.
 
+	\param alpha_1 - множитель для первого слагаемого;
 	\param M1 - матрица - первое слагаемое;
+	\param alpha_2 - множитель для второго слагаемого;
 	\param M2 - матрица - второе слагаемое;
 	\param R - матрица, в которой будет сохранена сумма матриц;
 	\param rows - количество строк в каждой из матриц;
 	\param cols - количество столбцов в каждой из матриц.
+
+\f[
+
+	sum = \alpha_1 M_1 + \alpha_2 M_2
+
+\f]
 
 	\return
 
@@ -131,7 +215,7 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 \endlang
 
 */
-int fmll_math_matrix_sum(double ** M1, double ** M2, double ** R, unsigned rows, unsigned cols);
+int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double ** M2, double ** R, unsigned rows, unsigned cols);
 
 /*!
 
@@ -237,6 +321,8 @@ int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned r
 	\param rows_M1 - количество строк в матрицах M1 и R;
 	\param cols_M1 - количество столбцов в матрице M1 и количество строк в матрице M2;
 	\param cols_M2 - количество столбцов в матрицах M2 и R.
+
+	Матрицы M1 и M2 не должны пересекаться с матрицой R.
 
 	Таким образом, матрица M1 имеет размер rows_M1 строк на cols_M1 столбцов, матрица M2 имеет размер cols_M1 строк на cols_M2 столбцов и матрица R имеет размер rows_M1 строк на cols_M2 столбцов.
 
@@ -448,8 +534,10 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 	\brief TODO.
 
 	\param M - TODO;
-	\param eigen - TODO;
+	\param H - TODO;
 	\param rows - TODO.
+
+	TODO
 
 	\return
 
@@ -458,11 +546,128 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 
 \ru
 
-	\brief Расчет собственных чисел матрицы.
+	\brief Хессенбергова форма матрицы.
 
-	\param M - матрица;
-	\param eigen - вектор, в котором будут сохранены собственные числа матрицы в порядке их убывания;
-	\param rows - количество строк в матрице M, количество компонент в векторе eigen.
+	\param M - исходная квадратная матрица;
+	\param H - матрица, в которую будет сохранена Хессенбергова форма исходной матрицы;
+	\param rows - количество строк и столбцов в матрицах M и H.
+
+	Матрицы M и H суть есть квадратные матрицы с размером стороны равным rows.
+
+	\return
+
+		- 0 - в случае успешного выполнения операции;
+		- <> 0 - в случае неудачного завершения выполнения операции.
+
+\endlang
+
+*/
+int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
+
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param M - TODO;
+	\param S - TODO;
+	\param rows - TODO;
+	\param precision - TODO.
+
+	TODO
+
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Форма Шура.
+
+	\param M - исходная квадратная матрица;
+	\param S - матрица, в которую будет сохранена форма Шура исходной матрицы;
+	\param rows - количество строк и столбцов в матрицах M и S;
+	\param precision - точность вычисления формы (алгоритм будет остановлен, как только наибольшее по модулю произведение соседних поддиагональных элементов станет меньше по модулю указанной точности; \f$precision \ge 0\f$).
+
+	Матрицы M и S суть есть квадратные матрицы с размером стороны равным rows.
+
+	\return
+
+		- 0 - в случае успешного выполнения операции;
+		- <> 0 - в случае неудачного завершения выполнения операции.
+
+\endlang
+
+*/
+int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precision);
+
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param M - TODO;
+	\param Q - TODO;
+	\param R - TODO;
+	\param rows - TODO;
+	\param cols - TODO.
+
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief QR - разложение матрицы.
+
+	\param M - исходная матрица;
+	\param Q - квадратная матрица, в которую будет сохранена Q - матрица разложения (ортогональная матрица разложения);
+	\param R - матрица, в которую будет сохранена R - матрица разложения (верхнетреугольная матрица разложения);
+	\param rows - количество строк в матрицах M, Q и R, количество столбцов в матрице Q;
+	\param cols - количество столбцов в матрицах M и R.
+
+	\return
+
+		- 0 - в случае успешного выполнения операции;
+		- <> 0 - в случае неудачного завершения выполнения операции.
+
+\endlang
+
+*/
+int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, unsigned cols);
+
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param M - TODO;
+	\param eigen_real - TODO;
+	\param eigen_complex - TODO;
+	\param rows - TODO;
+	\param precision_shur - TODO.
+
+	TODO.
+
+	\return
+
+		- 0 - TODO;
+		- <> 0 - TODO.
+
+\ru
+
+	\brief Собственные числа матрицы.
+
+	\param M - исходная матрица;
+	\param eigen_real - вектор, в котором будут сохранены действительные части собственных чисел матрицы в порядке убывания модулей собственных чисел;
+	\param eigen_complex - вектор, в котором будут сохранены мнимые части собственных чисел матрицы в порядке убывания модулей собственных чисел (значение данного параметра может быть равно NULL);
+	\param rows - количество строк в матрице M, количество компонент в векторах eigen_real и eigen_complex;
+	\param precision_shur - точность расчета матрицы Шура в процессе вычисления собственных чисел (\f$precision\_shur \ge 0\f$).
 
 	Матрица M суть есть квадратная матрица с размером стороны равным rows.
 
@@ -474,7 +679,7 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_eigen(double ** M, double * eigen, unsigned rows);
+int fmll_math_matrix_eigen(double ** M, double * eigen_real, double * eigen_complex, unsigned rows, double precision_shur);
 
 #endif
 
