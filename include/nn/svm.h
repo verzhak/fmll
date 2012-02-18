@@ -94,6 +94,11 @@ typedef struct t_fmll_svm
 
 // ############################################################################ 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -439,6 +444,10 @@ int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d,
 */
 int fmll_svm_teach_smo_selector_fan_chen_lin(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
 		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################
 

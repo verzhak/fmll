@@ -47,7 +47,7 @@
 if((condition))\
 {\
 	fprintf(stderr, "[Исключение] Файл %s, строка %d\n", __FILE__, __LINE__);\
-	throw 1;
+	throw 1;\
 };
 
 #else

@@ -24,6 +24,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -152,7 +157,11 @@ double fmll_weight_init_random_0_001();
 \endlang
 
 */
-double fmll_weight_init_random_m05_05();
+double fmll_weight_init_random_m0_1_0_1();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

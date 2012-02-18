@@ -65,6 +65,11 @@ typedef struct t_fmll_svm_net
 
 // ############################################################################ 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -324,6 +329,10 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C, double * tau,
 		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
 		unsigned * max_iter, double * epsilon);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################
 

@@ -1,18 +1,40 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+#
+# Кросскомпиляция для Windows в Linux с помощью MinGW: cmake -DWindows=1 ..
+#
+# Для генерации lib - файлов, необходимых для связывания с библиотекой проектов, разрабатываемых в Visual Studio,
+# после сборки dll'ок необходимо выполнить скрипт ../dll/create_lib.sh (вызывать данный скрипт можно только (!) из каталога build)
+#
+
+if(Windows)
+
+	set(CMAKE_C_COMPILER i486-mingw32-gcc)
+	set(CMAKE_CXX_COMPILER i486-mingw32-g++)
+	set(CMAKE_RC_COMPILER i486-mingw32-windres)
+	set(CMAKE_FIND_ROOT_PATH /usr/i486-mingw32) # Только для ArchLinux
+	set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+	set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+	set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_FIND_ROOT_PATH})
+
+endif()
+
 find_package(OpenMP REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(PC_MXML QUIET mxml)
 
 string(REPLACE ";" " " PC_MXML_CFLAGS " ${PC_MXML_CFLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Wall -pipe -fPIC" CACHE string "" FORCE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Wall -pipe" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
 
+	#
 	# Цель по умолчанию - Debug
 	# Для оптимизированной цели: cmake -DCMAKE_BUILD_TYPE=Release ..
+	#
 
 	set(CMAKE_BUILD_TYPE Debug)
 
@@ -27,7 +49,6 @@ endif()
 add_definitions(-DFMLL_BUILD)
 include_directories(include ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(include/private/all.h.in all.h)
-configure_file(fmll.pc.in fmll.pc)
 
 set(fmll_lib_sources lib/memory.c lib/xml.c)
 set(fmll_math_sources math/matrix.c)
@@ -53,6 +74,18 @@ target_link_libraries(fmll_nn_som fmll_nn_base)
 target_link_libraries(fmll_nn_pca fmll_nn_base)
 target_link_libraries(fmll_nn_svm fmll_nn_base)
 
+if(Windows)
+
+	set_target_properties(fmll_lib PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_math PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_nn_base PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_nn_perceptron PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_nn_som PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_nn_pca PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_nn_svm PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+
+endif()
+
 install(TARGETS fmll_lib LIBRARY DESTINATION lib)
 install(TARGETS fmll_math LIBRARY DESTINATION lib)
 install(TARGETS fmll_nn_base LIBRARY DESTINATION lib)
@@ -66,7 +99,12 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/lib DESTINATION include/fm
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/math DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/nn DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fmll.pc DESTINATION lib/pkgconfig)
+if(NOT Windows)
 
-add_subdirectory(examples examples)
+	configure_file(fmll.pc.in fmll.pc)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fmll.pc DESTINATION lib/pkgconfig)
+
+	add_subdirectory(examples examples)
+
+endif()
 

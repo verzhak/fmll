@@ -129,6 +129,11 @@ extern double fmll_tanh_a;
 */
 extern double fmll_tanh_b;
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -308,6 +313,10 @@ double fmll_line(double x);
 
 */
 double fmll_d_line(double x);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

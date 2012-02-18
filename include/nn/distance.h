@@ -24,6 +24,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -158,6 +163,10 @@ double fmll_distance_manhattan(const double * vec_1, const double * vec_2, unsig
 
 */
 double fmll_distance_chebyshev(const double * vec_1, const double * vec_2, unsigned dim);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

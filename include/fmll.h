@@ -46,7 +46,13 @@
 
 */
 
-#include <stdbool.h>
+#ifndef __cplusplus
+
+	// C
+
+	#include <stdbool.h>
+
+#endif
 
 #ifdef FMLL_BUILD
 

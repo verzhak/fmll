@@ -25,6 +25,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -76,6 +81,10 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 */
 void fmll_free(void * mem);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

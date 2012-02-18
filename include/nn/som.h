@@ -88,6 +88,11 @@ typedef struct t_fmll_som
 
 // ############################################################################
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -516,6 +521,10 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 */
 int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
 		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned), unsigned max_win, unsigned penalty);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################
 

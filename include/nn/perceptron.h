@@ -92,6 +92,11 @@ typedef struct t_fmll_perceptron
 
 // ############################################################################
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -437,6 +442,10 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 */
 int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
 		unsigned max_iter, double coef_E, double E_thres, double d_E_thres);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################
 

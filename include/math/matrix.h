@@ -26,6 +26,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -680,6 +685,10 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 */
 int fmll_math_matrix_eigen(double ** M, double * eigen_real, double * eigen_complex, unsigned rows, double precision_shur);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

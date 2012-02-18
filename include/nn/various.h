@@ -26,6 +26,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -91,6 +96,10 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 
 */
 int fmll_centering(double ** vec, unsigned vec_num, unsigned dim);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

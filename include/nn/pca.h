@@ -86,6 +86,11 @@ typedef struct t_fmll_pca
 
 // ############################################################################ 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -275,6 +280,10 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 
 */
 int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d, double * eigen);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################ 
 

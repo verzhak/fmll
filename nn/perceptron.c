@@ -724,8 +724,8 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 				if(first_run)
 				{
 					/* Первая итерация алгоритма - инициализация массива eta[] */
-					eta[0] = drand48() - 0.5;
-					eta[2] = drand48() + 0.5 + 0.0000000001;
+					eta[0] = 0; // TODO drand48() - 0.5;
+					eta[2] = 0; // TODO drand48() + 0.5 + 0.0000000001;
 					eta[1] = (eta[0] + eta[2]) / 2;
 
 					first_run = false;

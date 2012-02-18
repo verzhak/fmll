@@ -26,6 +26,11 @@
 
 // ############################################################################ 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -551,6 +556,10 @@ double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 
 */
 double fmll_kernel_intersection(const double * v1, const double * v2, unsigned dim);
+
+#ifdef __cplusplus
+}
+#endif
 
 // ############################################################################ 
 

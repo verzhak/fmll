@@ -24,6 +24,11 @@
 
 #endif
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*!
 
 \en
@@ -276,6 +281,10 @@ double fmll_timing_next_beta_step_plus_0_0001(double beta);
 
 */
 double fmll_timing_next_beta_step_plus_0_00001(double beta);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
