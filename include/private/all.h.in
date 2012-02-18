@@ -3,14 +3,31 @@
 
 #define FMLL_ALL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <omp.h>
+#ifdef __cplusplus
+
+	// Плагины к QGIS
+
+	#include <cstdio>
+	#include <string>
+	#include <dirent.h>
+
+	using namespace std;
+
+#else
+
+	// Библиотека
+
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <stdbool.h>
+	#include <stdarg.h>
+	#include <string.h>
+	#include <math.h>
+	#include <float.h>
+	#include <omp.h>
+
+#endif
+
 #include <mxml.h>
 
 #cmakedefine FMLL_DEBUG

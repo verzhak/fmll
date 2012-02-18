@@ -18,6 +18,69 @@
 #ifndef FMLL_EXCEPTION_H
 #define FMLL_EXCEPTION_H
 
+#ifdef __cplusplus
+
+	// C++
+
+/*!
+
+\def fmll_throw
+
+\en
+
+	\brief TODO.
+
+	\param condition - TODO.
+
+\ru
+
+	\brief Условное возбуждение исключения.
+
+	\param condition - условие, по истинности которого будет возбуждено исключение.
+
+\endlang
+
+*/
+#ifdef FMLL_DEBUG
+
+	#define fmll_throw(condition) \
+if((condition))\
+{\
+	fprintf(stderr, "[Исключение] Файл %s, строка %d\n", __FILE__, __LINE__);\
+	throw 1;
+};
+
+#else
+
+	#define fmll_throw(condition) \
+if((condition)) \
+	throw 1;
+
+#endif
+
+/*!
+
+\en
+
+	\brief TODO.
+
+	\param pointer - TODO.
+
+\ru
+
+	\brief Возбуждение исключения в случае, если указатель равен NULL.
+
+	\param pointer - проверяемый указатель.
+
+\endlang
+
+*/
+#define fmll_throw_null(pointer) fmll_throw((pointer) == NULL)
+
+#else
+
+	// C
+
 /*!
 
 \en
@@ -134,6 +197,8 @@ if((condition)) \
 
 */
 #define fmll_throw_null(pointer) fmll_throw((pointer) == NULL)
+
+#endif
 
 #endif
 

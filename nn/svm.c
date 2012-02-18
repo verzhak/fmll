@@ -391,9 +391,8 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 				v++;
 			}
 
-		b = 0;
-
-		for(u = 0; u < vec_num; u++)
+		// Рекомендация по рассчету b - в "Лекции по методу опорных векторов" К.В. Воронцов (страница 4)
+		for(u = 0, b = 0; u < vec_num; u++)
 			if(lambda[u] > 1E-10)
 			{
 				for(v = 0; v < num; v++)

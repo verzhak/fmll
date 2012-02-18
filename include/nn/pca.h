@@ -56,7 +56,7 @@
 typedef struct t_fmll_pca
 {
 
-	/*! \en TODO. \ru Весы синапсов нейронов. \endlang */
+	/*! \en TODO. \ru Веса синапсов нейронов. \endlang */
 	double ** w;
 
 	/*! \en TODO. \ru Вектор выходных значений. \endlang */

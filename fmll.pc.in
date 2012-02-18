@@ -1,0 +1,10 @@
+
+libdir = @CMAKE_INSTALL_PREFIX@/lib
+includedir = @CMAKE_INSTALL_PREFIX@/include
+
+Name: FMLL
+Description: Four of Meaningless Letters Library
+Version: 1.0
+Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lfmll_lib -lfmll_math -lfmll_nn_base -lfmll_nn_perceptron -lfmll_nn_som -lfmll_nn_pca -lfmll_nn_svm
+Cflags: -I@CMAKE_INSTALL_PREFIX@/include -Wall
+

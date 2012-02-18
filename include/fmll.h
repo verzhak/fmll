@@ -64,8 +64,6 @@
 	#include <nn/pca.h>
 	#include <nn/svm.h>
 	#include <nn/svm_net.h>
-	#include <gis/image.h>
-	#include <gis/fires.h>
 
 #else
 
@@ -83,8 +81,6 @@
 	#include <fmll/nn/pca.h>
 	#include <fmll/nn/svm.h>
 	#include <fmll/nn/svm_net.h>
-	#include <fmll/gis/image.h>
-	#include <fmll/gis/fires.h>
 
 #endif
 
