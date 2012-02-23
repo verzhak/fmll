@@ -1,0 +1,38 @@
+
+LIBRARY libfmll_nn_svm.dll
+
+EXPORTS
+
+	fmll_kernel_intersection
+	fmll_kernel_polynomial_homogeneous_1
+	fmll_kernel_polynomial_homogeneous_2
+	fmll_kernel_polynomial_homogeneous_3
+	fmll_kernel_polynomial_homogeneous_4
+	fmll_kernel_polynomial_inhomogeneous_1
+	fmll_kernel_polynomial_inhomogeneous_2
+	fmll_kernel_polynomial_inhomogeneous_3
+	fmll_kernel_polynomial_inhomogeneous_4
+	fmll_kernel_radial
+	fmll_kernel_radial_sigma DATA
+	fmll_kernel_tanh
+	fmll_kernel_tanh_a DATA
+	fmll_kernel_tanh_b DATA
+	fmll_svm_destroy
+	fmll_svm_init
+	fmll_svm_load
+	fmll_svm_load_main
+	fmll_svm_net_destroy
+	fmll_svm_net_init
+	fmll_svm_net_load
+	fmll_svm_net_run
+	fmll_svm_net_save
+	fmll_svm_net_teach_smo
+	fmll_svm_net_test
+	fmll_svm_run
+	fmll_svm_save
+	fmll_svm_save_main
+	fmll_svm_teach_smo
+	fmll_svm_teach_smo_selector_fan_chen_lin
+	fmll_svm_teach_smo_selector_keerthi
+	fmll_svm_test
+

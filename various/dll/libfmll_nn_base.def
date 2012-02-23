@@ -1,0 +1,43 @@
+
+LIBRARY libfmll_nn_base.dll
+
+EXPORTS
+
+	fmll_centering
+	fmll_d_line
+	fmll_d_sigmoid
+	fmll_d_sin
+	fmll_d_tanh
+	fmll_distance_chebyshev
+	fmll_distance_euclid
+	fmll_distance_manhattan
+	fmll_distance_scalar
+	fmll_distance_square_euclid
+	fmll_line
+	fmll_normalization
+	fmll_sigmoid
+	fmll_sigmoid_a DATA
+	fmll_sin
+	fmll_sin_a DATA
+	fmll_sin_b DATA
+	fmll_tanh
+	fmll_tanh_a DATA
+	fmll_tanh_b DATA
+	fmll_timing_next_beta_step_0
+	fmll_timing_next_beta_step_minus_0_00001
+	fmll_timing_next_beta_step_minus_0_0001
+	fmll_timing_next_beta_step_minus_0_001
+	fmll_timing_next_beta_step_minus_0_01
+	fmll_timing_next_beta_step_minus_0_1
+	fmll_timing_next_beta_step_plus_0_00001
+	fmll_timing_next_beta_step_plus_0_0001
+	fmll_timing_next_beta_step_plus_0_001
+	fmll_timing_next_beta_step_plus_0_01
+	fmll_timing_next_beta_step_plus_0_1
+	fmll_weight_init_0_5
+	fmll_weight_init_null
+	fmll_weight_init_random_0_001
+	fmll_weight_init_random_0_01
+	fmll_weight_init_random_0_1
+	fmll_weight_init_random_m0_1_0_1
+

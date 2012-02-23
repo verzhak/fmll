@@ -1,0 +1,8 @@
+
+LIBRARY libfmll_lib.dll
+
+EXPORTS
+
+	fmll_alloc
+	fmll_free
+

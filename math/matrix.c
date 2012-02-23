@@ -193,10 +193,10 @@ int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, uns
 
 int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows)
 {
-	fmll_try;
+	int ret = 0;
+	double ** L, ** LI, ** U, ** UI, ** P;
 
-		int ret = 0;
-		double ** L, ** LI, ** U, ** UI, ** P;
+	fmll_try;
 
 		L = LI = U = UI = P = NULL;
 
@@ -269,11 +269,11 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows)
 
 int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows)
 {
-	fmll_try;
+	int ret = 0;
+	unsigned v, u, t, rows_u_1, to_u = rows - 2;
+	double coef, norm_w, * w = NULL, ** Z = NULL, ** T = NULL;
 
-		int ret = 0;
-		unsigned v, u, t, rows_u_1, to_u = rows - 2;
-		double coef, norm_w, * w = NULL, ** Z = NULL, ** T = NULL;
+	fmll_try;
 
 		fmll_throw((rows < 2));
 
@@ -326,11 +326,11 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows)
 
 int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precision)
 {
-	fmll_try;
+	int ret = 0;
+	unsigned u, rows_2 = rows - 2;
+	double d, cur_prec, ** H = NULL, ** Q = NULL, ** R = NULL;
 
-		int ret = 0;
-		unsigned u, rows_2 = rows - 2;
-		double d, cur_prec, ** H = NULL, ** Q = NULL, ** R = NULL;
+	fmll_try;
 
 		fmll_throw((rows < 2));
 		fmll_throw((precision < 0));
@@ -372,11 +372,11 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 
 int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, unsigned cols)
 {
-	fmll_try;
+	int ret = 0;
+	unsigned v, u, t, rows_u;
+	double norm_w, coef, * w = NULL, ** Z = NULL, ** tZ = NULL, ** tQ = NULL, ** tR = NULL;
 
-		int ret = 0;
-		unsigned v, u, t, rows_u;
-		double norm_w, coef, * w = NULL, ** Z = NULL, ** tZ = NULL, ** tQ = NULL, ** tR = NULL;
+	fmll_try;
 
 		fmll_throw_null((w = fmll_alloc(sizeof(double), 1, rows)));
 		fmll_throw_null((Z = fmll_alloc(sizeof(double), 2, rows, rows)));
@@ -387,8 +387,8 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 		for(u = 0, rows_u = rows; u < cols && rows_u > 1; u++, rows_u--)
 		{
-			// ############################################################################ 
-			// Обнуление поддиагональных элементов u-го столбца
+			/* ---------------------------------------------------------------------------- */
+			/* Обнуление поддиагональных элементов u-го столбца */
 
 			for(v = 0; v < rows_u; v++)
 				w[v] = R[v + u][u];
@@ -408,14 +408,14 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 						Z[v][t] -= coef * w[v - u] * w[t - u];
 			}
 
-			// ############################################################################ 
-			// Итерация расчета матрицы R
+			/* ---------------------------------------------------------------------------- */
+			/* Итерация расчета матрицы R */
 
 			fmll_throw(fmll_math_matrix_copy(R, tR, rows, cols));
 			fmll_throw(fmll_math_matrix_mult(Z, tR, R, rows, rows, cols));
 
-			// ############################################################################ 
-			// Итерация расчета матрицы Q
+			/* ---------------------------------------------------------------------------- */
+			/* Итерация расчета матрицы Q */
 
 			if(u)
 			{
@@ -444,12 +444,12 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 int fmll_math_matrix_eigen(double ** M, double * eigen_real, double * eigen_complex, unsigned rows, double precision_shur)
 {
+	int ret = 0;
+	unsigned u = 0, rows_1 = rows - 1;
+	double s, ** S = NULL;
+		
 	fmll_try;
 
-		int ret = 0;
-		unsigned u = 0, rows_1 = rows - 1;
-		double s, ** S = NULL;
-		
 		fmll_throw((rows < 1));
 
 		fmll_throw_null((S = fmll_alloc(sizeof(double), 2, rows, rows)));

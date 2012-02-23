@@ -3,12 +3,14 @@
 
 void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 {
+	void * ret = NULL;
+	va_list val;
+	unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, * dim_size = NULL;
+	void * pof, * dof, * t_dof;
+
 	fmll_try;
 
-		void * ret = NULL;
-		va_list val;
-		unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, dim_size[dim];
-		void * pof, * dof, * t_dof;
+		fmll_throw_null(dim_size = calloc(dim, sizeof(unsigned)));
 
 		va_start(val, dim);
 
@@ -26,10 +28,10 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 		{
 			num *= dim_size[u];
 			pof = dof;
-			t_dof = (dof += num * sizeof(void *));
+			t_dof = (dof += num * sizeof(void *)); /* TODO Арифметические действия с void * */
 			step = (u == dim_2 ? type_size : sizeof(void *)) * dim_size[u + 1];
 
-			for(v = 0; v < num; v++, pof += sizeof(void *), t_dof += step)
+			for(v = 0; v < num; v++, pof += sizeof(void *), t_dof += step) /* TODO Арифметические действия с void * */
 				memcpy(pof, & t_dof, sizeof(void *));
 		}
 
@@ -39,6 +41,8 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 		ret = NULL;
 
 	fmll_finally;
+
+		fmll_free(dim_size);
 
 	return ret;
 }

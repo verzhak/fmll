@@ -1,0 +1,25 @@
+
+#ifndef FMLL_ALL_H
+
+#define FMLL_ALL_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <string.h>
+#include <math.h>
+#include <float.h>
+#include <omp.h>
+#include <mxml.h>
+
+#cmakedefine FMLL_DEBUG
+
+#define LIB_NAME "FMLL - Four of Meaningless Letters Library (ANN Library)"
+#define ID "0x251C816"
+#define VERSION "0.05"
+#define CURRENT_VERSION 2
+#define MIN_VERSION 1
+
+#endif
+
