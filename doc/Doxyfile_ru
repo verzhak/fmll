@@ -1,0 +1,8 @@
+
+@INCLUDE = Doxyfile_main
+
+PROJECT_BRIEF          = "Нейросетевая (и не только) библиотека для языка программирования C++"
+OUTPUT_DIRECTORY       = ru
+OUTPUT_LANGUAGE        = Russian
+ENABLED_SECTIONS       = russian
+

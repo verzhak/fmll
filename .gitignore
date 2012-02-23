@@ -5,7 +5,8 @@ books
 test
 build
 gmon.out
-doc
+doc/en
+doc/ru
 trash
 disk
 *~
@@ -15,7 +16,6 @@ todo
 release
 *.eps
 release
-doc
 *.png
 *.tif
 *.tiff
