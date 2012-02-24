@@ -80,7 +80,7 @@ int xml_set_double(mxml_node_t * parent_node, const char * node_name, double val
 
 	BEGIN_XML_SET("double");
 
-	sprintf(tvalue, "%.17lf", value); /* TODO C89 не поддерживает формат %.17lf */
+	sprintf(tvalue, "%.17lf", value); /* \\TODO C89 не поддерживает формат %.17lf */
 	mxmlNewText(node, 0, tvalue);
 
 	END_XML_SET;

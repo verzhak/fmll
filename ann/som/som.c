@@ -1,7 +1,7 @@
 
 #include "ann/som/som.h"
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index)
 {
@@ -18,7 +18,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	return gamma_mult * exp(- d * d / gamma_add);
 }
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(),
 		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
@@ -336,5 +336,5 @@ int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num,
 	return ret;
 }
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 

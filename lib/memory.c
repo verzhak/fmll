@@ -6,7 +6,7 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 	void * ret = NULL;
 	va_list val;
 	unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, * dim_size = NULL;
-	void * pof, * dof, * t_dof;
+	char * pof, * dof, * t_dof; /* Стандартом гарантируется, что sizeof(char) == 1 */
 
 	fmll_try;
 
@@ -28,11 +28,11 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 		{
 			num *= dim_size[u];
 			pof = dof;
-			t_dof = (dof += num * sizeof(void *)); /* TODO Арифметические действия с void * */
-			step = (u == dim_2 ? type_size : sizeof(void *)) * dim_size[u + 1];
+			t_dof = (dof += num * sizeof(char *));
+			step = (u == dim_2 ? type_size : sizeof(char *)) * dim_size[u + 1];
 
-			for(v = 0; v < num; v++, pof += sizeof(void *), t_dof += step) /* TODO Арифметические действия с void * */
-				memcpy(pof, & t_dof, sizeof(void *));
+			for(v = 0; v < num; v++, pof += sizeof(char *), t_dof += step)
+				memcpy(pof, & t_dof, sizeof(char *));
 		}
 
 	fmll_catch;

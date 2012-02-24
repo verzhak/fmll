@@ -24,7 +24,7 @@
 
 #endif
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 #ifdef __cplusplus
 extern "C"
@@ -195,7 +195,7 @@ double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2
 */
 double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2, unsigned dim);
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 /*!
 
@@ -361,7 +361,7 @@ double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * 
 */
 double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * v2, unsigned dim);
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 /*!
 
@@ -427,7 +427,7 @@ extern double fmll_kernel_radial_sigma;
 */
 double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 /*!
 
@@ -514,7 +514,7 @@ extern double fmll_kernel_tanh_b;
 */
 double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 /*!
 
@@ -561,7 +561,7 @@ double fmll_kernel_intersection(const double * v1, const double * v2, unsigned d
 }
 #endif
 
-/* ----------------------------------------------------------------------------  */
+/* ############################################################################  */
 
 #endif
 
