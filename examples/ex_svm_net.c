@@ -15,37 +15,95 @@ int main(const int argc, const char * argv[])
 
 int image_analysis(const int argc, const char * argv[])
 {
+#define NUM 5
+
+	char fname[4096];
+	unsigned u, v, q, vec_per_class, vec_num, cl_ind, yes, res, vec_class[5], max_iter[NUM], * d, * test_d;
+	double C[NUM], tau[NUM], epsilon[NUM], ** x, ** test_x;
+	double (* K[NUM])(const double *, const double *, unsigned);
+	int (* selector[NUM])(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **);
+	IplImage * src_teach, * src_test, * dst;
+	CvSize size_teach, size_test;
+	CvScalar pixel, pixel_white, pixel_red, pixel_green, pixel_blue, pixel_violet, pixel_black, pixel_yellow;
+	fmll_svm_net * svm_net;
+
+	/* ############################################################################ */
+
 	if(argc != 3)
 	{
-		fprintf(stderr, "\nДемонстрация нейронной сети, состоящей из нескольких машин опорных векторов.\n\nЗапуск программы:\n\nex_svm DIR IMAGE_1\n\nГде:\n\n\tDIR - путь и имя каталога, в котором должны содержаться следующие файлы:\n\n\t\tteach.png - файл с изображением, на основании которого будет составлена обучающая выборка;\n\t\ttest.png - файл с изображением, классификация пикселей которого будет выполнена;\n\n\tIMAGE_1 - путь и имя файла, в который будет сохранено результирующее изображение (белый, красный, зеленый, синий, фиолетовый  - правильно классифицированные пиксели; черный - неправильно классифицированные пиксели; желтый - неклассифицированные пиксели).\n\n");
+		/* У C90 "проблемы" с максимальной длиной строки кода */
+
+		printf("\nДемонстрация нейронной сети, состоящей из нескольких машин опорных векторов.\n\n");
+		printf("Запуск программы:\n\n");
+		printf("ex_svm_net DIR IMAGE_1\n\n");
+		printf("Где:\n\n");
+		printf("\tDIR - путь и имя каталога, в котором должны содержаться следующие файлы:\n\n");
+		printf("\t\tteach.png - файл с изображением, на основании которого будет составлена обучающая выборка;\n");
+		printf("\t\ttest.png - файл с изображением, классификация пикселей которого будет выполнена;\n\n");
+		printf("\tIMAGE_1 - путь и имя файла, в который будет сохранено результирующее изображение ");
+		printf("(белый, красный, зеленый, синий, фиолетовый - правильно классифицированные пиксели; черный - неправильно классифицированные пиксели; ");
+		printf("желтый - неклассифицированные пиксели).\n\n");
 
 		return -1;
 	}
 
-	char fname[4096];
-	unsigned u, v, q, vec_per_class, vec_num, cl_ind, yes, res, vec_class[5] = {0, 0, 0, 0, 0};
+	/* ############################################################################ */
 
-	// ############################################################################ 
+	memset(vec_class, 0, sizeof(unsigned) * 5);
 
 	sprintf(fname, "%s/teach.png", argv[1]);
-	IplImage * src_teach = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
+	src_teach = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
+	size_teach = cvGetSize(src_teach);
 
 	sprintf(fname, "%s/test.png", argv[1]);
-	IplImage * src_test = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
+	src_test = cvLoadImage(fname, CV_LOAD_IMAGE_COLOR);
+	size_test = cvGetSize(src_test);
 
-	CvSize size_teach = cvGetSize(src_teach), size_test = cvGetSize(src_test);
-	IplImage * dst = cvCreateImage(size_test, IPL_DEPTH_8U, 3);
-	CvScalar pixel, pixel_white = {.val = {255, 255, 255, 0}}, pixel_red = {.val = {0, 0, 255, 0}};
-	CvScalar pixel_green = {.val = {0, 255, 0, 0}}, pixel_blue = {.val = {255, 0, 0, 0}};
-	CvScalar pixel_violet = {.val = {255, 0, 255, 0}}, pixel_black = {.val = {0, 0, 0, 0}}, pixel_yellow = {.val = {0, 255, 255, 0}};
+	dst = cvCreateImage(size_test, IPL_DEPTH_8U, 3);
+
+	pixel_white.val[0] = 255;
+	pixel_white.val[1] = 255;
+	pixel_white.val[2] = 255;
+	pixel_white.val[3] = 0;
+
+	pixel_red.val[0] = 0;
+	pixel_red.val[1] = 0;
+	pixel_red.val[2] = 255;
+	pixel_red.val[3] = 0;
+
+	pixel_green.val[0] = 0;
+	pixel_green.val[1] = 255;
+	pixel_green.val[2] = 0;
+	pixel_green.val[3] = 0;
+
+	pixel_black.val[0] = 0;
+	pixel_black.val[1] = 0;
+	pixel_black.val[2] = 0;
+	pixel_black.val[3] = 0;
+
+	pixel_blue.val[0] = 255;
+	pixel_blue.val[1] = 0;
+	pixel_blue.val[2] = 0;
+	pixel_blue.val[3] = 0;
+	
+	pixel_violet.val[0] = 255;
+	pixel_violet.val[1] = 0;
+	pixel_violet.val[2] = 255;
+	pixel_violet.val[3] = 0;
+
+	pixel_yellow.val[0] = 0;
+	pixel_yellow.val[1] = 255;
+	pixel_yellow.val[2] = 255;
+	pixel_yellow.val[3] = 0;
 
 	vec_per_class = size_teach.height * size_teach.width / 2000;
 	vec_num = vec_per_class * 5;
 
-	double ** x = (double **) fmll_alloc(sizeof(double), 2, vec_num, 3);
-	unsigned * d = fmll_alloc(sizeof(unsigned), 1, vec_num);
-	double ** test_x = (double **) fmll_alloc(sizeof(double), 2, size_test.height * size_test.width, 3);
-	unsigned * test_d = fmll_alloc(sizeof(unsigned), 1, size_test.height * size_test.width);
+	x = (double **) fmll_alloc(sizeof(double), 2, vec_num, 3);
+	d = fmll_alloc(sizeof(unsigned), 1, vec_num);
+
+	test_x = (double **) fmll_alloc(sizeof(double), 2, size_test.height * size_test.width, 3);
+	test_d = fmll_alloc(sizeof(unsigned), 1, size_test.height * size_test.width);
 
 	for(v = 0, q = 0; v < size_teach.height; v++)
 		for(u = 0; u < size_teach.width; u++)
@@ -99,23 +157,16 @@ int image_analysis(const int argc, const char * argv[])
 	cvReleaseImage(& src_teach);
 	cvReleaseImage(& src_test);
 
-	// ############################################################################ 
+	/* ############################################################################ */
 	
-	unsigned num = 5;
-	double (* K[num])(const double *, const double *, unsigned);
-
-	for(u = 0; u < num; u++)
+	for(u = 0; u < NUM; u++)
 		K[u] = & fmll_kernel_radial;
 
-	fmll_svm_net * svm_net = fmll_svm_net_init(num, 3, K);
+	svm_net = fmll_svm_net_init(NUM, 3, K);
 
-	// ############################################################################ 
+	/* ############################################################################ */
 
-	unsigned max_iter[num];
-	double C[num], tau[num], epsilon[num];
-	int (* selector[num])(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **);
-
-	for(u = 0; u < num; u++)
+	for(u = 0; u < NUM; u++)
 	{
 		C[u] = 1;
 		tau[u] = 1E-12;
@@ -124,17 +175,17 @@ int image_analysis(const int argc, const char * argv[])
 		epsilon[u] = 1E-3;
 	}
 
-	// omp_set_num_threads(1);
+	/* omp_set_num_threads(1); */
 	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, tau, selector, max_iter, epsilon);
 
-	// ############################################################################ 
+	/* ############################################################################ */
 
 	yes = fmll_svm_net_test(svm_net, test_x, test_d, size_test.width * size_test.height, NULL, NULL);
 	
-	printf("\nВерно классифицированных пикселей: %u из %u (%.7lf %%)\n",
+	printf("\nВерно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
 
-	// ############################################################################ 
+	/* ############################################################################ */
 
 	fmll_svm_net_save(svm_net, "svm_net");
 	fmll_svm_net_destroy(svm_net);
@@ -189,10 +240,10 @@ int image_analysis(const int argc, const char * argv[])
 				cvSet2D(dst, v, u, pixel_black);
 		}
 
-	printf("Верно классифицированных пикселей: %u из %u (%.7lf %%)\n",
+	printf("Верно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
 
-	// ############################################################################ 
+	/* ############################################################################ */
 	
 	fmll_free(x);
 	fmll_free(d);

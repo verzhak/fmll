@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #include <opencv2/core/core_c.h>
 #include <opencv2/highgui/highgui_c.h>
@@ -9,23 +10,50 @@
 
 int main(const int argc, const char * argv[])
 {
+	const unsigned base = 256 * 256 * 256;
+	unsigned u, v, q, cur, index_winner, N[4];
+	double ** vec;
+	IplImage * src, * dst_1, * dst_2, * dst_3, * dst_4;
+	CvSize size;
+	CvScalar pixel;
+	fmll_random * rnd;
+	fmll_som * som;
+
+	/* ############################################################################ */
+
 	if(argc != 6)
 	{
-		printf("\nДемонстрация самоорганизующейся карты.\n\nЗапуск программы:\n\nex_som IMAGE_SRC IMAGE_1 IMAGE_2 IMAGE_3 IMAGE_4\n\nГде:\n\n\tIMAGE_SRC - путь и имя файла с исходным изображением;\n\tIMAGE_1 - путь и имя файла, в который будет сохранено первое результирующее изображение;\n\tIMAGE_2 - путь и имя файла, в который будет сохранено второе результирующее изображение;\n\tIMAGE_3 - путь и имя файла, в который будет сохранено третье результирующее изображение;\n\tIMAGE_4 - путь и имя файла, в который будет сохранено четвертое результирующее изображение.\n\n");
+		/* У C90 "проблемы" с максимальной длиной строки кода */
 
-		return 0;
+		printf("\nДемонстрация самоорганизующейся карты.\n\n");
+		printf("Запуск программы:\n\n");
+		printf("ex_som IMAGE_SRC IMAGE_1 IMAGE_2 IMAGE_3 IMAGE_4\n\n");
+		printf("Где:\n\n");
+		printf("\tIMAGE_SRC - путь и имя файла с исходным изображением;\n");
+		printf("\tIMAGE_1 - путь и имя файла, в который будет сохранено первое результирующее изображение;\n");
+		printf("\tIMAGE_2 - путь и имя файла, в который будет сохранено второе результирующее изображение;\n");
+		printf("\tIMAGE_3 - путь и имя файла, в который будет сохранено третье результирующее изображение;\n");
+		printf("\tIMAGE_4 - путь и имя файла, в который будет сохранено четвертое результирующее изображение.\n\n");
+
+		return -1;
 	}
 
-	IplImage * src = cvLoadImage(argv[1], CV_LOAD_IMAGE_COLOR);
-	CvSize size = cvGetSize(src);
-	IplImage * dst_1 = cvCreateImage(size, IPL_DEPTH_8U, 3);
-	IplImage * dst_2 = cvCreateImage(size, IPL_DEPTH_8U, 3);
-	IplImage * dst_3 = cvCreateImage(size, IPL_DEPTH_8U, 3);
-	IplImage * dst_4 = cvCreateImage(size, IPL_DEPTH_8U, 3);
-	CvScalar pixel;
-	unsigned u, v, q;
-	unsigned index_winner, N[4] = {5, 5, 5, 5};
-	double ** vec = (double **) fmll_alloc(sizeof(double), 2, size.height * size.width, 3);
+	/* ############################################################################ */
+
+	src = cvLoadImage(argv[1], CV_LOAD_IMAGE_COLOR);
+	size = cvGetSize(src);
+
+	dst_1 = cvCreateImage(size, IPL_DEPTH_8U, 3);
+	dst_2 = cvCreateImage(size, IPL_DEPTH_8U, 3);
+	dst_3 = cvCreateImage(size, IPL_DEPTH_8U, 3);
+	dst_4 = cvCreateImage(size, IPL_DEPTH_8U, 3);
+
+	N[0] = 5;
+	N[1] = 5;
+	N[2] = 5;
+	N[3] = 5;
+
+	vec = (double **) fmll_alloc(sizeof(double), 2, size.height * size.width, 3);
 
 	for(v = 0, q = 0; v < size.height; v++)
 		for(u = 0; u < size.width; u++, q++)
@@ -37,14 +65,13 @@ int main(const int argc, const char * argv[])
 			vec[q][2] = pixel.val[2];
 		}
 
-	fmll_som * som = fmll_som_init(N, 4, 3, & fmll_weight_init_null, & fmll_distance_euclid, & fmll_distance_euclid);
+	rnd = fmll_random_init(FMLL_RANDOM_MT19937, time(NULL));
+	som = fmll_som_init(N, 4, 3, & fmll_weight_init_null, rnd, & fmll_distance_euclid, & fmll_distance_euclid);
 
 	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
 
 	for(v = 0; v < som->num; v++)
-		printf("%u = [%lf, %lf, %lf]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);
-
-	unsigned cur, base = 256 * 256 * 256;
+		printf("%u = [%f, %f, %f]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);
 
 	for(v = 0, q = 0; v < size.height; v++)
 		for(u = 0; u < size.width; u++, q++)
@@ -100,6 +127,7 @@ int main(const int argc, const char * argv[])
 
 	fmll_free(vec);
 	fmll_som_destroy(som);
+	fmll_random_destroy(rnd);
 
 	cvSaveImage(argv[2], dst_1, NULL);
 	cvSaveImage(argv[3], dst_2, NULL);

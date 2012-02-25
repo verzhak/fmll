@@ -27,72 +27,104 @@
 
 #endif
 
-/*!
+#ifdef __cplusplus__
 
-\en
+	// C++
 
-	\brief TODO
+	#define fmll_throw \
+		throw;
 
-	TODO
+#else
 
-\ru
+	/* C */
 
-	\brief Начало блока перехвата исключений
+	/*!
 
-\endlang
+	\en
 
-*/
-#define fmll_try ;
+		\brief TODO
 
-/*!
+		TODO
 
-\en
+	\ru
 
-	\brief TODO
+		\brief Начало блока перехвата исключений
 
-\ru
+	\endlang
 
-	\brief Начало блока обработки исключений
+	*/
+	#define fmll_try ;
 
-\endlang
+	/*!
 
-*/
-#define fmll_catch \
-	goto finally_label; catch_label:
+	\en
 
-/*!
+		\brief TODO
 
-\en
+	\ru
 
-	\brief TODO
-	
-\ru
+		\brief Начало блока обработки исключений
 
-	\brief Начало блока гарантированного выполнения по выходу из функции
+	\endlang
 
-\endlang
+	*/
+	#define fmll_catch \
+		goto finally_label; catch_label:
 
-*/
-#define fmll_finally \
-	finally_label:
+	/*!
 
-/*!
+	\en
 
-\en
+		\brief TODO
+		
+	\ru
 
-	\brief TODO
+		\brief Начало блока гарантированного выполнения по выходу из функции
 
-\ru
+	\endlang
 
-	\brief Переход на finally - блок
+	*/
+	#define fmll_finally \
+		finally_label:
 
-\endlang
+	/*!
 
-\sa fmll_finally
+	\en
 
-*/
-#define fmll_to_finally \
-	goto finally_label;
+		\brief TODO
+
+	\ru
+
+		\brief Переход на finally - блок
+
+	\endlang
+
+	\sa fmll_finally
+
+	*/
+	#define fmll_to_finally \
+		goto finally_label;
+
+	/*!
+
+	\en
+
+		\brief TODO
+
+	\ru
+
+		\brief Возбуждение исключения
+
+	\endlang
+
+	*/
+	#define fmll_throw \
+	{\
+		fmll_print_error("[Exception] File %s, line %d\n", __FILE__, __LINE__);\
+		goto catch_label;\
+	};
+
+#endif
 
 /*!
 
@@ -104,8 +136,6 @@
 
 \ru
 
-	\todo Оформление в doxygen
-
 	\brief Условное возбуждение исключения
 
 	\param condition - условие, по истинности которого будет возбуждено исключение.
@@ -113,12 +143,11 @@
 \endlang
 
 */
-#define fmll_throw(condition) \
+#define fmll_throw_if(condition) \
+{\
 	if((condition))\
-	{\
-		fmll_print_error("[Exception] File %s, line %d\n", __FILE__, __LINE__);\
-		goto catch_label;\
-	};
+		fmll_throw;\
+}
 
 /*!
 
@@ -138,7 +167,7 @@
 
 */
 #define fmll_throw_null(pointer) \
-	fmll_throw((pointer) == NULL)
+	fmll_throw_if((pointer) == NULL)
 
 #endif
 

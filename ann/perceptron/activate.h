@@ -31,7 +31,7 @@
 
 	\brief TODO
 
-	TODO.
+	TODO: 1.
 
 \ru
 
@@ -52,7 +52,7 @@ extern double fmll_sin_a;
 
 	\brief TODO
 
-	TODO.
+	TODO: 1.
 
 \ru
 
@@ -73,7 +73,7 @@ extern double fmll_sin_b;
 
 	\brief TODO
 
-	TODO.
+	TODO: 1.
 
 \ru
 
@@ -94,7 +94,7 @@ extern double fmll_sigmoid_a;
 
 	\brief TODO
 
-	TODO.
+	TODO: 1.
 
 \ru
 
@@ -115,7 +115,7 @@ extern double fmll_tanh_a;
 
 	\brief TODO
 
-	TODO.
+	TODO: 1.
 
 \ru
 

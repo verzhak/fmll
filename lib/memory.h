@@ -63,6 +63,46 @@ extern "C"
 */
 void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
+#ifdef FMLL_OS_WINDOWS
+
+	#define fmll_alloc_a(size) \
+		_alloca(size)
+
+#else
+
+	/*!
+
+	\en
+
+		\brief TODO
+
+		\param size - TODO.
+
+		\return
+
+			- TODO;
+			- NULL - TODO.
+
+	\ru
+
+		\brief Выделение памяти, динамически освобождающейся по выходу из блока (функции)
+
+		\param size - размер (в байтах) выделяемого участка памяти.
+
+		\return
+
+			- указатель на выделенную область памяти в случае успешного ее выделения;
+			- NULL - в случае, если память выделить не удалось.
+
+	\endlang
+
+	*/
+	#define fmll_alloc_a(size) \
+		alloca(size)
+
+#endif
+
+
 /*!
 
 \en

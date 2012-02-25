@@ -19,6 +19,8 @@ if(Windows)
 	set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_FIND_ROOT_PATH})
 
+	add_definitions(-DFMLL_OS_WINDOWS)
+
 endif()
 
 find_package(OpenMP REQUIRED)
@@ -114,7 +116,7 @@ if(NOT Windows)
 	configure_file(fmll.pc.in fmll.pc)
 	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fmll.pc DESTINATION lib/pkgconfig)
 
-	# TODO add_subdirectory(examples examples)
+	add_subdirectory(examples examples)
 
 endif()
 

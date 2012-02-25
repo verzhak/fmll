@@ -3,14 +3,14 @@
 
 void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 {
-	void * ret = NULL;
+	void * mem = NULL;
 	va_list val;
-	unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, * dim_size = NULL;
+	unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, * dim_size;
 	char * pof, * dof, * t_dof; /* Стандартом гарантируется, что sizeof(char) == 1 */
 
 	fmll_try;
 
-		fmll_throw_null(dim_size = calloc(dim, sizeof(unsigned)));
+		fmll_throw_null(dim_size = fmll_alloc_a(dim * sizeof(unsigned)));
 
 		va_start(val, dim);
 
@@ -22,34 +22,52 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 
 		va_end(val);
 
-		fmll_throw_null((ret = malloc(size)));
+		#ifdef FMLL_OS_WINDOWS
 
-		for(u = 0, num = 1, dof = ret; u < dim_1; u++)
+			/* TODO */
+
+		#else
+
+			mem = malloc(size);
+
+		#endif
+
+		fmll_throw_null(mem);
+
+		for(u = 0, num = 1, dof = mem; u < dim_1; u++)
 		{
 			num *= dim_size[u];
 			pof = dof;
-			t_dof = (dof += num * sizeof(char *));
-			step = (u == dim_2 ? type_size : sizeof(char *)) * dim_size[u + 1];
+			t_dof = (dof += num * sizeof(void *));
+			step = (u == dim_2 ? type_size : sizeof(void *)) * dim_size[u + 1];
 
-			for(v = 0; v < num; v++, pof += sizeof(char *), t_dof += step)
-				memcpy(pof, & t_dof, sizeof(char *));
+			for(v = 0; v < num; v++, pof += sizeof(void *), t_dof += step)
+				memcpy(pof, & t_dof, sizeof(void *));
 		}
 
 	fmll_catch;
 
-		fmll_free(ret);
-		ret = NULL;
+		fmll_free(mem);
+		mem = NULL;
 
 	fmll_finally;
 
-		fmll_free(dim_size);
-
-	return ret;
+	return mem;
 }
 
 void fmll_free(void * mem)
 {
 	if(mem != NULL)
-		free(mem);
+	{
+		#ifdef FMLL_OS_WINDOWS
+
+			/* TODO */
+
+		#else
+
+			free(mem);
+
+		#endif
+	}
 }
 

@@ -103,13 +103,13 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed)
 		{
 			case FMLL_RANDOM_MT19937:
 			{
-				fmll_throw(mt19937_init(rnd, seed));
+				fmll_throw_if(mt19937_init(rnd, seed));
 
 				break;
 			}
 
 			default:
-				fmll_throw(1);
+				fmll_throw;
 		};
 
 	fmll_catch;
@@ -138,7 +138,7 @@ fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo)
 			}
 
 			default:
-				fmll_throw(1);
+				fmll_throw;
 		};
 
 	fmll_catch;
@@ -178,7 +178,7 @@ unsigned fmll_random_unsigned(fmll_random * rnd)
 			}
 
 			default:
-				fmll_throw(1);
+				fmll_throw;
 		};
 
 	fmll_catch;
@@ -206,7 +206,7 @@ double fmll_random_double_0_1(fmll_random * rnd)
 			}
 
 			default:
-				fmll_throw(1);
+				fmll_throw;
 		};
 
 	fmll_catch;

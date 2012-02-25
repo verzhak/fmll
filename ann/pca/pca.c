@@ -9,14 +9,14 @@ fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)(fmll
 
 	fmll_try;
 
-		fmll_throw((! dim || ! num || dim < num));
-		fmll_throw_null((pca = fmll_alloc(sizeof(fmll_pca), 1, 1)));
+		fmll_throw_if(! dim || ! num || dim < num);
+		fmll_throw_null(pca = fmll_alloc(sizeof(fmll_pca), 1, 1));
 
 		pca->w = NULL;
 		pca->y = NULL;
 
-		fmll_throw_null((w = pca->w = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
-		fmll_throw_null((pca->y = (double *) fmll_alloc(sizeof(double), 1, num)));
+		fmll_throw_null(w = pca->w = (double **) fmll_alloc(sizeof(double), 2, num, dim));
+		fmll_throw_null(pca->y = (double *) fmll_alloc(sizeof(double), 1, num));
 
 		pca->dim = dim;
 		pca->num = num;
@@ -55,25 +55,25 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
 		
 	fmll_try;
 
-		fmll_throw((xml_create(TYPE_PCA, & main_node, & content_node)));
-		fmll_throw((xml_set_int(content_node, "dim", dim)));
-		fmll_throw((xml_set_int(content_node, "num", num)));
+		fmll_throw_if(xml_create(TYPE_PCA, & main_node, & content_node));
+		fmll_throw_if(xml_set_int(content_node, "dim", dim));
+		fmll_throw_if(xml_set_int(content_node, "num", num));
 
-		fmll_throw_null((node = mxmlNewElement(content_node, "W")));
+		fmll_throw_null(node = mxmlNewElement(content_node, "W"));
 
 		for(u = 0; u < num; u++)
 		{
 			sprintf(node_name, "w_%u", u);
-			fmll_throw_null((sub_node = mxmlNewElement(node, node_name)));
+			fmll_throw_null(sub_node = mxmlNewElement(node, node_name));
 
 			for(v = 0; v < dim; v++)
 			{
 				sprintf(node_name, "%u", v);
-				fmll_throw((xml_set_double(sub_node, node_name, w[u][v])));
+				fmll_throw_if(xml_set_double(sub_node, node_name, w[u][v]));
 			}
 		}
 
-		fmll_throw((xml_save(fname_prefix, main_node)));
+		fmll_throw_if(xml_save(fname_prefix, main_node));
 
 	fmll_catch;
 
@@ -97,18 +97,18 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 
 	fmll_try;
 
-		fmll_throw((xml_load(fname_prefix, TYPE_PCA, & main_node, & content_node)));
+		fmll_throw_if(xml_load(fname_prefix, TYPE_PCA, & main_node, & content_node));
 
-		fmll_throw((xml_get_int(content_node, "dim", & dim)));
-		fmll_throw((xml_get_int(content_node, "num", & num)));
+		fmll_throw_if(xml_get_int(content_node, "dim", & dim));
+		fmll_throw_if(xml_get_int(content_node, "num", & num));
 
-		fmll_throw_null((pca = fmll_pca_init(dim, num, & fmll_weight_init_null, NULL)));
-		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
+		fmll_throw_null(pca = fmll_pca_init(dim, num, & fmll_weight_init_null, NULL));
+		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(u = 0, w = pca->w; u < num; u++)
 		{
 			sprintf(node_name, "w_%u", u);
-			fmll_throw_null((sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST)));
+			fmll_throw_null(sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST));
 
 			for(v = 0, sub_sub_node = mxmlFindElement(sub_node, sub_node, NULL, NULL, NULL, MXML_DESCEND_FIRST); v < dim; v++)
 			{
@@ -153,12 +153,12 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 
 	fmll_try;
 
-		fmll_throw(beta <= 0);
-		fmll_throw(beta >= 1);
-		fmll_throw_null((fcrow = (double *) fmll_alloc(sizeof(double), 1, dim)));
-		fmll_throw_null((pw = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
-		fmll_throw_null((tril_yy = (double **) fmll_alloc(sizeof(double), 2, num, num)));
-		fmll_throw_null((tril_yy_w = (double **) fmll_alloc(sizeof(double), 2, num, dim)));
+		fmll_throw_if(beta <= 0);
+		fmll_throw_if(beta >= 1);
+		fmll_throw_null(fcrow = (double *) fmll_alloc(sizeof(double), 1, dim));
+		fmll_throw_null(pw = (double **) fmll_alloc(sizeof(double), 2, num, dim));
+		fmll_throw_null(tril_yy = (double **) fmll_alloc(sizeof(double), 2, num, num));
+		fmll_throw_null(tril_yy_w = (double **) fmll_alloc(sizeof(double), 2, num, dim));
 
 		do
 		{

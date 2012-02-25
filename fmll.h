@@ -20,34 +20,79 @@
 
 /*! 
 
+\mainpage FMLL - Four of Meaningless Letters Library
+
 \en
 
-	\mainpage My Personal Index Page
-
-	TODO
-
-	\section intro_sec Introduction
-
-	This is the introduction.
-
-	\section install_sec Installation
-
-	\subsection step1 Step 1: Opening the box
- 
-	etc...
+	TODO.
 
 \ru
 
-	\mainpage My Personal Index Page
+	Нейросетевая (и не только) библиотека для языков программирования C / C++
 
-	TODO
+	\section system_req Системные требования
+
+	-# Компиляторы для языков программирования C и C++ из состава GNU Compiler Collection (для ОС GNU / Linux) или MinGW (для кросскомпиляции для ОС семейства Windows)
+	-# Утилиты автоматизации сборки CMake и GNU Make
+	-# Система документации исходного кода Doxygen
+
+	\section build Сборка библиотеки
+
+		\subsection build_gnu_linux ОС GNU / Linux
+
+		-# cd build
+		-#
+			- cmake .. - для сборки отладочной версии
+			- cmake -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
+		-# make
+		-# make install
+
+		\subsection build_windows ОС семейства Windows
+
+		(кросскомпиляция с помощью коллекции компиляторов MinGW)
+
+		-# cd build
+		-#
+			- cmake -DWindows=1 .. - для сборки отладочной версии
+			- cmake -DWindows=1 -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
+		-# make
+
+	\section build_doc_gen Генерирование документации
+
+		-# cd doc
+		-#
+			- doxygen Doxyfile_en - для сборки англоязычной документации
+			- doxygen Doxyfile_ru - для сборки русскоязычной документации
+
+	\section build_link Подключение
+
+		-# #include <fmll/fmll.h>
+		-# pkg-config --cflags fmll
+		-# pkg-config --libs fmll
+
+	\section Автор и способы связи
+
+	Автор: Акинин М.В. (магистрант Рязанского Государственного Радиотехнического Университета, кафедра ЭВМ)
+
+	E-mail: verzhak@gmail.com
+
+	Дата: 26.02.2012
 
 \endlang
 
 */
 
-/* TODO убрать (C89 не поддерживает - заменить) */
-#include <stdbool.h>
+#if defined (__WIN32__)
+
+	typedef int bool;
+	#define false 0
+	#define true 1
+
+#else
+
+	#include <stdbool.h>
+
+#endif
 
 #ifdef FMLL_BUILD
 

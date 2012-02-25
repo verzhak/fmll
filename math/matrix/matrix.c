@@ -139,56 +139,65 @@ int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows)
 
 int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, unsigned rows)
 {
+	int ret = 0;
 	unsigned v, u, tv, max_ind;
 	double max, temp;
 
-	for(v = 0; v < rows; v++)
-		for(u = 0; u < rows; u++)
-		{
-			U[v][u] = M[v][u];
-			L[v][u] = 0;
-			P[v][u] = v == u ? 1 : 0;
-		}
+	fmll_try;
 
-	for(v = 0; v < rows; v++)
-	{
-		for(tv = v + 1, max_ind = v, max = fabs(U[v][v]); tv < rows; tv++)
-			if(fabs(U[tv][v]) > max)
-			{
-				max_ind = tv;
-				max = fabs(U[tv][v]);
-			}
-
-		if(max < 0.00000001)
-			return -1;
-		else if(max_ind != v)
+		for(v = 0; v < rows; v++)
 			for(u = 0; u < rows; u++)
 			{
-				temp = U[max_ind][u];
-				U[max_ind][u] = U[v][u];
-				U[v][u] = temp;
-
-				temp = L[max_ind][u];
-				L[max_ind][u] = L[v][u];
-				L[v][u] = temp;
-
-				temp = P[max_ind][u];
-				P[max_ind][u] = P[v][u];
-				P[v][u] = temp;
+				U[v][u] = M[v][u];
+				L[v][u] = 0;
+				P[v][u] = v == u ? 1 : 0;
 			}
 
-		L[v][v] = 1;
-
-		for(tv = v + 1; tv < rows; tv++)
+		for(v = 0; v < rows; v++)
 		{
-			L[tv][v] = U[tv][v] / U[v][v];
+			for(tv = v + 1, max_ind = v, max = fabs(U[v][v]); tv < rows; tv++)
+				if(fabs(U[tv][v]) > max)
+				{
+					max_ind = tv;
+					max = fabs(U[tv][v]);
+				}
 
-			for(u = v; u < rows; u++)
-				U[tv][u] -= L[tv][v] * U[v][u];
+			fmll_throw_if(max < 0.00000001);
+
+			if(max_ind != v)
+				for(u = 0; u < rows; u++)
+				{
+					temp = U[max_ind][u];
+					U[max_ind][u] = U[v][u];
+					U[v][u] = temp;
+
+					temp = L[max_ind][u];
+					L[max_ind][u] = L[v][u];
+					L[v][u] = temp;
+
+					temp = P[max_ind][u];
+					P[max_ind][u] = P[v][u];
+					P[v][u] = temp;
+				}
+
+			L[v][v] = 1;
+
+			for(tv = v + 1; tv < rows; tv++)
+			{
+				L[tv][v] = U[tv][v] / U[v][v];
+
+				for(u = v; u < rows; u++)
+					U[tv][u] -= L[tv][v] * U[v][u];
+			}
 		}
-	}
 
-	return 0;
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+	return ret;
 }
 
 int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows)
@@ -200,17 +209,17 @@ int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows)
 
 		L = LI = U = UI = P = NULL;
 
-		fmll_throw_null((L = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((LI = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((U = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((UI = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((P = fmll_alloc(sizeof(double), 2, rows, rows)));
+		fmll_throw_null(L = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(LI = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(U = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(UI = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(P = fmll_alloc(sizeof(double), 2, rows, rows));
 
-		fmll_throw(fmll_math_matrix_lup(M, L, U, P, rows));
-		fmll_throw(fmll_math_matrix_inv_low_tr(L, LI, rows));
-		fmll_throw(fmll_math_matrix_inv_high_tr(U, UI, rows));
-		fmll_throw(fmll_math_matrix_mult(UI, LI, L, rows, rows, rows));
-		fmll_throw(fmll_math_matrix_mult(L, P, MI, rows, rows, rows));
+		fmll_throw_if(fmll_math_matrix_lup(M, L, U, P, rows));
+		fmll_throw_if(fmll_math_matrix_inv_low_tr(L, LI, rows));
+		fmll_throw_if(fmll_math_matrix_inv_high_tr(U, UI, rows));
+		fmll_throw_if(fmll_math_matrix_mult(UI, LI, L, rows, rows, rows));
+		fmll_throw_if(fmll_math_matrix_mult(L, P, MI, rows, rows, rows));
 
 	fmll_catch;
 
@@ -275,11 +284,11 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows)
 
 	fmll_try;
 
-		fmll_throw((rows < 2));
+		fmll_throw_if(rows < 2);
 
-		fmll_throw_null((w = fmll_alloc(sizeof(double), 1, rows - 1)));
-		fmll_throw_null((Z = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((T = fmll_alloc(sizeof(double), 2, rows, rows)));
+		fmll_throw_null(w = fmll_alloc(sizeof(double), 1, rows - 1));
+		fmll_throw_null(Z = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(T = fmll_alloc(sizeof(double), 2, rows, rows));
 
 		for(v = 0; v < rows; v++)
 			for(u = 0; u < rows; u++)
@@ -292,22 +301,22 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows)
 			for(v = 0; v < rows_u_1; v++)
 				w[v] = H[v + u + 1][u];
 
-			fmll_throw(((norm_w = fmll_math_matrix_euclid_norm(& w, 1, rows_u_1)) < 0));
+			fmll_throw_if((norm_w = fmll_math_matrix_euclid_norm(& w, 1, rows_u_1)) < 0);
 			w[0] += (w[0] < 0 ? -1 : 1) * norm_w;
-			fmll_throw(((coef = fmll_math_matrix_euclid_norm(& w, 1, rows_u_1)) < 0));
+			fmll_throw_if((coef = fmll_math_matrix_euclid_norm(& w, 1, rows_u_1)) < 0);
 
 			if(coef != 0)
 			{
 				coef = 2 / (coef * coef);
 
-				fmll_throw(fmll_math_matrix_init_main_diag(Z, 1, rows, rows));
+				fmll_throw_if(fmll_math_matrix_init_main_diag(Z, 1, rows, rows));
 
 				for(v = u + 1; v < rows; v++)
 					for(t = u + 1; t < rows; t++)
 						Z[v][t] -= coef * w[v - u - 1] * w[t - u - 1];
 
-				fmll_throw(fmll_math_matrix_mult(H, Z, T, rows, rows, rows));
-				fmll_throw(fmll_math_matrix_mult(Z, T, H, rows, rows, rows));
+				fmll_throw_if(fmll_math_matrix_mult(H, Z, T, rows, rows, rows));
+				fmll_throw_if(fmll_math_matrix_mult(Z, T, H, rows, rows, rows));
 			}
 		}
 
@@ -332,20 +341,19 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 
 	fmll_try;
 
-		fmll_throw((rows < 2));
-		fmll_throw((precision < 0));
+		fmll_throw_if(rows < 2 || precision < 0);
 
-		fmll_throw_null((H = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((Q = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((R = fmll_alloc(sizeof(double), 2, rows, rows)));
+		fmll_throw_null(H = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(Q = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(R = fmll_alloc(sizeof(double), 2, rows, rows));
 
-		fmll_throw(fmll_math_matrix_hessenberg(M, H, rows));
-		fmll_throw(fmll_math_matrix_copy(M, S, rows, rows));
+		fmll_throw_if(fmll_math_matrix_hessenberg(M, H, rows));
+		fmll_throw_if(fmll_math_matrix_copy(M, S, rows, rows));
 
 		do
 		{
-			fmll_throw(fmll_math_matrix_QR(S, Q, R, rows, rows));
-			fmll_throw(fmll_math_matrix_mult(R, Q, S, rows, rows, rows));
+			fmll_throw_if(fmll_math_matrix_QR(S, Q, R, rows, rows));
+			fmll_throw_if(fmll_math_matrix_mult(R, Q, S, rows, rows, rows));
 
 			for(u = 0, cur_prec = 0; u < rows_2; u++)
 			{
@@ -378,12 +386,12 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 	fmll_try;
 
-		fmll_throw_null((w = fmll_alloc(sizeof(double), 1, rows)));
-		fmll_throw_null((Z = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((tZ = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw_null((tR = fmll_alloc(sizeof(double), 2, rows, cols)));
+		fmll_throw_null(w = fmll_alloc(sizeof(double), 1, rows));
+		fmll_throw_null(Z = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(tZ = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_null(tR = fmll_alloc(sizeof(double), 2, rows, cols));
 
-		fmll_throw(fmll_math_matrix_copy(M, R, rows, cols));
+		fmll_throw_if(fmll_math_matrix_copy(M, R, rows, cols));
 
 		for(u = 0, rows_u = rows; u < cols && rows_u > 1; u++, rows_u--)
 		{
@@ -393,15 +401,15 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 			for(v = 0; v < rows_u; v++)
 				w[v] = R[v + u][u];
 
-			fmll_throw(((norm_w = fmll_math_matrix_euclid_norm(& w, 1, rows_u)) < 0));
+			fmll_throw_if((norm_w = fmll_math_matrix_euclid_norm(& w, 1, rows_u)) < 0);
 			w[0] += w[0] < 0 ? - norm_w : norm_w;
-			fmll_throw(((coef = fmll_math_matrix_euclid_norm(& w, 1, rows_u)) < 0));
+			fmll_throw_if((coef = fmll_math_matrix_euclid_norm(& w, 1, rows_u)) < 0);
 
 			if(coef != 0)
 			{
 				coef = 2 / (coef * coef);
 
-				fmll_throw(fmll_math_matrix_init_main_diag(Z, 1, rows, rows));
+				fmll_throw_if(fmll_math_matrix_init_main_diag(Z, 1, rows, rows));
 
 				for(v = u; v < rows; v++)
 					for(t = u; t < rows; t++)
@@ -411,20 +419,20 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 			/* ############################################################################ */
 			/* Итерация расчета матрицы R */
 
-			fmll_throw(fmll_math_matrix_copy(R, tR, rows, cols));
-			fmll_throw(fmll_math_matrix_mult(Z, tR, R, rows, rows, cols));
+			fmll_throw_if(fmll_math_matrix_copy(R, tR, rows, cols));
+			fmll_throw_if(fmll_math_matrix_mult(Z, tR, R, rows, rows, cols));
 
 			/* ############################################################################ */
 			/* Итерация расчета матрицы Q */
 
 			if(u)
 			{
-				fmll_throw(fmll_math_matrix_transpose(Z, tZ, rows, rows));
-				fmll_throw(fmll_math_matrix_copy(Q, Z, rows, rows));
-				fmll_throw(fmll_math_matrix_mult(Z, tZ, Q, rows, rows, rows));
+				fmll_throw_if(fmll_math_matrix_transpose(Z, tZ, rows, rows));
+				fmll_throw_if(fmll_math_matrix_copy(Q, Z, rows, rows));
+				fmll_throw_if(fmll_math_matrix_mult(Z, tZ, Q, rows, rows, rows));
 			}
 			else
-				fmll_throw(fmll_math_matrix_transpose(Z, Q, rows, rows));
+				fmll_throw_if(fmll_math_matrix_transpose(Z, Q, rows, rows));
 		}
 
 	fmll_catch;
@@ -450,10 +458,10 @@ int fmll_math_matrix_eigen(double ** M, double * eigen_real, double * eigen_comp
 		
 	fmll_try;
 
-		fmll_throw((rows < 1));
+		fmll_throw_if(rows < 1);
 
-		fmll_throw_null((S = fmll_alloc(sizeof(double), 2, rows, rows)));
-		fmll_throw(fmll_math_matrix_shur(M, S, rows, precision_shur));
+		fmll_throw_null(S = fmll_alloc(sizeof(double), 2, rows, rows));
+		fmll_throw_if(fmll_math_matrix_shur(M, S, rows, precision_shur));
 
 		while(u < rows)
 		{

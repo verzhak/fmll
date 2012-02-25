@@ -9,15 +9,15 @@ fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const
 
 	fmll_try;
 
-		fmll_throw_null((svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1)));
-		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num)));
+		fmll_throw_null(svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1));
+		fmll_throw_null(svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num));
 		svm_net->num = num;
 
 		for(u = 0; u < num; u++)
 			svm[u] = NULL;
 
 		for(u = 0; u < num; u++)
-			fmll_throw_null((svm[u] = fmll_svm_init(dim, K[u])));
+			fmll_throw_null(svm[u] = fmll_svm_init(dim, K[u]));
 	
 	fmll_catch;
 
@@ -59,18 +59,18 @@ int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix)
 		
 	fmll_try;
 
-		fmll_throw((xml_create(TYPE_SVM_NET, & main_node, & content_node)));
-		fmll_throw((xml_set_int(content_node, "num", num)));
-		fmll_throw_null((node = mxmlNewElement(content_node, "SVM")));
+		fmll_throw_if(xml_create(TYPE_SVM_NET, & main_node, & content_node));
+		fmll_throw_if(xml_set_int(content_node, "num", num));
+		fmll_throw_null(node = mxmlNewElement(content_node, "SVM"));
 
 		for(u = 0; u < num; u++)
 		{
 			sprintf(node_name, "svm_%u", u);
-			fmll_throw_null((sub_node = mxmlNewElement(node, node_name)));
-			fmll_throw((fmll_svm_save_main(svm[u], sub_node)));
+			fmll_throw_null(sub_node = mxmlNewElement(node, node_name));
+			fmll_throw_if(fmll_svm_save_main(svm[u], sub_node));
 		}
 
-		fmll_throw((xml_save(fname_prefix, main_node)));
+		fmll_throw_if(xml_save(fname_prefix, main_node));
 
 	fmll_catch;
 
@@ -94,14 +94,14 @@ fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const 
 
 	fmll_try;
 
-		fmll_throw_null((svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1)));
-		fmll_throw((xml_load(fname_prefix, TYPE_SVM_NET, & main_node, & content_node)));
-		fmll_throw((xml_get_int(content_node, "num", & num)));
+		fmll_throw_null(svm_net = fmll_alloc(sizeof(fmll_svm_net), 1, 1));
+		fmll_throw_if(xml_load(fname_prefix, TYPE_SVM_NET, & main_node, & content_node));
+		fmll_throw_if(xml_get_int(content_node, "num", & num));
 
 		svm_net->num = num;
 
-		fmll_throw_null((svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num)));
-		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "SVM", NULL, NULL, MXML_DESCEND_FIRST)));
+		fmll_throw_null(svm = svm_net->svm = (fmll_svm **) fmll_alloc(sizeof(fmll_svm *), 1, num));
+		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "SVM", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(u = 0; u < num; u++)
 			svm[u] = NULL;
@@ -109,8 +109,8 @@ fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const 
 		for(u = 0; u < num; u++)
 		{
 			sprintf(node_name, "svm_%u", u);
-			fmll_throw_null((sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST)));
-			fmll_throw_null((svm[u] = fmll_svm_load_main(sub_node, K[u])));
+			fmll_throw_null(sub_node = mxmlFindElement(node, node, node_name, NULL, NULL, MXML_DESCEND_FIRST));
+			fmll_throw_null(svm[u] = fmll_svm_load_main(sub_node, K[u]));
 		}
 	
 	fmll_catch;
@@ -166,21 +166,31 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 	bool is_right;
 	int res;
 	unsigned u, yes = 0;
-	double y[svm_net->num]; /* \TODO C89 */
+	double * y;
+	
+	fmll_try;
 
-	for(u = 0; u < vec_num; u++)
-	{
-		if((res = fmll_svm_net_run(svm_net, vec[u], y)) == d[u])
+		fmll_throw_null(y = fmll_alloc_a(sizeof(double) * svm_net->num));
+
+		for(u = 0; u < vec_num; u++)
 		{
-			yes++;
-			is_right = true;
-		}
-		else
-			is_right = false;
+			if((res = fmll_svm_net_run(svm_net, vec[u], y)) == d[u])
+			{
+				yes++;
+				is_right = true;
+			}
+			else
+				is_right = false;
 
-		if(st_func != NULL)
-			(* st_func)(svm_net, vec[u], d[u], res, y, vec_num, is_right, st_param);
-	}
+			if(st_func != NULL)
+				(* st_func)(svm_net, vec[u], d[u], res, y, vec_num, is_right, st_param);
+		}
+
+	fmll_catch;
+
+		yes = 0;
+
+	fmll_finally;
 
 	return yes;
 }
@@ -196,7 +206,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 
 	fmll_try;
 
-		fmll_throw_null((rd = (char **) fmll_alloc(sizeof(char), 2, t_num, vec_num)));
+		fmll_throw_null(rd = (char **) fmll_alloc(sizeof(char), 2, t_num, vec_num));
 
 		#pragma omp parallel private(u, v, t_ind, t_rd) default(shared)
 		{
@@ -213,7 +223,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 						t_rd[v] = -1;
 				}
 
-				fmll_print("\nSupport vector machine: %u from %u (%lf %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
+				fmll_print("\nSupport vector machine: %u from %u (%.5f %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
 
 				fmll_svm_teach_smo(svm[u], vec, t_rd, vec_num, C[u], tau[u], selector[u], max_iter[u], epsilon[u]);
 			}
