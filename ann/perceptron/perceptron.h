@@ -34,7 +34,7 @@
 	#include "private/xml.h"
 	#include "lib/exception.h"
 	#include "lib/memory.h"
-	#include "math/matrix.h"
+	#include "math/matrix/matrix.h"
 	#include "ann/base/weight_init.h"
 
 #endif
@@ -107,6 +107,7 @@ extern "C"
 	\param layers_num - TODO;
 	\param N - TODO;
 	\param weight_init - TODO;
+	\param rnd - TODO (TODO);
 	\param fun - TODO;
 	\param d_fun - TODO.
 
@@ -123,6 +124,7 @@ extern "C"
 	\param layers_num - количество скрытых слоев;
 	\param N - количество нейронов в каждом из скрытых слоев;
 	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init));
 	\param fun - массив функций активации нейронов (своя функция активации для каждого из скрытых слоев);
 	\param d_fun - массив производных функций активации нейронов.
 
@@ -134,8 +136,8 @@ extern "C"
 \endlang
 
 */
-fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N,
-		double (* weight_init)(), double (** fun)(double), double (** d_fun)(double));
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, double (* weight_init)(fmll_random *), fmll_random * rnd,
+		double (** fun)(double), double (** d_fun)(double));
 
 /*!
 
@@ -409,6 +411,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	\param vec - TODO;
 	\param d - TODO;
 	\param vec_num - TODO;
+	\param rnd - TODO;
 	\param max_iter - TODO;
 	\param coef_E - TODO;
 	\param E_thres - TODO;
@@ -427,6 +430,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	\param vec - массив обучающих векторов;
 	\param d - множество эталонных откликов;
 	\param vec_num - количество векторов в массиве обучающих векторов;
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел;
 	\param max_iter - максимальное количество итераций процесса обучения;
 	\param coef_E - множитель, определяющий максимальный размер области поиска оптимального значения параметра \f$\eta\f$, при достижении которого поиск очередного значения параметра \f$\eta\f$ будет завершен, как \f$\eta ~ E\f$, где \f$E\f$ - текущее значение функции ошибки; coef_E может принимать значения из диапазона (0, 1);
 	\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
@@ -440,7 +444,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 \endlang
 
 */
-int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, fmll_random * rnd,
 		unsigned max_iter, double coef_E, double E_thres, double d_E_thres);
 
 #ifdef __cplusplus

@@ -101,7 +101,8 @@ extern "C"
 
 	\param dim - TODO;
 	\param num - TODO;
-	\param weight_init - TODO.
+	\param weight_init - TODO;
+	\param rnd - TODO (TODO).
 
 	TODO: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -116,7 +117,8 @@ extern "C"
 
 	\param dim - размерность исходного векторного пространства;
 	\param num - количество нейронов в PCA-сети (размерность целевого векторного пространства);
-	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов.
+	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init)).
 
 	Должно выполняться условие: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -128,7 +130,7 @@ extern "C"
 \endlang
 
 */
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)());
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)(fmll_random *), fmll_random * rnd);
 
 /*!
 

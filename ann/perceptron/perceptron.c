@@ -135,8 +135,8 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, unsigne
 
 /* ############################################################################ */
 
-fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N,
-		double (* weight_init)(), double (** fun)(double), double (** d_fun)(double))
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, double (* weight_init)(fmll_random *), fmll_random * rnd,
+		double (** fun)(double), double (** d_fun)(double))
 {
 	fmll_perceptron * perc = NULL;
 	double (** t_fun)(double);
@@ -183,7 +183,7 @@ fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const 
 
 			for(v = 0; v < N_u; v++, t++)
 				for(q = 0; q <= prev_num; q++, num_weight++)
-					w[t][q] = (* weight_init)();
+					w[t][q] = (* weight_init)(rnd);
 		}
 
 		perc->dim = dim;
@@ -299,7 +299,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
 		}
 
-		fmll_throw_null((perc = fmll_perceptron_init(dim, layers_num, N, & fmll_weight_init_null, fun, d_fun)));
+		fmll_throw_null((perc = fmll_perceptron_init(dim, layers_num, N, & fmll_weight_init_null, NULL, fun, d_fun)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		for(i = 0, t = 0, c_N = dim, w = perc->w; i < layers_num; i++)
@@ -641,7 +641,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	return ret;
 }
 
-int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, fmll_random * rnd,
 		unsigned max_iter, double coef_E, double E_thres, double d_E_thres)
 {
 	bool first_run;
@@ -724,8 +724,8 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 				if(first_run)
 				{
 					/* Первая итерация алгоритма - инициализация массива eta[] */
-					eta[0] = 0; /* \\TODO drand48() - 0.5 */
-					eta[2] = 0; /* \\TODO drand48() + 0.5 + 0.0000000001 */
+					eta[0] = fmll_random_double_0_1(rnd) - 0.5;
+					eta[2] = fmll_random_double_0_1(rnd) + 0.5 + 0.0000000001;
 					eta[1] = (eta[0] + eta[2]) / 2;
 
 					first_run = false;

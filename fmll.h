@@ -54,11 +54,12 @@
 	#include <lib/exception.h>
 	#include <lib/memory.h>
 	#include <lib/print.h>
-	#include <math/constant.h>
-	#include <math/matrix.h>
-	#include <ann/base/distance.h>
+	#include <math/matrix/matrix.h>
+	#include <math/random/random.h>
+	#include <math/various/constant.h>
+	#include <math/various/distance.h>
+	#include <math/various/various.h>
 	#include <ann/base/timing.h>
-	#include <ann/base/various.h>
 	#include <ann/base/weight_init.h>
 	#include <ann/perceptron/activate.h>
 	#include <ann/perceptron/perceptron.h>
@@ -73,11 +74,12 @@
 	#include <fmll/lib/exception.h>
 	#include <fmll/lib/memory.h>
 	#include <fmll/lib/print.h>
-	#include <fmll/math/constant.h>
-	#include <fmll/math/matrix.h>
-	#include <fmll/ann/base/distance.h>
+	#include <fmll/math/matrix/matrix.h>
+	#include <fmll/math/random/random.h>
+	#include <fmll/math/various/constant.h>
+	#include <fmll/math/various/distance.h>
+	#include <fmll/math/various/various.h>
 	#include <fmll/ann/base/timing.h>
-	#include <fmll/ann/base/various.h>
 	#include <fmll/ann/base/weight_init.h>
 	#include <fmll/ann/perceptron/activate.h>
 	#include <fmll/ann/perceptron/perceptron.h>

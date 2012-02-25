@@ -20,7 +20,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 /* ############################################################################  */
 
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(),
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(fmll_random *), fmll_random * rnd,
 		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
 {
 	int v;
@@ -55,7 +55,7 @@ fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, dou
 		for(u = 0; u < num; u++)
 		{
 			for(v = 0; v < dim; v++)
-				w[u][v] = (* weight_init)();
+				w[u][v] = (* weight_init)(rnd);
 
 			for(v = 0; v < map_dim; v++)
 				coord[u][v] = tN[v];
@@ -169,7 +169,7 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
 		}
 
-		fmll_throw_null((som = fmll_som_init(N, map_dim, dim, & fmll_weight_init_null, distance_w, distance)));
+		fmll_throw_null((som = fmll_som_init(N, map_dim, dim, & fmll_weight_init_null, NULL, distance_w, distance)));
 		fmll_throw_null((node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST)));
 
 		w = som->w;
@@ -239,7 +239,7 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 
 		while(beta < 1.0000001)
 		{
-			fmll_print("\\TODO Самоорганизация нейронной карты: beta == %.7lf\n", beta);
+			fmll_print("Self - organization: beta == %.7lf\n", beta);
 
 			for(u = 0; u < vec_num; u++)
 			{
@@ -289,7 +289,7 @@ int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num,
 
 		while(beta < 1.0000001)
 		{
-			fmll_print("\\TODO Самоорганизация нейронной карты: beta == %.7lf\n", beta);
+			fmll_print("Self - organization: beta == %.7lf\n", beta);
 
 			for(u = 0, min = DBL_MAX; u < vec_num; u++)
 			{

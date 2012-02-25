@@ -207,6 +207,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param map_dim - TODO;
 	\param dim - TODO;
 	\param weight_init - TODO;
+	\param rnd - TODO (TODO);
 	\param distance_w - TODO;
 	\param distance - TODO.
 
@@ -229,6 +230,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param map_dim - размерность нейронной карты;
 	\param dim - размерность классифицируемого векторного пространства;
 	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init));
 	\param distance_w - указатель на функцию, вычисляющую расстояния между нейронами на нейронной карте;
 	\param distance - указатель на функцию, вычисляющую расстояния между векторами в классифицируемом векторном пространстве.
 
@@ -246,8 +248,8 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 \endlang
 
 */
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
-		double (* weight_init)(), double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(fmll_random *), fmll_random * rnd,
+		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
 
 /*!
 

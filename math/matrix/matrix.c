@@ -1,5 +1,5 @@
 
-#include "math/matrix.h"
+#include "math/matrix/matrix.h"
 
 int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, unsigned cols)
 {

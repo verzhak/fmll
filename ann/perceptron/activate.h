@@ -21,7 +21,7 @@
 #ifdef FMLL_BUILD
 
 	#include "all.h"
-	#include "math/constant.h"
+	#include "math/various/constant.h"
 
 #endif
 

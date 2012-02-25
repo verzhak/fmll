@@ -1,5 +1,5 @@
 
-#include "ann/base/various.h"
+#include "math/various/various.h"
 
 int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim)
 {
