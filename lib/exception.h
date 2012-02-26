@@ -27,7 +27,7 @@
 
 #endif
 
-#ifdef __cplusplus__
+#ifdef __cplusplus
 
 	// C++
 

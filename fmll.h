@@ -82,7 +82,7 @@
 
 */
 
-#if defined (__WIN32__)
+#if defined __WIN32__ /* \todo Замена __WIN32__ на что-то, что детектируется Visual Studio */
 
 	typedef int bool;
 	#define false 0

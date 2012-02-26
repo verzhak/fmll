@@ -24,7 +24,7 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...)
 
 		#ifdef FMLL_OS_WINDOWS
 
-			/* TODO */
+			mem = malloc(size); /* TODO */
 
 		#else
 
@@ -61,7 +61,7 @@ void fmll_free(void * mem)
 	{
 		#ifdef FMLL_OS_WINDOWS
 
-			/* TODO */
+			free(mem); /* TODO */
 
 		#else
 
