@@ -32,9 +32,9 @@
 
 	\section system_req Системные требования
 
-	-# Компиляторы для языков программирования C и C++ из состава GNU Compiler Collection (для ОС GNU / Linux) или MinGW (для кросскомпиляции для ОС семейства Windows)
-	-# Утилиты автоматизации сборки CMake и GNU Make
-	-# Система документации исходного кода Doxygen
+	-# компиляторы для языков программирования C и C++ из состава GNU Compiler Collection (для ОС GNU / Linux), MinGW (для кросскомпиляции для ОС семейства Windows) или Visual C++ из состава Visual Studio 2005 (для компиляции для ОС семейства Windows)
+	-# утилиты автоматизации сборки CMake и GNU Make (в случае, если сборка осуществляется с помощью gcc или MinGW)
+	-# система документации исходного кода Doxygen
 
 	\section build Сборка библиотеки
 
@@ -47,7 +47,7 @@
 		-# make
 		-# make install
 
-		\subsection build_windows ОС семейства Windows
+		\subsection build_windows_mingw ОС семейства Windows
 
 		(кросскомпиляция с помощью коллекции компиляторов MinGW)
 
@@ -56,6 +56,14 @@
 			- cmake -DWindows=1 .. - для сборки отладочной версии
 			- cmake -DWindows=1 -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
 		-# make
+
+		\subsection build_windows_visual_studio ОС семейства Windows
+
+		(сборка с помощью IDE Visual Studio 2005)
+
+		-# перейдите в каталог visual_studio
+		-# переместите файлы fmll.* (пять штук) на уровень выше (в корневой каталог проекта)
+		-# соберите проект с помощью Visual C++
 
 	\section build_doc_gen Генерирование документации
 
@@ -66,9 +74,18 @@
 
 	\section build_link Подключение
 
+		\subsection build_link_linux ОС GNU/Linux
+
 		-# #include <fmll/fmll.h>
 		-# pkg-config --cflags fmll
 		-# pkg-config --libs fmll
+
+		\subsection build_link_windows_visual_studio
+
+		-# подключите библиотеку
+		-# #include <fmll/fmll.h>
+		-# заголовочные файлы библиотеки рассортированы по подкаталогам корневого каталога проекта - рекомендуется указывать путь к корневому каталогу проекта в свойствах производного проекта
+		-# подключайте к программе библиотеку mini-xml (каталог mxml; библиотека mini-xml собрана как динамическая библиотека из-за опасения нарушить лицензионное соглашение в случае сборки ее статической версии)
 
 	\section Автор и способы связи
 
@@ -76,7 +93,7 @@
 
 	E-mail: verzhak@gmail.com
 
-	Дата: 26.02.2012
+	Дата: 28.02.2012
 
 \endlang
 
