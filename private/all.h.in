@@ -17,7 +17,9 @@
 
 	#include <malloc.h>
 	
-	typedef int bool;
+	#pragma warning (disable: 4018)
+
+	#define bool int
 	#define false 0
 	#define true 1
 

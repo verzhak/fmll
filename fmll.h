@@ -82,13 +82,7 @@
 
 */
 
-#if defined __WIN32__ /* \todo Замена __WIN32__ на что-то, что детектируется Visual Studio */
-
-	typedef int bool;
-	#define false 0
-	#define true 1
-
-#else
+#ifndef __cplusplus
 
 	#include <stdbool.h>
 
@@ -96,23 +90,23 @@
 
 #ifdef FMLL_BUILD
 
-	#include <lib/exception.h>
-	#include <lib/memory.h>
-	#include <lib/print.h>
-	#include <math/matrix/matrix.h>
-	#include <math/random/random.h>
-	#include <math/various/constant.h>
-	#include <math/various/distance.h>
-	#include <math/various/various.h>
-	#include <ann/base/timing.h>
-	#include <ann/base/weight_init.h>
-	#include <ann/perceptron/activate.h>
-	#include <ann/perceptron/perceptron.h>
-	#include <ann/som/som.h>
-	#include <ann/pca/pca.h>
-	#include <ann/svm/kernel.h>
-	#include <ann/svm/svm.h>
-	#include <ann/svm/svm_net.h>
+	#include "lib/exception.h"
+	#include "lib/memory.h"
+	#include "lib/print.h"
+	#include "math/matrix/matrix.h"
+	#include "math/random/random.h"
+	#include "math/various/constant.h"
+	#include "math/various/distance.h"
+	#include "math/various/various.h"
+	#include "ann/base/timing.h"
+	#include "ann/base/weight_init.h"
+	#include "ann/perceptron/activate.h"
+	#include "ann/perceptron/perceptron.h"
+	#include "ann/som/som.h"
+	#include "ann/pca/pca.h"
+	#include "ann/svm/kernel.h"
+	#include "ann/svm/svm.h"
+	#include "ann/svm/svm_net.h"
 
 #else
 

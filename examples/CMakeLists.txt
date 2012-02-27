@@ -18,10 +18,12 @@ add_executable(ex_som ex_som.c)
 add_executable(ex_pca ex_pca.c)
 add_executable(ex_svm ex_svm.c)
 add_executable(ex_svm_net ex_svm_net.c)
+add_executable(ex_random ex_random.c)
 
 target_link_libraries(ex_perceptron fmll_ann_perceptron ${OpenCV_LIBS})
 target_link_libraries(ex_som fmll_ann_som fmll_math_various ${OpenCV_LIBS})
 target_link_libraries(ex_pca fmll_ann_pca fmll_math_various ${PC_GSL_LIBRARIES})
 target_link_libraries(ex_svm fmll_ann_svm ${OpenCV_LIBS})
 target_link_libraries(ex_svm_net fmll_ann_svm ${OpenCV_LIBS})
+target_link_libraries(ex_random fmll_math_random)
 

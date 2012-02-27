@@ -48,7 +48,10 @@ typedef enum t_fmll_random_algorithm
 {
 
 	/*! \en TODO \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
-	FMLL_RANDOM_MT19937
+	FMLL_RANDOM_MT19937,
+
+	/*! \en TODO \ru Линейный конгруэнтный метод \endlang */
+	FMLL_RANDOM_LCG
 
 } fmll_random_algorithm;
 
