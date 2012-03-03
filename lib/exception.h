@@ -32,7 +32,7 @@
 	// C++
 
 	#define fmll_throw \
-		throw;
+		throw 1;
 
 #else
 
