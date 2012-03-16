@@ -153,8 +153,7 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 
 	fmll_try;
 
-		fmll_throw_if(beta <= 0);
-		fmll_throw_if(beta >= 1);
+		fmll_throw_if(beta < 0 || beta > 1);
 		fmll_throw_null(fcrow = (double *) fmll_alloc(sizeof(double), 1, dim));
 		fmll_throw_null(pw = (double **) fmll_alloc(sizeof(double), 2, num, dim));
 		fmll_throw_null(tril_yy = (double **) fmll_alloc(sizeof(double), 2, num, num));
@@ -164,6 +163,7 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 		{
 			fmll_print("Iteration = %u, beta = %.7lf, max = %.7lf\n", iter, beta, max);
 
+			beta = (* next_beta)(beta);
 			memcpy((void *) (pw + num), (void *) (w + num), num * dim * sizeof(double));
 
 			for(t = 0; t < vec_num; t ++)
@@ -194,7 +194,6 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 						max = d;
 
 			iter ++;
-			beta = (* next_beta)(beta);
 		}
 		while(max > max_d && beta > 0);
 
