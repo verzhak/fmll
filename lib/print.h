@@ -31,10 +31,10 @@ extern "C"
 {
 #endif
 
-/*! \en TODO \ru Указатель на функцию вывода информационных сообщений \endlang */
+/*! \en TODO \ru Указатель на функцию вывода информационных сообщений (может принимать значение NULL) \endlang */
 extern int (* fmll_print_fun)(const char * format, va_list param);
 
-/*! \en TODO \ru Указатель на функцию вывода сообщений об ошибках \endlang */
+/*! \en TODO \ru Указатель на функцию вывода сообщений об ошибках (может принимать значение NULL) \endlang */
 extern int (* fmll_print_error_fun)(const char * format, va_list param);
 
 /*!

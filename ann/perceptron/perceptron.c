@@ -367,28 +367,23 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec)
 	return n_y;
 }
 
-unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double ** deviation, unsigned vec_num,
+unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double * deviation, unsigned vec_num,
 		void (* st_func)(fmll_perceptron *, double *, double *, const double *, unsigned, bool, void *), void * st_param)
 {
 	bool is_right;
 	unsigned u, v, no = 0, last_N = perc->N[perc->layers_num - 1];
 	const double * y;
-	double norm;
 
 	for(u = 0; u < vec_num; u++)
 	{
 		y = fmll_perceptron_run(perc, vec[u]);
 
 		for(v = 0, is_right = true; v < last_N && is_right; v++)
-		{
-			norm = y[v] - d[u][v];
-
-			if(norm < - deviation[v][0] || norm > deviation[v][1])
+			if(fabs(y[v] - d[u][v]) > deviation[v])
 			{
 				no++;
 				is_right = false;
 			}
-		}
 
 		if(st_func != NULL)
 			(* st_func)(perc, vec[u], d[u], y, vec_num, is_right, st_param);

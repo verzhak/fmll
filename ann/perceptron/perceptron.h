@@ -249,8 +249,6 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	\param st_func - TODO (TODO);
 	\param st_param - TODO (TODO).
 
-	TODO
-
 	TODO:
 	.
 	-# TODO;
@@ -275,8 +273,6 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	\param st_func - указатель на функцию, вызываемую после прогона перцептрона над каждым вектором из тестового множества (может принимать значение NULL);
 	\param st_param - один из параметров функции (* st_func)() (если параметр st_func установлен в значение NULL, параметр st_param не используется).
 
-	Массив deviation имеет размерность N x 2, где N - количество выходов перцептрона (количество нейронов в последнем слое перцептрона). Нулевой элемент второй размерности означает максимальное допустимое отклонение влево от соответствующего эталонного отклика, первый элемент - соответственно, вправо. Контроль за отношением нулевого элемента второй размерности к первому элементу сознательно не реализован.
-
 	Функция (* st_func) обладает следующими параметры:
 	.
 	-# указатель на описатель перцептрона;
@@ -292,7 +288,7 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 \endlang
 
 */
-unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double ** deviation, unsigned vec_num,
+unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double * deviation, unsigned vec_num,
 		void (* st_func)(fmll_perceptron *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
 
 /*!
