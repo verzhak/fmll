@@ -9,6 +9,7 @@
 #define MT19937_UPPER_MASK 0x80000000UL
 #define MT19937_LOWER_MASK 0x7fffffffUL
 #define MT19937_DEFAULT_SEED 5489UL
+#define LCG_DEFAULT_SEED (time(NULL))
 
 unsigned mt19937_mti = MT19937_N + 1;
 
@@ -148,7 +149,7 @@ fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo)
 			case FMLL_RANDOM_LCG:
 			{
 				/* TODO */
-				srand(1);
+				fmll_throw_null(rnd = fmll_random_init(algo, LCG_DEFAULT_SEED));
 
 				break;
 			}

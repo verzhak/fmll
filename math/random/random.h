@@ -91,10 +91,8 @@ typedef struct t_fmll_random
 	\param algo - TODO;
 	\param seed - TODO.
 
-	\return
-
-		- TODO;
-		- NULL - TODO.
+	\return TODO;
+	\return NULL - TODO.
 
 \ru
 
@@ -103,10 +101,8 @@ typedef struct t_fmll_random
 	\param algo - идентификатор алгоритма генерации (псевдо) случайных чисел;
 	\param seed - "зерно" (seed) алгоритма.
 
-	\return
-
-		- указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
-		- NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
+	\return указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
+	\return NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
 
 \endlang
 
@@ -122,10 +118,8 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed);
 	\param algo - TODO;
 	\param seed - TODO.
 
-	\return
-
-		- TODO;
-		- NULL - TODO.
+	\return TODO;
+	\return NULL - TODO.
 
 \ru
 
@@ -133,10 +127,8 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed);
 
 	\param algo - идентификатор алгоритма генерации (псевдо) случайных чисел.
 
-	\return
-
-		- указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
-		- NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
+	\return указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
+	\return NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
 
 \endlang
 

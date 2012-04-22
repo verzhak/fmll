@@ -32,7 +32,10 @@
 	// C++
 
 	#define fmll_throw \
-		throw 1;
+	{\
+		fmll_print_error("[Exception] File %s, line %d\n", __FILE__, __LINE__);\
+		throw 1;\
+	};
 
 #else
 
@@ -98,8 +101,6 @@
 		\brief Переход на finally - блок
 
 	\endlang
-
-	\sa fmll_finally
 
 	*/
 	#define fmll_to_finally \

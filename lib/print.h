@@ -45,10 +45,8 @@ extern int (* fmll_print_error_fun)(const char * format, va_list param);
 
 	TODO
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -56,10 +54,8 @@ extern int (* fmll_print_error_fun)(const char * format, va_list param);
 
 	Функция fmll_stderr_print() принимает те же параметры, что и функция printf() из стандартной библиотеки.
 
-	\return
-
-		- 0 - в случае успешного вывода сообщения;
-		- <> 0 - в случае, если сообщение вывести не удалось.
+	\return 0 - в случае успешного вывода сообщения;
+	\return <> 0 - в случае, если сообщение вывести не удалось.
 
 \endlang
 
@@ -74,10 +70,8 @@ int fmll_stderr_print(const char * format, va_list param);
 
 	TODO
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -85,10 +79,8 @@ int fmll_stderr_print(const char * format, va_list param);
 
 	Функция fmll_print() принимает те же параметры, что и функция printf() из стандартной библиотеки.
 
-	\return
-
-		- 0 - в случае успешного вывода сообщения;
-		- <> 0 - в случае, если сообщение вывести на целевое устройство (целевой поток вывода) не удалось.
+	\return 0 - в случае успешного вывода сообщения;
+	\return <> 0 - в случае, если сообщение вывести на целевое устройство (целевой поток вывода) не удалось.
 
 \endlang
 
@@ -103,10 +95,8 @@ int fmll_print(const char * format, ...);
 
 	TODO
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -114,10 +104,8 @@ int fmll_print(const char * format, ...);
 
 	Функция fmll_print_error() принимает те же параметры, что и функция printf() из стандартной библиотеки.
 
-	\return
-
-		- 0 - в случае успешного вывода сообщения;
-		- <> 0 - в случае, если сообщение вывести на целевое устройство (целевой поток вывода) не удалось.
+	\return 0 - в случае успешного вывода сообщения;
+	\return <> 0 - в случае, если сообщение вывести на целевое устройство (целевой поток вывода) не удалось.
 
 \endlang
 

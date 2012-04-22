@@ -40,10 +40,8 @@ extern "C"
 	\param dim - TODO;
 	\param ... - TODO.
 
-	\return
-
-		- TODO;
-		- NULL - TODO.
+	\return TODO;
+	\return NULL - TODO.
 
 \ru
 
@@ -53,10 +51,8 @@ extern "C"
 	\param dim - количество размерностей массива;
 	\param ... - размер массива по каждой из размерностей.
 
-	\return
-
-		- указатель на массив в случае успешного выделения памяти;
-		- NULL - в случае неудачи.
+	\return указатель на массив в случае успешного выделения памяти;
+	\return NULL - в случае неудачи.
 
 \endlang
 
@@ -65,40 +61,36 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 #ifdef FMLL_OS_WINDOWS
 
-	#define fmll_alloc_a(size) \
-		_alloca(size)
+#define fmll_alloc_a(size) \
+	_alloca(size)
 
 #else
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TODO
+	\brief TODO
 
-		\param size - TODO.
+	\param size - TODO.
 
-		\return
+	\return TODO;
+	\return NULL - TODO.
 
-			- TODO;
-			- NULL - TODO.
+\ru
 
-	\ru
+	\brief Выделение памяти, динамически освобождающейся по выходу из блока (функции)
 
-		\brief Выделение памяти, динамически освобождающейся по выходу из блока (функции)
+	\param size - размер (в байтах) выделяемого участка памяти.
 
-		\param size - размер (в байтах) выделяемого участка памяти.
+	\return указатель на выделенную область памяти в случае успешного ее выделения;
+	\return NULL - в случае, если память выделить не удалось.
 
-		\return
+\endlang
 
-			- указатель на выделенную область памяти в случае успешного ее выделения;
-			- NULL - в случае, если память выделить не удалось.
-
-	\endlang
-
-	*/
-	#define fmll_alloc_a(size) \
-		alloca(size)
+*/
+#define fmll_alloc_a(size) \
+	alloca(size)
 
 #endif
 

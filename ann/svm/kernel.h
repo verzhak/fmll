@@ -43,6 +43,12 @@ extern "C"
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = v_1^T v_2
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Однородный полином первой степени
@@ -53,17 +59,9 @@ extern "C"
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = v_1^T v_2
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -84,6 +82,12 @@ double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^2
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Однородный полином второй степени
@@ -94,17 +98,9 @@ double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^2
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -125,6 +121,12 @@ double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^3
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Однородный полином третьей степени
@@ -135,17 +137,9 @@ double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^3
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -166,6 +160,12 @@ double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 \right )^4
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Однородный полином четвертой степени
@@ -176,17 +176,9 @@ double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^4
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -209,6 +201,12 @@ double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = v_1^T v_2 + 1
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Неоднородный полином первой степени
@@ -219,17 +217,9 @@ double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = v_1^T v_2 + 1
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -250,6 +240,12 @@ double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * 
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^2
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Неоднородный полином второй степени
@@ -260,17 +256,9 @@ double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * 
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^2
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -291,6 +279,12 @@ double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * 
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^3
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Неоднородный полином третьей степени
@@ -301,17 +295,9 @@ double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * 
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^3
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -332,6 +318,12 @@ double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * 
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^4
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Неоднородный полином четвертой степени
@@ -342,17 +334,9 @@ double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * 
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^4
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
@@ -371,15 +355,17 @@ double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * 
 
 	TODO: 1.
 
+	\sa fmll_kernel_radial.
+
 \ru
 
 	\brief Коэффициент \f$\sigma\f$ радиальной функции
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_kernel_radial.
 
-\sa fmll_kernel_radial.
+\endlang
 
 */
 extern double fmll_kernel_radial_sigma;
@@ -396,6 +382,13 @@ extern double fmll_kernel_radial_sigma;
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = exp \left ( - \frac{1}{2\sigma^2} | v_1 - v_2 |^2 \right )
+	\f]
+
+	\return TODO.
+
+	\sa fmll_kernel_radial_sigma.
 \ru
 
 	\brief Радиальная функция
@@ -406,23 +399,15 @@ extern double fmll_kernel_radial_sigma;
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = exp \left ( - \frac{1}{2\sigma^2} | v_1 - v_2 |^2 \right )
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
-\endlang
+	\sa fmll_kernel_radial_sigma.
 
-\sa fmll_kernel_radial_sigma.
+\endlang
 
 */
 double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
@@ -437,15 +422,17 @@ double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
 
 	TODO: 1.
 
+	\sa fmll_kernel_tanh.
+
 \ru
 
 	\brief Коэффициент \f$A\f$ гиперболического тангенса
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_kernel_tanh.
 
-\sa fmll_kernel_tanh.
+\endlang
 
 */
 extern double fmll_kernel_tanh_a;
@@ -458,15 +445,17 @@ extern double fmll_kernel_tanh_a;
 
 	TODO: 0.
 
+	\sa fmll_kernel_tanh.
+
 \ru
 
 	\brief Коэффициент \f$B\f$ гиперболического тангенса
 
 	Значение по умолчанию: 0.
 
-\endlang
+	\sa fmll_kernel_tanh.
 
-\sa fmll_kernel_tanh.
+\endlang
 
 */
 extern double fmll_kernel_tanh_b;
@@ -483,6 +472,14 @@ extern double fmll_kernel_tanh_b;
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = tanh \left ( A v_1^T v_2 + B \right )
+	\f]
+
+	\return TODO.
+
+	\sa fmll_kernel_tanh_a, fmll_kernel_tanh_b.
+
 \ru
 
 	\brief Гиперболический тангенс
@@ -493,23 +490,15 @@ extern double fmll_kernel_tanh_b;
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = tanh \left ( A v_1^T v_2 + B \right )
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 
-\endlang
+	\sa fmll_kernel_tanh_a, fmll_kernel_tanh_b.
 
-\sa fmll_kernel_tanh_a, fmll_kernel_tanh_b.
+\endlang
 
 */
 double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
@@ -528,6 +517,12 @@ double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 
 	TODO:
 
+	\f[
+	K(v_1, v_2) = \sum_{i = 1}^{dim} \min(v_{1i}, v_{2i})
+	\f]
+
+	\return TODO.
+
 \ru
 
 	\brief Пересечение
@@ -538,17 +533,9 @@ double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 
 	Ядро скалярного произведения вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	K(v_1, v_2) = \sum_{i = 1}^{dim} \min(v_{1i}, v_{2i})
-\f]
-
-\en
-
-	\return TODO.
-
-\ru
+	\f]
 
 	\return результат вычисления ядра скалярного произведения.
 

@@ -42,10 +42,8 @@ extern "C"
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -56,10 +54,8 @@ extern "C"
 	\param rows - количество строк в матрице;
 	\param cols - количество столбцов в матрице.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -77,10 +73,8 @@ int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, un
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -91,10 +85,8 @@ int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, un
 	\param rows - количество строк в матрицах F и T;
 	\param cols - количество столбцов в матрицах F и T.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -112,10 +104,8 @@ int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -126,10 +116,8 @@ int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols
 	\param rows - количество строк в матрице M и количество столбцов в матрице R;
 	\param cols - количество столбцов в матрице M и количество строк в матрице R.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -146,10 +134,8 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- >= 0 - TODO;
-		- < 0 - TODO.
+	\return >= 0 - TODO;
+	\return < 0 - TODO.
 
 \ru
 
@@ -159,10 +145,8 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 	\param rows - количество строк в матрице M;
 	\param cols - количество столбцов в матрице M.
 
-	\return
-
-		- >= 0 - норма матрицы;
-		- < 0 - в случае неудачного завершения расчета нормы.
+	\return >= 0 - норма матрицы;
+	\return < 0 - в случае неудачного завершения расчета нормы.
 
 \endlang
 
@@ -183,16 +167,12 @@ double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
 	\param rows - TODO;
 	\param cols - TODO.
 
-\f[
-
+	\f[
 	sum = \alpha_1 M_1 + \alpha_2 M_2
+	\f]
 
-\f]
-
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -206,16 +186,12 @@ double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
 	\param rows - количество строк в каждой из матриц;
 	\param cols - количество столбцов в каждой из матриц.
 
-\f[
-
+	\f[
 	sum = \alpha_1 M_1 + \alpha_2 M_2
+	\f]
 
-\f]
-
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -234,10 +210,8 @@ int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double **
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -249,10 +223,8 @@ int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double **
 	\param rows - количество строк в каждой из матриц;
 	\param cols - количество столбцов в каждой из матриц.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -271,10 +243,8 @@ int fmll_math_matrix_mult_scalar(double ** M, double value, double ** R, unsigne
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -286,10 +256,8 @@ int fmll_math_matrix_mult_scalar(double ** M, double value, double ** R, unsigne
 	\param rows - количество строк в матрице M;
 	\param cols - количество столбцов в матрице M и количество компонент в векторах V и R.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -311,10 +279,8 @@ int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned r
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -331,10 +297,8 @@ int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned r
 
 	Таким образом, матрица M1 имеет размер rows_M1 строк на cols_M1 столбцов, матрица M2 имеет размер cols_M1 строк на cols_M2 столбцов и матрица R имеет размер rows_M1 строк на cols_M2 столбцов.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -354,10 +318,8 @@ int fmll_math_matrix_mult(double ** M1, double ** M2, double ** R, unsigned rows
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -370,10 +332,8 @@ int fmll_math_matrix_mult(double ** M1, double ** M2, double ** R, unsigned rows
 
 	Матрицы M, L, U суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -394,10 +354,8 @@ int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows);
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -411,10 +369,8 @@ int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows);
 
 	Матрицы M, L, U, P суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -433,10 +389,8 @@ int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, uns
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -448,10 +402,8 @@ int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, uns
 
 	Матрицы M и MI суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -470,10 +422,8 @@ int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows);
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -485,10 +435,8 @@ int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows);
 
 	Матрицы M и MI суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -507,10 +455,8 @@ int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -522,10 +468,8 @@ int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
 
 	Матрицы M и MI суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -544,10 +488,8 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 
 	TODO
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -559,10 +501,8 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 
 	Матрицы M и H суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -582,10 +522,8 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
 
 	TODO
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -598,10 +536,8 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
 
 	Матрицы M и S суть есть квадратные матрицы с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -620,10 +556,8 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 	\param rows - TODO;
 	\param cols - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -635,10 +569,8 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 	\param rows - количество строк в матрицах M, Q и R, количество столбцов в матрице Q;
 	\param cols - количество столбцов в матрицах M и R.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 
@@ -659,10 +591,8 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -676,10 +606,8 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 	Матрица M суть есть квадратная матрица с размером стороны равным rows.
 
-	\return
-
-		- 0 - в случае успешного выполнения операции;
-		- <> 0 - в случае неудачного завершения выполнения операции.
+	\return 0 - в случае успешного выполнения операции;
+	\return <> 0 - в случае неудачного завершения выполнения операции.
 
 \endlang
 

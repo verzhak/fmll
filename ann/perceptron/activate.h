@@ -33,15 +33,17 @@
 
 	TODO: 1.
 
+	\sa fmll_sin, fmll_d_sin.
+
 \ru
 
 	\brief Коэффициент A синуса
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_sin, fmll_d_sin.
 
-\sa fmll_sin, fmll_d_sin.
+\endlang
 
 */
 extern double fmll_sin_a;
@@ -54,15 +56,17 @@ extern double fmll_sin_a;
 
 	TODO: 1.
 
+	\sa fmll_sin, fmll_d_sin.
+
 \ru
 
 	\brief Коэффициент B синуса
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_sin, fmll_d_sin.
 
-\sa fmll_sin, fmll_d_sin.
+\endlang
 
 */
 extern double fmll_sin_b;
@@ -75,15 +79,17 @@ extern double fmll_sin_b;
 
 	TODO: 1.
 
+	\sa fmll_sigmoid, fmll_d_sigmoid.
+
 \ru
 
 	\brief Коэффициент A сигмоиды
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_sigmoid, fmll_d_sigmoid.
 
-\sa fmll_sigmoid, fmll_d_sigmoid.
+\endlang
 
 */
 extern double fmll_sigmoid_a;
@@ -96,15 +102,17 @@ extern double fmll_sigmoid_a;
 
 	TODO: 1.
 
+	\sa fmll_tanh, fmll_d_tanh.
+
 \ru
 
 	\brief Коэффициент A гиперболического тангенса
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_tanh, fmll_d_tanh.
 
-\sa fmll_tanh, fmll_d_tanh.
+\endlang
 
 */
 extern double fmll_tanh_a;
@@ -117,15 +125,17 @@ extern double fmll_tanh_a;
 
 	TODO: 1.
 
+	\sa fmll_tanh, fmll_d_tanh.
+
 \ru
 
 	\brief Коэффициент B гиперболического тангенса
 
 	Значение по умолчанию: 1.
 
-\endlang
+	\sa fmll_tanh, fmll_d_tanh.
 
-\sa fmll_tanh, fmll_d_tanh.
+\endlang
 
 */
 extern double fmll_tanh_b;
@@ -143,19 +153,25 @@ extern "C"
 
 	TODO:
 
+	\f[
+	f(x) ~ = ~ A ~ \sin(Bx)
+	\f]
+
+	\sa fmll_sin_a, fmll_sin_b
+
 \ru
 
 	\brief Синус
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f(x) ~ = ~ A ~ \sin(Bx)
-\f]
+	\f]
 
-\sa fmll_sin_a, fmll_sin_b
+	\sa fmll_sin_a, fmll_sin_b
+
+\endlang
 
 */
 double fmll_sin(double x);
@@ -168,19 +184,25 @@ double fmll_sin(double x);
 
 	TODO:
 
+	\f[
+	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
+	\f]
+
+	\sa fmll_sin_a, fmll_sin_b
+
 \ru
 
 	\brief Производная синуса
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
-\f]
+	\f]
 
-\sa fmll_sin_a, fmll_sin_b
+	\sa fmll_sin_a, fmll_sin_b
+
+\endlang
 
 */
 double fmll_d_sin(double x);
@@ -193,19 +215,25 @@ double fmll_d_sin(double x);
 
 	TODO:
 
+	\f[
+	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
+	\f]
+
+	\sa fmll_sigmoid_a
+
 \ru
 
 	\brief Сигмоида (логистическая функция)
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
-\f]
+	\f]
 
-\sa fmll_sigmoid_a
+	\sa fmll_sigmoid_a
+
+\endlang
 
 */
 double fmll_sigmoid(double x);
@@ -218,19 +246,25 @@ double fmll_sigmoid(double x);
 
 	TODO:
 
+	\f[
+	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
+	\f]
+
+	\sa fmll_sigmoid_a
+
 \ru
 
 	\brief Производная сигмоиды (производная логистической функции)
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
-\f]
+	\f]
 
-\sa fmll_sigmoid_a
+	\sa fmll_sigmoid_a
+
+\endlang
 
 */
 double fmll_d_sigmoid(double x);
@@ -243,19 +277,25 @@ double fmll_d_sigmoid(double x);
 
 	TODO:
 
+	\f[
+	f(x) ~ = ~ A ~ \tanh(Bx)
+	\f]
+
+	\sa fmll_tanh_a, fmll_tanh_b
+
 \ru
 
 	\brief Гиперболический тангенс
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f(x) ~ = ~ A ~ \tanh(Bx)
-\f]
+	\f]
 
-\sa fmll_tanh_a, fmll_tanh_b
+	\sa fmll_tanh_a, fmll_tanh_b
+
+\endlang
 
 */
 double fmll_tanh(double x);
@@ -268,19 +308,25 @@ double fmll_tanh(double x);
 
 	TODO:
 
+	\f[
+	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
+	\f]
+
+	\sa fmll_tanh_a, fmll_tanh_b
+
 \ru
 
 	\brief Производная тангенса
 
 	Вычисляется по формуле:
 
-\endlang
-
-\f[
+	\f[
 	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
-\f]
+	\f]
 
-\sa fmll_tanh_a, fmll_tanh_b
+	\sa fmll_tanh_a, fmll_tanh_b
+
+\endlang
 
 */
 double fmll_d_tanh(double x);

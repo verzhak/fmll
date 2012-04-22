@@ -149,69 +149,89 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 {
 	int ret = 0;
 	unsigned t, u, v, q, iter = 0, dim = pca->dim, num = pca->num;
-	double d, sum, max = 0, beta = beta_0, * y = pca->y, * fcrow = NULL, ** w = pca->w, ** pw = NULL, ** tril_yy = NULL, ** tril_yy_w = NULL;
+	double d, sum, beta, max = 0, * y = pca->y, ** fcrow = NULL, ** w = pca->w, * pw = NULL, * yy = NULL, * yy_w = NULL;
 
 	fmll_try;
 
-		fmll_throw_if(beta < 0 || beta > 1);
-		fmll_throw_null(fcrow = (double *) fmll_alloc(sizeof(double), 1, dim));
-		fmll_throw_null(pw = (double **) fmll_alloc(sizeof(double), 2, num, dim));
-		fmll_throw_null(tril_yy = (double **) fmll_alloc(sizeof(double), 2, num, num));
-		fmll_throw_null(tril_yy_w = (double **) fmll_alloc(sizeof(double), 2, num, dim));
+		fmll_throw_if(beta_0 < 0 || beta_0 > 1);
+		fmll_throw_null(pw = (double *) fmll_alloc(sizeof(double), 1, dim));
+		fmll_throw_null(yy = (double *) fmll_alloc(sizeof(double), 1, num));
+		fmll_throw_null(yy_w = (double *) fmll_alloc(sizeof(double), 1, dim));
 
-		do
+		for(u = 0; u < num; u++)
 		{
-			fmll_print("Iteration = %u, beta = %.7lf, max = %.7lf\n", iter, beta, max);
+			beta = beta_0;
 
-			beta = (* next_beta)(beta);
-			memcpy((void *) (pw + num), (void *) (w + num), num * dim * sizeof(double));
-
-			for(t = 0; t < vec_num; t ++)
+			do
 			{
-				fmll_pca_run(pca, vec[t]);
+				fmll_print("Iteration = %u, component = %u, beta = %.7lf, max = %.7lf\n", iter, u + 1, beta, max);
 
-				for(u = 0; u < num; u ++)
-					for(v = 0; v < num; v ++)
-						tril_yy[u][v] = u < v ? 0 : y[u] * y[v];
+				beta = (* next_beta)(beta);
+				memcpy((void *) pw, (void *) w[u], dim * sizeof(double));
 
-				for(u = 0; u < num; u ++)
+				for(t = 0; t < vec_num; t ++)
+				{
+					fmll_pca_run(pca, vec[t]);
+
 					for(v = 0; v < dim; v ++)
 					{
-						for(q = 0, sum = 0; q < num; q ++)
-							sum += tril_yy[u][q] * w[q][v];
+						for(q = 0, sum = 0; q <= u; q ++)
+							sum += y[q] * w[q][v];
 
-						tril_yy_w[u][v] = sum;
+						yy_w[v] = sum;
 					}
 
-				for(u = 0; u < num; u ++)
 					for(v = 0; v < dim; v ++)
-						w[u][v] += beta * (y[u] * vec[t][v] - tril_yy_w[u][v]);
-			}
+						w[u][v] += beta * y[u] * (vec[t][v] - yy_w[v]);
+				}
 
-			for(u = 0, max = 0; u < num; u ++)
-				for(v = 0; v < dim; v ++)
-					if(max < (d = fabs(w[u][v] - pw[u][v])))
+				for(v = 0, max = 0; v < dim; v ++)
+					if(max < (d = fabs(w[u][v] - pw[v])))
 						max = d;
 
-			iter ++;
+				iter ++;
+			}
+			while(max > max_d && beta > 0);
 		}
-		while(max > max_d && beta > 0);
 
 		if(eigen != NULL)
 		{
-			for(v = 0; v < dim; v++)
-				fcrow[v] = (vec[0][0] * vec[0][v]) / vec_num;
+			fmll_throw_null(fcrow = (double **) fmll_alloc(sizeof(double), 2, dim, dim));
 
-			for(t = 1; t < vec_num; t++)
-				for(v = 0; v < dim; v++)
-					fcrow[v] += (vec[t][0] * vec[t][v]) / vec_num;
+			for(v = 0; v < dim; v++)
+				for(u = 0; u < dim; u++)
+					fcrow[v][u] = 0;
+
+			for(v = 0; v < vec_num; v++)
+				for(t = 0; t < dim; t++)
+				{
+					fcrow[t][t] += vec[v][t] * vec[v][t];
+
+					for(q = t + 1; q < dim; q++)
+					{
+						d = vec[v][t] * vec[v][q];
+						fcrow[t][q] += d;
+						fcrow[q][t] += d;
+					}
+				}
+
+			for(v = 0; v < dim; v++)
+				for(u = 0; u < dim; u++)
+					fcrow[v][u] /= vec_num;
 
 			for(t = 0; t < num; t++)
 			{
-				for(v = 0, sum = 0; v < dim; v++)
-					sum += w[t][v] * fcrow[v];
+				eigen[t] = 0;
 
-				eigen[t] = sum / w[t][0];
+				for(u = 0; u < dim; u++)
+				{
+					for(v = 0, sum = 0; v < dim; v++)
+						sum += w[t][v] * fcrow[u][v];
+
+					eigen[t] += sum * sum;
+				}
+
+				eigen[t] = sqrt(eigen[t]);
 			}
 		}
 
@@ -223,8 +243,8 @@ int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, 
 
 		fmll_free(fcrow);
 		fmll_free(pw);
-		fmll_free(tril_yy);
-		fmll_free(tril_yy_w);
+		fmll_free(yy);
+		fmll_free(yy_w);
 
 	return ret;
 }

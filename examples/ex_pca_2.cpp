@@ -48,8 +48,9 @@ int main(const int argc, const char * argv[])
 		printf("\nЗапуск: ./ex_pca_2 FNAME\n\n");
 	}
 
-	fmll_random_destroy(rnd);
+	fmll_free(vec);
 	fmll_pca_destroy(pca);
+	fmll_random_destroy(rnd);
 
 	return ret;
 }

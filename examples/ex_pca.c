@@ -33,7 +33,7 @@ int main(const int argc, const char * argv[])
 	fmll_centering(vec, vec_num, dim);
 
 	pca = fmll_pca_init(dim, num, & fmll_weight_init_random_0_01, rnd);
-	fmll_pca_so(pca, vec, vec_num, 0.0001, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
+	fmll_pca_so(pca, vec, vec_num, 0.01, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
 
 	printf("\nW = [ ");
 
@@ -84,7 +84,7 @@ int main(const int argc, const char * argv[])
 
 	for(u = 0; u < num; u ++)
 	{
-		printf("\n%u:\n\n\tСобственное число = ", u);
+		printf("\n%u:\n\n\tСобственный вектор = ", u);
 
 		for(v = 0; v < dim; v ++)
 		{

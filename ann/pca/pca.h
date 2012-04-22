@@ -14,12 +14,12 @@
 	\brief Нейронная сеть, используемая для анализа главных компонент (PCA - Principal Component Analysis), обучаемая по принципу самоорганизации корреляционного типа
 
 	Последовательность действий по использованию PCA-сети:
-
-		-# Центрировать (вычесть среднее) множество реализаций случайного вектора с помощью функции fmll_centering();
-		-# Создать PCA-сеть с помощью функции fmll_pca_init();
-		-# Обучить (самоорганизация) PCA-сеть с помощью функции fmll_pca_so();
-		-# Прогнать PCA-сеть над целевыми векторами с помощью функции fmll_pca_run();
-		-# Удалить PCA-сеть с помощью функции fmll_pca_destroy().
+	.
+	-# центрировать (вычесть среднее) множество реализаций случайного вектора с помощью функции fmll_centering();
+	-# создать PCA-сеть с помощью функции fmll_pca_init();
+	-# обучить (самоорганизация) PCA-сеть с помощью функции fmll_pca_so();
+	-# прогнать PCA-сеть над целевыми векторами с помощью функции fmll_pca_run();
+	-# удалить PCA-сеть с помощью функции fmll_pca_destroy().
 
 \endlang
 
@@ -106,10 +106,8 @@ extern "C"
 
 	TODO: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
-	\return
-
-		- TODO;
-		- NULL - TODO.
+	\return TODO;
+	\return NULL - TODO.
 
 \ru
 
@@ -122,10 +120,8 @@ extern "C"
 
 	Должно выполняться условие: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
-	\return
-
-		- указатель на описатель PCA-сети в случае ее успешного создания;
-		- NULL - в случае неудачи.
+	\return указатель на описатель PCA-сети в случае ее успешного создания;
+	\return NULL - в случае неудачи.
 
 \endlang
 
@@ -160,10 +156,8 @@ void fmll_pca_destroy(fmll_pca * pca);
 	\param pca - TODO;
 	\param fname_prefix - TODO (TODO).
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -172,10 +166,8 @@ void fmll_pca_destroy(fmll_pca * pca);
 	\param pca - указатель на описатель PCA-сети;
 	\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml).
 
-	\return
-
-		- 0 - в случае успешного сохранения описателя PCA-сети;
-		- <> 0 - в случае некорректного завершения операции сохранения описателя PCA-сети.
+	\return 0 - в случае успешного сохранения описателя PCA-сети;
+	\return <> 0 - в случае некорректного завершения операции сохранения описателя PCA-сети.
 
 \endlang
 
@@ -190,10 +182,8 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
 
 	\param fname_prefix - TODO (TODO).
 
-	\return
-
-		- TODO;
-		- NULL - TODO.
+	\return TODO;
+	\return NULL - TODO.
 
 \ru
 
@@ -201,10 +191,8 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
 
 	\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml).
 
-	\return
-
-		- указатель на описатель PCA-сети в случае его успешной загрузки;
-		- NULL - в случае некорректного завершения операции загрузки описателя PCA-сети.
+	\return указатель на описатель PCA-сети в случае его успешной загрузки;
+	\return NULL - в случае некорректного завершения операции загрузки описателя PCA-сети.
 
 \endlang
 
@@ -254,10 +242,8 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 
 	TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -275,10 +261,8 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 
 	Параметр eigen может принимать значение NULL - в этом случае расчет собственных чисел матрицы ковариации выполнен не будет. Размер массива eigen должен быть равен количеству нейронов в обучаемой PCA-сети.
 
-	\return
-
-		- 0 - в случае успеха;
-		- <> 0 - в случае неудачи.
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
 
 \endlang
 

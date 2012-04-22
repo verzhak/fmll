@@ -41,10 +41,8 @@ extern "C"
 	\param vec_num - TODO;
 	\param dim - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -54,10 +52,8 @@ extern "C"
 	\param vec_num - размер множества векторов;
 	\param dim - размерность векторного пространства.
 
-	\return
-
-		- 0 - в случае успеха;
-		- <> 0 - в случае неудачи.
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -74,10 +70,8 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 	\param vec_num - TODO;
 	\param dim - TODO.
 
-	\return
-
-		- 0 - TODO;
-		- <> 0 - TODO.
+	\return 0 - TODO;
+	\return <> 0 - TODO.
 
 \ru
 
@@ -87,10 +81,8 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 	\param vec_num - размер множества векторов;
 	\param dim - размерность векторного пространства.
 
-	\return
-
-		- 0 - в случае успеха;
-		- <> 0 - в случае неудачи.
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
 
 \endlang
 
