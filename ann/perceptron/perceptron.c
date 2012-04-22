@@ -474,8 +474,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 		fmll_throw_null(eigen_real = fmll_alloc(sizeof(double), 1, num_weight));
 		fmll_throw_null(eigen_complex = fmll_alloc(sizeof(double), 1, num_weight));
 
-		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
-				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
+		for(iter = 0, eta = 1, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
+				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10) && eta != 0; iter++)
 		{
 			/*
 			 * ############################################################################ 
@@ -520,91 +520,94 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 				eigen_complex = NULL;
 			}
 
-			/* До тех пор, пока ошибка не уменьшится, повторять */
-			do
+			if(eta != 0)
 			{
-				/* Убрать предыдущую корректировку весов нейронов перцептрона */
-				for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
+				/* До тех пор, пока ошибка не уменьшится, повторять */
+				do
 				{
-					p_N = c_N;
-					c_N = N[i];
-
-					for(j = 0; j < c_N; j++, t_w++)
-						for(k = 0; k <= p_N; k++, t_weight++)
-							w[t_w][k] -= d_w[t_weight];
-				}
-
-				/* Создание единичной матрицы */
-				for(i = 0; i < num_weight; i++)
-				{
-					for(j = 0; j < i; j++)
-						JJ[i][j] = 0;
-
-					JJ[i][i] = 1;
-
-					for(j = i + 1; j < num_weight; j++)
-						JJ[i][j] = 0;
-				}
-
-				/* Вычисление аппроксимации матрицы Гессе: JJ = J' * J + eta * E */
-				fmll_throw_if(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
-				fmll_throw_if(fmll_math_matrix_init_main_diag(I, eta, num_weight, num_weight));
-				fmll_throw_if(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
-				fmll_throw_if(fmll_math_matrix_sum(1, I, 1, JJ, JJ, num_weight, num_weight));
-
-				/* Вычисление обратной матрицы для матрицы JJ */
-				fmll_throw_if(fmll_math_matrix_inv(JJ, JJInv, num_weight));
-
-				/*
-				 * Вычисление корректировки весов нейронов перцептрона: d_w = - JJInv * grad
-				 * (минус учитывается далее при корректировке весов нейронов перцептрона)
-				 */
-				fmll_throw_if(fmll_math_matrix_mult_vector(JJInv, grad, d_w, num_weight, num_weight));
-
-				/* Корректировка весов нейронов перцептрона */
-				for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
-				{
-					p_N = c_N;
-					c_N = N[i];
-
-					for(j = 0; j < c_N; j++, t_w++)
-						for(k = 0; k <= p_N; k++, t_weight++)
-							w[t_w][k] += d_w[t_weight];
-				}
-
-				E = 0;
-
-				/* Оценка ошибки */
-				#pragma omp parallel private(u, t_E, t_y, j, p_N, t_ind) default(shared)
-				{
-					t_ind = omp_get_thread_num();
-					t_y = y[t_ind][layers_num];
-
-					for(u = t_ind, t_E = 0; u < vec_num; u += t_num)
+					/* Убрать предыдущую корректировку весов нейронов перцептрона */
+					for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
 					{
-						fmll_perceptron_run(perc, vec[u]);
+						p_N = c_N;
+						c_N = N[i];
 
-						for(j = 0, p_N = N[layers_num - 1]; j < p_N; j++)
-						{
-							delta = d[u][j] - t_y[j];
-							t_E += delta * delta;
-						}
+						for(j = 0; j < c_N; j++, t_w++)
+							for(k = 0; k <= p_N; k++, t_weight++)
+								w[t_w][k] -= d_w[t_weight];
 					}
 
-					#pragma omp critical
-						E += t_E;
+					/* Создание единичной матрицы */
+					for(i = 0; i < num_weight; i++)
+					{
+						for(j = 0; j < i; j++)
+							JJ[i][j] = 0;
+
+						JJ[i][i] = 1;
+
+						for(j = i + 1; j < num_weight; j++)
+							JJ[i][j] = 0;
+					}
+
+					/* Вычисление аппроксимации матрицы Гессе: JJ = J' * J + eta * E */
+					fmll_throw_if(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
+					fmll_throw_if(fmll_math_matrix_init_main_diag(I, eta, num_weight, num_weight));
+					fmll_throw_if(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
+					fmll_throw_if(fmll_math_matrix_sum(1, I, 1, JJ, JJ, num_weight, num_weight));
+
+					/* Вычисление обратной матрицы для матрицы JJ */
+					fmll_throw_if(fmll_math_matrix_inv(JJ, JJInv, num_weight));
+
+					/*
+					 * Вычисление корректировки весов нейронов перцептрона: d_w = - JJInv * grad
+					 * (минус учитывается далее при корректировке весов нейронов перцептрона)
+					 */
+					fmll_throw_if(fmll_math_matrix_mult_vector(JJInv, grad, d_w, num_weight, num_weight));
+
+					/* Корректировка весов нейронов перцептрона */
+					for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
+					{
+						p_N = c_N;
+						c_N = N[i];
+
+						for(j = 0; j < c_N; j++, t_w++)
+							for(k = 0; k <= p_N; k++, t_weight++)
+								w[t_w][k] += d_w[t_weight];
+					}
+
+					E = 0;
+
+					/* Оценка ошибки */
+					#pragma omp parallel private(u, t_E, t_y, j, p_N, t_ind) default(shared)
+					{
+						t_ind = omp_get_thread_num();
+						t_y = y[t_ind][layers_num];
+
+						for(u = t_ind, t_E = 0; u < vec_num; u += t_num)
+						{
+							fmll_perceptron_run(perc, vec[u]);
+
+							for(j = 0, p_N = N[layers_num - 1]; j < p_N; j++)
+							{
+								delta = d[u][j] - t_y[j];
+								t_E += delta * delta;
+							}
+						}
+
+						#pragma omp critical
+							E += t_E;
+					}
+
+					/* Если ошибка увеличилась, то коэффициент eta увеличивается в eta_coef раз */
+					if(E >= prev_E)
+						eta *= eta_coef;
 				}
+				while(E >= prev_E);
 
-				/* Если ошибка увеличилась, то коэффициент eta увеличивается в eta_coef раз */
-				if(E >= prev_E)
-					eta *= eta_coef;
+				/* ############################################################################ */
+
+				E /= norm_E;
+				prev_E /= norm_E;
 			}
-			while(E >= prev_E);
-
-			/* ############################################################################ */
-
-			E /= norm_E;
-			prev_E /= norm_E;
 
 			fmll_print("Iteration = %u from %u (%.5f %%), eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1.0)) / max_iter,
 					eta, E, E - prev_E);
