@@ -25,8 +25,8 @@ int image_analysis(const int argc, const char * argv[])
 	bool flag;
 	char fname[4096];
 	unsigned u, v, q, vec_num, vec_per_class, cl_ind, yes, vec_class[5], N[N_NUM];
-	double res, norm;
-	double ** x, ** d, ** test_x, ** test_d, ** deviation;
+	double res, norm, deviation[1] = { 0.3 };
+	double ** x, ** d, ** test_x, ** test_d;
 	double (* fun[N_NUM])(double);
 	double (* d_fun[N_NUM])(double);
 	IplImage * src_teach, * src_test, * dst;
@@ -169,10 +169,6 @@ int image_analysis(const int argc, const char * argv[])
 
 	/* ############################################################################ */
 
-	deviation = (double **) fmll_alloc(sizeof(double), 2, 1, 2);
-	deviation[0][0] = 0.3;
-	deviation[0][1] = 0.3;
-
 	yes = fmll_perceptron_test(perc, test_x, test_d, deviation, size_test.width * size_test.height, NULL, NULL);
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7f %%)\n",
@@ -200,12 +196,12 @@ int image_analysis(const int argc, const char * argv[])
 				flag = false;
 			}
 
-			if(flag && norm > - deviation[0][1] && norm < deviation[0][1])
+			if(flag && fabs(norm) <= deviation[0])
 			{
 				cvSet2D(dst, v, u, pixel_white);
 				yes++;
 			}
-			else if (! flag && norm > - deviation[0][0] && norm < deviation[0][0])
+			else if (! flag && fabs(norm) <= deviation[0])
 			{
 				cvSet2D(dst, v, u, pixel_black);
 				yes++;
@@ -221,7 +217,6 @@ int image_analysis(const int argc, const char * argv[])
 
 	/* ############################################################################ */
 	
-	fmll_free(deviation);
 	fmll_free(x);
 	fmll_free(d);
 	fmll_free(test_x);
