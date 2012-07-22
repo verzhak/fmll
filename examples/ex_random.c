@@ -15,11 +15,12 @@ int main()
 
 	fmll_try;
 
-		fmll_throw_null(rnd = fmll_random_init(FMLL_RANDOM_LCG, time(NULL)));
+		/* fmll_throw_null(rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_NORMAL, -1, 1, 5, 20, 0, 0, 0, time(NULL))); */
+		fmll_throw_null(rnd = fmll_random_init_default(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_NORMAL, 0, 1));
 
 		for(v = 0, m = 0; v < NUM; v++)
 		{
-			value[v] = fmll_random_double_0_1(rnd);
+			value[v] = fmll_random_generate(rnd);
 			m += value[v];
 		}
 

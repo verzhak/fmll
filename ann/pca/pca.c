@@ -1,7 +1,7 @@
 
 #include "ann/pca/pca.h"
 
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)(fmll_random *), fmll_random * rnd)
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd)
 {
 	double ** w;
 	unsigned u, v;
@@ -23,7 +23,7 @@ fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)(fmll
 
 		for(u = 0; u < num; u++)
 			for(v = 0; v < dim; v++)
-				w[u][v] = (* weight_init)(rnd);
+				w[u][v] = fmll_random_generate(rnd);
 
 	fmll_catch;
 
@@ -102,7 +102,7 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 		fmll_throw_if(xml_get_int(content_node, "dim", & dim));
 		fmll_throw_if(xml_get_int(content_node, "num", & num));
 
-		fmll_throw_null(pca = fmll_pca_init(dim, num, & fmll_weight_init_null, NULL));
+		fmll_throw_null(pca = fmll_pca_init(dim, num, NULL));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(u = 0, w = pca->w; u < num; u++)

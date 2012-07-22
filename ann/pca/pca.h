@@ -14,7 +14,7 @@
 	\brief Нейронная сеть, используемая для анализа главных компонент (PCA - Principal Component Analysis), обучаемая по принципу самоорганизации корреляционного типа
 
 	Последовательность действий по использованию PCA-сети:
-	.
+
 	-# центрировать (вычесть среднее) множество реализаций случайного вектора с помощью функции fmll_centering();
 	-# создать PCA-сеть с помощью функции fmll_pca_init();
 	-# обучить (самоорганизация) PCA-сеть с помощью функции fmll_pca_so();
@@ -34,7 +34,7 @@
 	#include "private/xml.h"
 	#include "lib/exception.h"
 	#include "lib/memory.h"
-	#include "ann/base/weight_init.h"
+	#include "math/random/random.h"
 
 #endif
 
@@ -101,8 +101,7 @@ extern "C"
 
 	\param dim - TODO;
 	\param num - TODO;
-	\param weight_init - TODO;
-	\param rnd - TODO (TODO).
+	\param rnd - TODO.
 
 	TODO: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -115,8 +114,7 @@ extern "C"
 
 	\param dim - размерность исходного векторного пространства;
 	\param num - количество нейронов в PCA-сети (размерность целевого векторного пространства);
-	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init)).
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел.
 
 	Должно выполняться условие: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -126,7 +124,7 @@ extern "C"
 \endlang
 
 */
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num, double (* weight_init)(fmll_random *), fmll_random * rnd);
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd);
 
 /*!
 

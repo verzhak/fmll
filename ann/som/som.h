@@ -16,7 +16,7 @@
 	Нейронная карта, самоорганизующаяся по принципу конкуренции, называемая также нейронной картой Кохонена по имени Тойво Кохонена, впервые описавшего один из возможных алгоритмов самоорганизации нейронной карты.
 
 	Последовательность действий по использованию нейронной карты:
-	.
+
 	-# создать карту с помощью функции fmll_som_init();
 	-# обучить (самоорганизация) карту с помощью одной из *_som_so_* функций;
 	-# прогнать карту над целевыми векторами с помощью функции fmll_som_run();
@@ -35,7 +35,7 @@
 	#include "private/xml.h"
 	#include "lib/exception.h"
 	#include "lib/memory.h"
-	#include "ann/base/weight_init.h"
+	#include "math/random/random.h"
 
 #endif
 
@@ -143,7 +143,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 	\f]
 	
 	TODO:
-	.
+
 	- \f$\gamma_{mult}\f$ - TODO;
 	- \f$\gamma_{add}\f$ - TODO;
 	- \f$distance_w()\f$ - TODO;
@@ -171,7 +171,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 	\f]
 	
 	где:
-	.
+	
 	- \f$\gamma_{mult}\f$ - мультипликативный базовый коэффициент соседства;
 	- \f$\gamma_{add}\f$ - аддитивный базовый коэффициент соседства;
 	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
@@ -204,13 +204,12 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param N - TODO;
 	\param map_dim - TODO;
 	\param dim - TODO;
-	\param weight_init - TODO;
-	\param rnd - TODO (TODO);
+	\param rnd - TODO;
 	\param distance_w - TODO;
 	\param distance - TODO.
 
 	TODO:
-	.
+
 	-# TODO;
 	-# TODO;
 	-# TODO.
@@ -225,13 +224,12 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param N - массив размеров нейронной карты по каждой из ее размерностей;
 	\param map_dim - размерность нейронной карты;
 	\param dim - размерность классифицируемого векторного пространства;
-	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init));
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел;
 	\param distance_w - указатель на функцию, вычисляющую расстояния между нейронами на нейронной карте;
 	\param distance - указатель на функцию, вычисляющую расстояния между векторами в классифицируемом векторном пространстве.
 
 	Функции distance_w() и distance() обладают следующими параметрами:
-	.
+
 	-# указатель на первый вектор;
 	-# указатель на второй вектор;
 	-# размерность векторов.
@@ -242,7 +240,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 \endlang
 
 */
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, double (* weight_init)(fmll_random *), fmll_random * rnd,
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, fmll_random * rnd,
 		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
 
 /*!
@@ -362,7 +360,7 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 	\param neighbor - TODO.
 
 	TODO:
-	.
+
 	-# TODO;
 	-# TODO;
 	-# TODO;
@@ -370,7 +368,7 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 	-# TODO.
 
 	TODO: \f$neighbor() ~ \to ~ 1\f$ TODO \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TODO:
-	.
+
 	- \f$distance_w()\f$ - TODO;
 	- \f$c_{winner}\f$ - TODO;
 	- \f$c_{current}\f$ - TODO.
@@ -396,7 +394,7 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 	\param neighbor - указатель на функцию, рассчитывающую коэффициент соседства нейронов.
 
 	Функция neighbor() обладает следующими параметрами:
-	.
+
 	-# указатель на описатель нейронной карты;
 	-# мультипликативный базовый коэффициент соседства;
 	-# аддитивный базовый коэффициент соседства;
@@ -404,7 +402,7 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 	-# индекс нейрона, для которого выполняется расчет коэффициента соседства.
 
 	Функция neighbor() должна возвращать вещественное число из диапазона [0, 1], причем ее значение должно быть нормированным - то есть: \f$neighbor() ~ \to ~ 1\f$ при \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, где:
-	.
+
 	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
 	- \f$c_{winner}\f$ - координаты нейрона - победителя;
 	- \f$c_{current}\f$ - координаты очередного нейрона.
@@ -440,7 +438,7 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 	\param penalty - TODO.
 
 	TODO:
-	.
+
 	-# TODO;
 	-# TODO;
 	-# TODO;
@@ -448,7 +446,7 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 	-# TODO.
 
 	TODO: \f$neighbor() ~ \to ~ 1\f$ TODO \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TODO:
-	.
+
 	- \f$distance_w()\f$ - TODO;
 	- \f$c_{winner}\f$ - TODO;
 	- \f$c_{current}\f$ - TODO.
@@ -476,7 +474,7 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 	\param penalty - штраф, накладываемый на нейрон - количество векторов из классифицируемого множества векторов, при прогоне над которыми нейрон не будет приниматься во внимание.
 
 	Функция neighbor() обладает следующими параметрами:
-	.
+
 	-# указатель на описатель нейронной карты;
 	-# мультипликативный базовый коэффициент соседства;
 	-# аддитивный базовый коэффициент соседства;
@@ -484,7 +482,7 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 	-# индекс нейрона, для которого выполняется расчет коэффициента соседства.
 
 	Функция neighbor() должна возвращать вещественное число из диапазона [0, 1], причем ее значение должно быть нормированным - то есть: \f$neighbor() ~ \to ~ 1\f$ при \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, где:
-	.
+
 	- \f$distance_w()\f$ - функция расстояния между нейронами на карте нейронов;
 	- \f$c_{winner}\f$ - координаты нейрона - победителя;
 	- \f$c_{current}\f$ - координаты очередного нейрона.

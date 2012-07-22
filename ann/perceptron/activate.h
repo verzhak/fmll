@@ -140,6 +140,75 @@ extern double fmll_tanh_a;
 */
 extern double fmll_tanh_b;
 
+/*!
+
+\en
+
+	\brief TODO
+
+	TODO: 1.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\ru
+
+	\brief Коэффициент A гауссиана
+
+	Значение по умолчанию: 1.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\endlang
+
+*/
+extern double fmll_gaussian_a;
+
+/*!
+
+\en
+
+	\brief TODO
+
+	TODO: 0.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\ru
+
+	\brief Коэффициент B гауссиана
+
+	Значение по умолчанию: 0.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\endlang
+
+*/
+extern double fmll_gaussian_b;
+
+/*!
+
+\en
+
+	\brief TODO
+
+	TODO: \f$ \sqrt{2} \f$.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\ru
+
+	\brief Коэффициент C гауссиана
+
+	Значение по умолчанию: \f$ \sqrt{2} \f$.
+
+	\sa fmll_gaussian, fmll_d_gaussian.
+
+\endlang
+
+*/
+extern double fmll_gaussian_c;
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -285,7 +354,7 @@ double fmll_d_sigmoid(double x);
 
 \ru
 
-	\brief Гиперболический тангенс
+	\brief Гиперболический тангенс (симметричная сигмоида)
 
 	Вычисляется по формуле:
 
@@ -316,7 +385,7 @@ double fmll_tanh(double x);
 
 \ru
 
-	\brief Производная тангенса
+	\brief Производная гиперболического тангенса
 
 	Вычисляется по формуле:
 
@@ -360,6 +429,68 @@ double fmll_line(double x);
 
 */
 double fmll_d_line(double x);
+
+/*!
+
+\en
+
+	\brief TODO
+
+	TODO:
+
+	\f[
+	f(x) ~ = ~ A ~ e ^ {- \frac{(x - B) ^ 2}{2 C ^ 2}}
+	\f]
+
+	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+
+\ru
+
+	\brief Гауссиан
+
+	Вычисляется по формуле:
+
+	\f[
+	f(x) ~ = ~ A ~ exp \left (- \frac{(x - B) ^ 2}{2 C ^ 2} \right )
+	\f]
+
+	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+
+\endlang
+
+*/
+double fmll_gaussian(double x);
+
+/*!
+
+\en
+
+	\brief TODO
+
+	TODO:
+
+	\f[
+	f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)
+	\f]
+
+	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+
+\ru
+
+	\brief Производная гауссиана
+
+	Вычисляется по формуле:
+
+	\f[
+	f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)
+	\f]
+
+	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+
+\endlang
+
+*/
+double fmll_d_gaussian(double x);
 
 #ifdef __cplusplus
 }

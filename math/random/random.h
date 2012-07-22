@@ -23,6 +23,7 @@
 	#include "all.h"
 	#include "lib/memory.h"
 	#include "lib/exception.h"
+	#include "math/various/constant.h"
 
 #endif
 
@@ -39,7 +40,7 @@ extern "C"
 
 \ru
 
-	\brief Перечисление реализованных алгоритмов генерации (псевдо) случайных чисел
+	\brief Датчики (псевдо) случайных чисел
 
 \endlang
 
@@ -48,12 +49,77 @@ typedef enum t_fmll_random_algorithm
 {
 
 	/*! \en TODO \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
-	FMLL_RANDOM_MT19937,
+	FMLL_RANDOM_ALGORITHM_MT19937,
 
 	/*! \en TODO \ru Линейный конгруэнтный метод \endlang */
-	FMLL_RANDOM_LCG
+	FMLL_RANDOM_ALGORITHM_LCG
 
 } fmll_random_algorithm;
+
+/*!
+
+\en
+
+	\brief TODO
+
+\ru
+
+	\brief Распределения (псевдо) случайных чисел
+
+\endlang
+
+*/
+typedef enum t_fmll_random_distribution
+{
+
+/*!
+	
+\en
+
+	\brief TODO
+
+	TODO
+
+\ru
+
+	\brief Равномерное распределение
+	
+	Параметры a, b, c, d, e игнорируются
+
+\endlang
+
+*/
+	FMLL_RANDOM_DISTRIBUTION_UNIFORM,
+
+/*!
+	
+\en
+
+	\brief TODO
+
+	TODO
+
+\ru
+
+	\brief Нормальное распределение (распределение Гаусса)
+	
+	Параметры:
+	
+	- a - математическое ожидание (\f$ \mu \f$; по умолчанию \f$ a = 0 \f$);
+	- b - среднеквадратичное отклонение (\f$ \sigma \f$; по умолчанию \f$ b = 1 \f$);
+	- c, d, e - игнорируются.
+
+	Для получения стандартного нормального отклонения необходимо использовать следующие значения данных параметров:
+
+	- \f$ a = \mu = 0 \f$;
+	- \f$ b = \sigma = 1 \f$.
+
+\endlang
+
+*/
+	FMLL_RANDOM_DISTRIBUTION_NORMAL
+
+} fmll_random_distribution;
 
 /*!
 
@@ -71,11 +137,15 @@ typedef enum t_fmll_random_algorithm
 typedef struct t_fmll_random
 {
 
-	/*! \en TODO \ru Идентификатор алгоритма генерации (псевдо) случайных чисел \endlang */
+	/*! \en TODO \ru Идентификатор датчика (псевдо) случайных чисел \endlang */
 	fmll_random_algorithm algo;
-	
+
+	/*! \en TODO \ru Идентификатор распределения (псевдо) случайных чисел \endlang */
+	fmll_random_distribution dist;
+
 	/*! \cond HIDDEN_SYMBOLS */
 
+	double a, b, c, d, e, from, to, max;
 	void * state;
 
 	/*! \endcond */
@@ -89,6 +159,10 @@ typedef struct t_fmll_random
 	\brief TODO
 
 	\param algo - TODO;
+	\param dist - TODO;
+	\param from - TODO;
+	\param to - TODO;
+	\param a, b, c, d, e - TODO;
 	\param seed - TODO.
 
 	\return TODO;
@@ -98,16 +172,23 @@ typedef struct t_fmll_random
 
 	\brief Инициализация датчика (псевдо) случайных чисел
 
-	\param algo - идентификатор алгоритма генерации (псевдо) случайных чисел;
-	\param seed - "зерно" (seed) алгоритма.
+	\param algo - идентификатор датчика (псевдо) случайных чисел;
+	\param dist - идентификатор распределения (псевдо) случайных чисел;
+	\param from - нижняя граница диапазона генерации (псевдо) случайных чисел;
+	\param to - верхняя граница диапазона генерации (псевдо) случайных чисел;
+	\param a, b, c, d, e - параметры распределения (значения некоторых из данных параметров игнорируются - в зависимости от распределения);
+	\param seed - "зерно" (seed) датчика.
 
 	\return указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
 	\return NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
 
+	\sa fmll_random_distribution
+
 \endlang
 
 */
-fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed);
+fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribution dist, double from, double to,
+		double a, double b, double c, double d, double e, unsigned long seed);
 
 /*!
 
@@ -116,16 +197,21 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed);
 	\brief TODO
 
 	\param algo - TODO;
-	\param seed - TODO.
+	\param dist - TODO;
+	\param from - TODO;
+	\param to - TODO.
 
 	\return TODO;
 	\return NULL - TODO.
 
 \ru
 
-	\brief Инициализация датчика (псевдо) случайных чисел "зерном" по умолчанию
+	\brief Инициализация датчика (псевдо) случайных чисел параметрами (a, b, c, d, e и "зерном") по умолчанию
 
-	\param algo - идентификатор алгоритма генерации (псевдо) случайных чисел.
+	\param algo - идентификатор датчика (псевдо) случайных чисел;
+	\param dist - идентификатор распределения (псевдо) случайных чисел;
+	\param from - нижняя граница диапазона генерации (псевдо) случайных чисел;
+	\param to - верхняя граница диапазона генерации (псевдо) случайных чисел.
 
 	\return указатель на описатель датчика (псевдо) случайных чисел в случае его успешной инициализации;
 	\return NULL, если датчик (псевдо) случайных чисел инициализировать не удалось.
@@ -133,7 +219,7 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, unsigned long seed);
 \endlang
 
 */
-fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo);
+fmll_random * fmll_random_init_default(fmll_random_algorithm algo, fmll_random_distribution dist, double from, double to);
 
 /*!
 
@@ -166,39 +252,18 @@ void fmll_random_destroy(fmll_random * rnd);
 
 \ru
 
-	\brief Генерация целого числа в диапазоне \f$[ ~ 0 ;~ 2^{32} ~ ) \f$
+	\brief Генерация (псевдо) случайного вещественного числа двойной точности
 
 	\param rnd - указатель на описатель датчика (псевдо) случайных чисел.
+
+	В случае, если в качестве параметра rnd передано значение NULL, функция вернет 0.
 
 	\return сгенерированное число.
 
 \endlang
 
 */
-unsigned fmll_random_unsigned(fmll_random * rnd);
-
-/*!
-
-\en
-
-	\brief TODO
-
-	\param rnd - TODO.
-
-	\return TODO.
-
-\ru
-
-	\brief Генерация вещественного числа двойной точности в диапазоне \f$[ ~ 0 ;~ 1 ~ ) \f$
-
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел.
-
-	\return сгенерированное число.
-
-\endlang
-
-*/
-double fmll_random_double_0_1(fmll_random * rnd);
+double fmll_random_generate(fmll_random * rnd);
 
 #ifdef __cplusplus
 }

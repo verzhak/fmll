@@ -1,5 +1,6 @@
 
 #include "ann/perceptron/perceptron.h"
+#include "ann/perceptron/weight_init.h"
 
 /* ############################################################################ */
 /* Вспомогательные функции */
@@ -135,14 +136,14 @@ double grad_Jacobian(fmll_perceptron * perc, double ** vec, double ** d, unsigne
 
 /* ############################################################################ */
 
-fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, double (* weight_init)(fmll_random *), fmll_random * rnd,
-		double (** fun)(double), double (** d_fun)(double))
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
+		int (* weight_init)(fmll_perceptron *, fmll_random *), double (** fun)(double), double (** d_fun)(double))
 {
 	fmll_perceptron * perc = NULL;
 	double (** t_fun)(double);
 	double (** t_d_fun)(double);
 	double ** w;
-	unsigned u, v, t, q, num_weight, num, max_N, N_u, prev_num, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
+	unsigned u, num_weight, num, max_N, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
 
 	fmll_try;
 
@@ -158,10 +159,12 @@ fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const 
 		fmll_throw_null(t_N = perc->N = fmll_alloc(sizeof(unsigned), 1, layers_num));
 
 		max_N = N[0] > dim ? N[0] : dim;
+		num_weight = (dim + 1) * N[0];
 
 		for(u = 1, num = N[0]; u < layers_num; u++)
 		{
 			num += N[u];
+			num_weight += (N[u - 1] + 1) * N[u];
 
 			if(max_N < N[u])
 				max_N = N[u];
@@ -176,20 +179,13 @@ fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const 
 		memcpy(t_d_fun, d_fun, size);
 		memcpy(t_N, N, layers_num * sizeof(unsigned));
 
-		for(u = t = 0, N_u = dim, num_weight = 0; u < layers_num; u++)
-		{
-			prev_num = N_u;
-			N_u = N[u];
-
-			for(v = 0; v < N_u; v++, t++)
-				for(q = 0; q <= prev_num; q++, num_weight++)
-					w[t][q] = (* weight_init)(rnd);
-		}
-
 		perc->dim = dim;
 		perc->layers_num = layers_num;
 		perc->max_N = max_N;
 		perc->num_weight = num_weight;
+
+		fmll_throw_null(weight_init);
+		fmll_throw_if((* weight_init)(perc, rnd));
 
 	fmll_catch;
 
@@ -299,7 +295,7 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
 		}
 
-		fmll_throw_null(perc = fmll_perceptron_init(dim, layers_num, N, & fmll_weight_init_null, NULL, fun, d_fun));
+		fmll_throw_null(perc = fmll_perceptron_init(dim, layers_num, N, NULL, & fmll_perceptron_weight_init_0, fun, d_fun));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(i = 0, t = 0, c_N = dim, w = perc->w; i < layers_num; i++)
@@ -711,10 +707,18 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 				/* Поиск оптимального коэффициента eta - линейный поиск по параболе минимизируемой квадратичной формы */
 				if(first_run)
 				{
+					double old_from = rnd->from, old_to = rnd->to;
+
+					rnd->from = - 0.5;
+					rnd->to = 0.5; /* TODO или до 1.5 */
+
 					/* Первая итерация алгоритма - инициализация массива eta[] */
-					eta[0] = fmll_random_double_0_1(rnd) - 0.5;
-					eta[2] = fmll_random_double_0_1(rnd) + 0.5 + 0.0000000001;
+					eta[0] = fmll_random_generate(rnd);
+					eta[2] = fmll_random_generate(rnd) + 0.0000000001;
 					eta[1] = (eta[0] + eta[2]) / 2;
+
+					rnd->from = old_from;
+					rnd->to = old_to;
 
 					first_run = false;
 				}

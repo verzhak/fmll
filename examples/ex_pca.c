@@ -23,16 +23,16 @@ int main(const int argc, const char * argv[])
 	
 	eigen = (double *) fmll_alloc(sizeof(double), 1, dim);
 	vec = (double **) fmll_alloc(sizeof(double), 2, vec_num, dim);
-	rnd = fmll_random_init(FMLL_RANDOM_MT19937, time(NULL));
+	rnd = fmll_random_init_default(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1);
 
 	for(u = 0; u < vec_num; u++)
 		for(v = 0; v < dim; v++)
 			/* vec[u][v] = (fmll_random_unsigned(rnd) % 65536 + fmll_random_double_0_1(rnd)) / 65536; */
-			vec[u][v] = fmll_random_double_0_1(rnd);
+			vec[u][v] = fmll_random_generate(rnd);
 	
 	fmll_centering(vec, vec_num, dim);
 
-	pca = fmll_pca_init(dim, num, & fmll_weight_init_random_0_01, rnd);
+	pca = fmll_pca_init(dim, num, rnd);
 	fmll_pca_so(pca, vec, vec_num, 0.01, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
 
 	printf("\nW = [ ");

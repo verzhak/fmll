@@ -154,12 +154,12 @@ int image_analysis(const int argc, const char * argv[])
 
 	for(u = 0; u < N_NUM; u++)
 	{
-		fun[u] = & fmll_tanh;
-		d_fun[u] = & fmll_d_tanh;
+		fun[u] = & fmll_gaussian;
+		d_fun[u] = & fmll_d_gaussian;
 	}
 
-	rnd = fmll_random_init(FMLL_RANDOM_MT19937, time(NULL));
-	perc = fmll_perceptron_init(3, N_NUM, N, & fmll_weight_init_random_0_1, rnd, fun, d_fun);
+	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1, 0, 0, 0, 0, 0, time(NULL));
+	perc = fmll_perceptron_init(3, N_NUM, N, rnd, & fmll_perceptron_weight_init_random, fun, d_fun);
 
 	/* ############################################################################ */
 
@@ -258,8 +258,8 @@ int xor()
 
 	/* ############################################################################ */
 	
-	rnd = fmll_random_init(FMLL_RANDOM_MT19937, time(NULL));
-	perc = fmll_perceptron_init(2, 2, N, & fmll_weight_init_random_0_1, rnd, fun, d_fun);
+	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1, 0, 0, 0, 0, 0, time(NULL));
+	perc = fmll_perceptron_init(2, 2, N, rnd, & fmll_perceptron_weight_init_random, fun, d_fun);
 
 	/* ############################################################################ */
 

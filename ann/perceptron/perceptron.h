@@ -14,7 +14,7 @@
 	\brief Однослойные и многослойные перцептроны
 
 	Последовательность действий по использованию перцептрона:
-	.
+
 	-# Создать перцептрон с помощью функции fmll_perceptron_init();
 	-# Обучить перцептрон с помощью одной из *_perceptron_teach_* функций;
 	-# Оценить качество обучения перцептрона с помощью функции fmll_perceptron_test();
@@ -35,7 +35,7 @@
 	#include "lib/exception.h"
 	#include "lib/memory.h"
 	#include "math/matrix/matrix.h"
-	#include "ann/base/weight_init.h"
+	#include "math/random/random.h"
 
 #endif
 
@@ -57,7 +57,7 @@
 typedef struct t_fmll_perceptron
 {
 
-	/*! \en TODO \ru Массив нейронов \endlang */
+	/*! \en TODO \ru Массив весов синапсов нейронов \endlang */
 	double ** w;
 
 	/*! \en TODO \ru Массив входных и выходных векторов значений слоев перцептрона (в том числе и вектор выходных значений) \endlang */
@@ -106,8 +106,8 @@ extern "C"
 	\param dim - TODO;
 	\param layers_num - TODO;
 	\param N - TODO;
-	\param weight_init - TODO;
 	\param rnd - TODO (TODO);
+	\param weight_init - TODO;
 	\param fun - TODO;
 	\param d_fun - TODO.
 
@@ -121,8 +121,8 @@ extern "C"
 	\param dim - размер входного вектора;
 	\param layers_num - количество скрытых слоев;
 	\param N - количество нейронов в каждом из скрытых слоев;
+	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (данный указатель передается как второй параметр в функцию (* weight_init));
 	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (настоящий указатель передается как параметр в функцию (* weight_init));
 	\param fun - массив функций активации нейронов (своя функция активации для каждого из скрытых слоев);
 	\param d_fun - массив производных функций активации нейронов.
 
@@ -132,8 +132,8 @@ extern "C"
 \endlang
 
 */
-fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, double (* weight_init)(fmll_random *), fmll_random * rnd,
-		double (** fun)(double), double (** d_fun)(double));
+fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
+		int (* weight_init)(fmll_perceptron *, fmll_random *), double (** fun)(double), double (** d_fun)(double));
 
 /*!
 
@@ -250,7 +250,7 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	\param st_param - TODO (TODO).
 
 	TODO:
-	.
+
 	-# TODO;
 	-# TODO;
 	-# TODO;
@@ -274,7 +274,7 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 	\param st_param - один из параметров функции (* st_func)() (если параметр st_func установлен в значение NULL, параметр st_param не используется).
 
 	Функция (* st_func) обладает следующими параметры:
-	.
+
 	-# указатель на описатель перцептрона;
 	-# указатель на обрабатываемый вектор;
 	-# указатель на вектор эталонных откликов, соответствующий обрабатываемому вектору;

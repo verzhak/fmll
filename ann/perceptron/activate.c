@@ -6,6 +6,9 @@ double fmll_sin_b = 1;
 double fmll_sigmoid_a = 1;
 double fmll_tanh_a = 1;
 double fmll_tanh_b = 1;
+double fmll_gaussian_a = 1;
+double fmll_gaussian_b = 0;
+double fmll_gaussian_c = FMLL_SQRT_2;
 
 double fmll_sin(double x)
 {
@@ -59,5 +62,19 @@ double fmll_line(double x)
 double fmll_d_line(double x)
 {
 	return 1;
+}
+
+double fmll_gaussian(double x)
+{
+	double x_b = x - fmll_gaussian_b;
+
+	return fmll_gaussian_a * exp(- x_b * x_b / (2 * fmll_gaussian_c * fmll_gaussian_c));
+}
+
+double fmll_d_gaussian(double x)
+{
+	double f = fmll_gaussian(x);
+
+	return - (x - fmll_gaussian_b) * f / (fmll_gaussian_c * fmll_gaussian_c);
 }
 

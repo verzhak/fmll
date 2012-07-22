@@ -38,62 +38,81 @@
 
 	\section build Сборка библиотеки
 
-		\subsection build_gnu_linux ОС GNU / Linux
+	\subsection build_gnu_linux ОС GNU / Linux
 
-		-# cd build
-		-#
-			- cmake .. - для сборки отладочной версии
-			- cmake -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
-		-# make
-		-# make install
+	\code
+	
+	cd build
 
-		\subsection build_windows_mingw ОС семейства Windows
+	cmake .. - для сборки отладочной версии
+	cmake -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
 
-		(кросскомпиляция с помощью коллекции компиляторов MinGW)
+	make
+	make install
 
-		-# cd build
-		-#
-			- cmake -DWindows=1 .. - для сборки отладочной версии
-			- cmake -DWindows=1 -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
-		-# make
+	\endcode
 
-		\subsection build_windows_visual_studio ОС семейства Windows
+	\subsection build_windows_mingw ОС семейства Windows
 
-		(сборка с помощью IDE Visual Studio 2005)
+	(кросскомпиляция с помощью коллекции компиляторов MinGW)
 
-		-# перейдите в каталог visual_studio
-		-# переместите файлы fmll.* (пять штук) на уровень выше (в корневой каталог проекта)
-		-# соберите проект с помощью Visual C++
+	\code
+	
+	cd build
+
+	cmake -DWindows=1 .. - для сборки отладочной версии
+	cmake -DWindows=1 -DCMAKE_BUILD_TYPE=Release .. - для сборки оптимизированной версии
+
+	make
+	
+	\endcode
+
+	или
+
+	(сборка с помощью IDE Visual Studio 2005)
+
+	- перейдите в каталог visual_studio
+	- переместите файлы fmll.* (пять штук) на уровень выше (в корневой каталог проекта)
+	- соберите проект с помощью Visual C++
 
 	\section build_doc_gen Генерирование документации
 
-		-# cd doc
-		-#
-			- doxygen Doxyfile_en - для сборки англоязычной документации
-			- doxygen Doxyfile_ru - для сборки русскоязычной документации
+	\code
+
+	cd doc
+
+	doxygen Doxyfile_en - для сборки англоязычной документации
+	doxygen Doxyfile_ru - для сборки русскоязычной документации
+
+	\endcode
 
 	\section build_link Подключение
 
-		\subsection build_link_linux ОС GNU/Linux
+	\subsection build_link_linux ОС GNU/Linux
 
-		-# #include <fmll/fmll.h>
-		-# pkg-config --cflags fmll
-		-# pkg-config --libs fmll
+	\code
 
-		\subsection build_link_windows_visual_studio
+	#include <fmll/fmll.h>
 
-		-# подключите библиотеку
-		-# #include <fmll/fmll.h>
-		-# заголовочные файлы библиотеки рассортированы по подкаталогам корневого каталога проекта - рекомендуется указывать путь к корневому каталогу проекта в свойствах производного проекта
-		-# подключайте к программе библиотеку mini-xml (каталог mxml; библиотека mini-xml собрана как динамическая библиотека из-за опасения нарушить лицензионное соглашение в случае сборки ее статической версии)
+	pkg-config --cflags fmll
+	pkg-config --libs fmll
 
-	\section Автор и способы связи
+	\endcode
+
+	\subsection build_link ОС Windows
+
+	-# подключите библиотеку
+	-# #include <fmll/fmll.h>
+	-# заголовочные файлы библиотеки рассортированы по подкаталогам корневого каталога проекта - рекомендуется указывать путь к корневому каталогу проекта в свойствах производного проекта
+	-# подключайте к программе библиотеку mini-xml (каталог mxml; библиотека mini-xml собрана как динамическая библиотека из-за опасения нарушить лицензионное соглашение в случае сборки ее статической версии)
+
+	\section author Автор и способы связи
 
 	Автор: Акинин М.В. (магистрант Рязанского Государственного Радиотехнического Университета, кафедра ЭВМ)
 
 	E-mail: verzhak@gmail.com
 
-	Дата: 28.02.2012
+	Дата: 22.07.2012
 
 \endlang
 
@@ -116,9 +135,9 @@
 	#include "math/various/distance.h"
 	#include "math/various/various.h"
 	#include "ann/base/timing.h"
-	#include "ann/base/weight_init.h"
 	#include "ann/perceptron/activate.h"
 	#include "ann/perceptron/perceptron.h"
+	#include "ann/perceptron/weight_init.h"
 	#include "ann/som/som.h"
 	#include "ann/pca/pca.h"
 	#include "ann/svm/kernel.h"
@@ -136,9 +155,9 @@
 	#include <fmll/math/various/distance.h>
 	#include <fmll/math/various/various.h>
 	#include <fmll/ann/base/timing.h>
-	#include <fmll/ann/base/weight_init.h>
 	#include <fmll/ann/perceptron/activate.h>
 	#include <fmll/ann/perceptron/perceptron.h>
+	#include <fmll/ann/perceptron/weight_init.h>
 	#include <fmll/ann/som/som.h>
 	#include <fmll/ann/pca/pca.h>
 	#include <fmll/ann/svm/kernel.h>
