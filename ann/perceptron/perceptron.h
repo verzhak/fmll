@@ -387,7 +387,6 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	\param vec - TODO;
 	\param d - TODO;
 	\param vec_num - TODO;
-	\param rnd - TODO;
 	\param max_iter - TODO;
 	\param coef_E - TODO;
 	\param E_thres - TODO;
@@ -404,7 +403,6 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	\param vec - массив обучающих векторов;
 	\param d - множество эталонных откликов;
 	\param vec_num - количество векторов в массиве обучающих векторов;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел;
 	\param max_iter - максимальное количество итераций процесса обучения;
 	\param coef_E - множитель, определяющий максимальный размер области поиска оптимального значения параметра \f$\eta\f$, при достижении которого поиск очередного значения параметра \f$\eta\f$ будет завершен, как \f$\eta ~ E\f$, где \f$E\f$ - текущее значение функции ошибки; coef_E может принимать значения из диапазона (0, 1);
 	\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
@@ -416,8 +414,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 \endlang
 
 */
-int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, fmll_random * rnd,
-		unsigned max_iter, double coef_E, double E_thres, double d_E_thres);
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
+		double coef_E, double E_thres, double d_E_thres);
 
 #ifdef __cplusplus
 }

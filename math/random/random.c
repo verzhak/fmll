@@ -9,8 +9,7 @@ double lcg_generate(fmll_random * rnd);
 
 /* ############################################################################ */
 
-fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribution dist, double from, double to,
-		double a, double b, double c, double d, double e, unsigned long seed)
+fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribution dist, double * param, unsigned long seed)
 {
 	fmll_random * rnd = NULL;
 
@@ -20,13 +19,7 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 
 		rnd->algo = algo;
 		rnd->dist = dist;
-		rnd->from = from;
-		rnd->to = to;
-		rnd->a = a;
-		rnd->b = b;
-		rnd->c = c;
-		rnd->d = d;
-		rnd->e = e;
+		rnd->param = NULL;
 		rnd->state = NULL;
 
 		switch(algo)
@@ -49,6 +42,42 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 				fmll_throw;
 		};
 
+		switch(dist)
+		{
+			case FMLL_RANDOM_DISTRIBUTION_UNIFORM:
+			{
+				fmll_throw_null(rnd->param = fmll_alloc(sizeof(double), 1, 2));
+
+				if(param == NULL)
+				{
+					rnd->param[0] = 0;
+					rnd->param[1] = 1;
+				}
+				else
+					memcpy(rnd->param, param, sizeof(double) * 2);
+
+				break;
+			}
+
+			case FMLL_RANDOM_DISTRIBUTION_NORMAL:
+			{
+				fmll_throw_null(rnd->param = fmll_alloc(sizeof(double), 1, 2));
+
+				if(param == NULL)
+				{
+					rnd->param[0] = 0;
+					rnd->param[1] = 1;
+				}
+				else
+					memcpy(rnd->param, param, sizeof(double) * 2);
+
+				break;
+			}
+
+			default:
+				fmll_throw;
+		};
+
 	fmll_catch;
 
 		fmll_random_destroy(rnd);
@@ -59,11 +88,10 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 	return rnd;
 }
 
-fmll_random * fmll_random_init_default(fmll_random_algorithm algo, fmll_random_distribution dist, double from, double to)
+fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo, fmll_random_distribution dist, double * param)
 {
 	fmll_random * rnd = NULL;
 	unsigned long seed;
-	double a, b, c, d, e;
 
 	fmll_try;
 
@@ -72,7 +100,6 @@ fmll_random * fmll_random_init_default(fmll_random_algorithm algo, fmll_random_d
 			case FMLL_RANDOM_ALGORITHM_MT19937:
 			{
 				seed = 5489UL;
-				a = b = c = d = e = 0;
 
 				break;
 			}
@@ -80,9 +107,6 @@ fmll_random * fmll_random_init_default(fmll_random_algorithm algo, fmll_random_d
 			case FMLL_RANDOM_ALGORITHM_LCG:
 			{
 				seed = time(NULL);
-				a = 0;
-				b = 1;
-				c = d = e = 0;
 
 				break;
 			}
@@ -91,7 +115,7 @@ fmll_random * fmll_random_init_default(fmll_random_algorithm algo, fmll_random_d
 				fmll_throw;
 		};
 
-		fmll_throw_null(rnd = fmll_random_init(algo, dist, from, to, a, b, c, d, e, seed));
+		fmll_throw_null(rnd = fmll_random_init(algo, dist, param, seed));
 
 	fmll_catch;
 
@@ -107,6 +131,9 @@ void fmll_random_destroy(fmll_random * rnd)
 {
 	if(rnd != NULL)
 	{
+		if(rnd->param != NULL)
+			fmll_free(rnd->param);
+
 		if(rnd->state != NULL)
 			fmll_free(rnd->state);
 
@@ -149,7 +176,7 @@ double fmll_random_generate(fmll_random * rnd)
 			{
 				case FMLL_RANDOM_DISTRIBUTION_UNIFORM:
 				{
-					value = (* generate)(rnd) / rnd->max;
+					value = (rnd->param[1] - rnd->param[0]) * (* generate)(rnd) / rnd->max + rnd->param[0];
 
 					break;
 				}
@@ -162,9 +189,9 @@ double fmll_random_generate(fmll_random * rnd)
 					 */
 
 					double phi = (* generate)(rnd) / rnd->max, r = (* generate)(rnd) / rnd->max;
-					value = cos(FMLL_2_PI * phi) * sqrt(- 2 * log(r));
 
-					value = rnd->b * value - rnd->a;
+					value = cos(FMLL_2_PI * phi) * sqrt(- 2 * log(r));
+					value = rnd->param[1] * value + rnd->param[0];
 
 					break;
 				}
@@ -172,8 +199,6 @@ double fmll_random_generate(fmll_random * rnd)
 				default:
 					fmll_throw;
 			};
-
-			value = (rnd->to - rnd->from) * value + rnd->from;
 		}
 
 	fmll_catch;

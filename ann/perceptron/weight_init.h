@@ -83,6 +83,8 @@ int fmll_perceptron_weight_init_0(fmll_perceptron * perc, fmll_random * rnd);
 */
 int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd);
 
+/* TODO Инициализация по Хайкину (рядом со с. 251) */
+
 #ifdef __cplusplus
 }
 #endif

@@ -23,7 +23,7 @@ int main(const int argc, const char * argv[])
 	
 	eigen = (double *) fmll_alloc(sizeof(double), 1, dim);
 	vec = (double **) fmll_alloc(sizeof(double), 2, vec_num, dim);
-	rnd = fmll_random_init_default(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1);
+	rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL);
 
 	for(u = 0; u < vec_num; u++)
 		for(v = 0; v < dim; v++)

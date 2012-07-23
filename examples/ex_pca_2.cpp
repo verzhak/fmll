@@ -20,7 +20,7 @@ int main(const int argc, const char * argv[])
 	{
 		fmll_throw_if(argc != 2);
 
-		fmll_throw_null(rnd = fmll_random_init_default(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1));
+		fmll_throw_null(rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL));
 		fmll_throw_null(pca = fmll_pca_init(3, 3, rnd));
 
 		Mat image = imread(argv[1], 1);

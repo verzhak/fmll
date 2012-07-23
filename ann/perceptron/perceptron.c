@@ -628,8 +628,8 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 	return ret;
 }
 
-int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, fmll_random * rnd,
-		unsigned max_iter, double coef_E, double E_thres, double d_E_thres)
+int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
+		double coef_E, double E_thres, double d_E_thres)
 {
 	bool first_run;
 	int i, j, k, t_weight, t_w, ret = 0;
@@ -637,6 +637,7 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 	unsigned * N = perc->N, t_num = omp_get_max_threads();
 	double delta, E, E_coef_E, prev_E, t_E, beta_1, beta_2, beta, eta_1, eta[3], tE[3], norm_E = 2 * vec_num * N[layers_num - 1];
 	double * t_y, *** y = perc->y, * s = NULL, * prev_s = NULL,* grad = NULL, * prev_grad = NULL, * d_w = NULL, ** w = perc->w;
+	fmll_random * rnd = NULL;
 
 	fmll_try;
 
@@ -646,6 +647,7 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 		fmll_throw_null(s = fmll_alloc(sizeof(double), 1, num_weight));
 		fmll_throw_null(prev_s = fmll_alloc(sizeof(double), 1, num_weight));
 		fmll_throw_null(d_w = fmll_alloc(sizeof(double), 1, num_weight));
+		fmll_throw_null(rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL));
 
 		for(iter = 0, E = E_thres + 1, prev_E = E_thres + 1 + 2 * d_E_thres;
 				iter < max_iter && E > E_thres && (fabs(E - prev_E) > d_E_thres || iter < 10); iter++)
@@ -707,18 +709,10 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 				/* Поиск оптимального коэффициента eta - линейный поиск по параболе минимизируемой квадратичной формы */
 				if(first_run)
 				{
-					double old_from = rnd->from, old_to = rnd->to;
-
-					rnd->from = - 0.5;
-					rnd->to = 0.5; /* TODO или до 1.5 */
-
 					/* Первая итерация алгоритма - инициализация массива eta[] */
-					eta[0] = fmll_random_generate(rnd);
-					eta[2] = fmll_random_generate(rnd) + 0.0000000001;
+					eta[0] = fmll_random_generate(rnd) - 0.5;
+					eta[2] = fmll_random_generate(rnd) - 0.5 + 0.0000000001;
 					eta[1] = (eta[0] + eta[2]) / 2;
-
-					rnd->from = old_from;
-					rnd->to = old_to;
 
 					first_run = false;
 				}
@@ -810,8 +804,8 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 
 			E = tE[1] / norm_E;
 
-			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1.0)) / max_iter,
-					iter ? beta : 0, eta_1, E, E - prev_E);
+			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter,
+					(100.0 * (iter + 1.0)) / max_iter, iter ? beta : 0, eta_1, E, E - prev_E);
 		}
 
 	fmll_catch;
@@ -820,6 +814,7 @@ int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** v
 
 	fmll_finally;
 
+		fmll_random_destroy(rnd);
 		fmll_free(d_w);
 		fmll_free(grad);
 		fmll_free(prev_grad);

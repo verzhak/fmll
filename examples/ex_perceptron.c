@@ -14,8 +14,8 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
-	/* return xor(); */
-	return image_analysis(argc, argv);
+	return xor();
+	/* return image_analysis(argc, argv); */
 }
 
 int image_analysis(const int argc, const char * argv[])
@@ -25,7 +25,7 @@ int image_analysis(const int argc, const char * argv[])
 	bool flag;
 	char fname[4096];
 	unsigned u, v, q, vec_num, vec_per_class, cl_ind, yes, vec_class[5], N[N_NUM];
-	double res, norm, deviation[1] = { 0.3 };
+	double res, norm, param[2], deviation[1] = { 0.3 };
 	double ** x, ** d, ** test_x, ** test_d;
 	double (* fun[N_NUM])(double);
 	double (* d_fun[N_NUM])(double);
@@ -158,14 +158,17 @@ int image_analysis(const int argc, const char * argv[])
 		d_fun[u] = & fmll_d_gaussian;
 	}
 
-	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1, 0, 0, 0, 0, 0, time(NULL));
+	param[0] = 0;
+	param[1] = 1;
+
+	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
 	perc = fmll_perceptron_init(3, N_NUM, N, rnd, & fmll_perceptron_weight_init_random, fun, d_fun);
 
 	/* ############################################################################ */
 
 	/* fmll_perceptron_teach_gradient_batch(perc, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001); */
 	/* fmll_perceptron_teach_Levenberg_Marquardt(perc, x, d, vec_num, 100000, 5, 100000, 0.0005, 0); */
-	fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, rnd, 100000, 0.0001, 0.001, 0);
+	fmll_perceptron_teach_conjugate_gradient(perc, x, d, vec_num, 100000, 0.0001, 0.001, 0);
 
 	/* ############################################################################ */
 
@@ -258,14 +261,14 @@ int xor()
 
 	/* ############################################################################ */
 	
-	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, 0, 1, 0, 0, 0, 0, 0, time(NULL));
+	rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL);
 	perc = fmll_perceptron_init(2, 2, N, rnd, & fmll_perceptron_weight_init_random, fun, d_fun);
 
 	/* ############################################################################ */
 
 	fmll_perceptron_teach_gradient_batch(perc, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
 	/* fmll_perceptron_teach_Levenberg_Marquardt(perc, vec, d, 4, 1000, 2, 1000, 0.001, 0); */
-	/* fmll_perceptron_teach_conjugate_gradient(perc, vec, d, 4, rnd, 1000, 0.00001, 0.001, 0); */
+	/* fmll_perceptron_teach_conjugate_gradient(perc, vec, d, 4, 1000, 0.00001, 0.001, 0); */
 
 	/* ############################################################################ */
 
