@@ -262,7 +262,7 @@ int xor()
 	/* ############################################################################ */
 	
 	rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL);
-	perc = fmll_perceptron_init(2, 2, N, rnd, & fmll_perceptron_weight_init_random, fun, d_fun);
+	perc = fmll_perceptron_init(2, 2, N, rnd, & fmll_perceptron_weight_init_nguyen_widrow, fun, d_fun);
 
 	/* ############################################################################ */
 

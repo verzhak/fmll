@@ -83,7 +83,61 @@ int fmll_perceptron_weight_init_0(fmll_perceptron * perc, fmll_random * rnd);
 */
 int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd);
 
-/* TODO Инициализация по Хайкину (рядом со с. 251) */
+/*!
+
+\en
+
+	\brief TODO
+
+	\param perc - TODO;
+	\param rnd - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Инициализация весов синапсов нейронов перцептрона по LeCun'у
+
+	\param perc - указатель на описатель перцептрона;
+	\param rnd - описатель датчика (псевдо) случайных чисел.
+	
+	Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
+
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
+
+\endlang
+
+*/
+int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd);
+
+/*!
+
+\en
+
+	\brief TODO
+
+	\param perc - TODO;
+	\param rnd - TODO.
+
+	\return TODO.
+
+\ru
+
+	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному Nguyen D. и Widrow B.
+
+	\param perc - указатель на описатель перцептрона;
+	\param rnd - описатель датчика (псевдо) случайных чисел.
+	
+	Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
+
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
+
+\endlang
+
+*/
+int fmll_perceptron_weight_init_nguyen_widrow(fmll_perceptron * perc, fmll_random * rnd);
 
 #ifdef __cplusplus
 }
