@@ -28,11 +28,11 @@
 
 \en
 
-	\brief TODO
+	\brief \f$\pi\f$
 
 \ru
 
-	\brief Число \f$\pi\f$
+	\brief \f$\pi\f$
 
 \endlang
 
@@ -43,11 +43,11 @@
 
 \en
 
-	\brief TODO
+	\brief \f$2 \pi\f$
 
 \ru
 
-	\brief Число \f$2 \pi\f$
+	\brief \f$2 \pi\f$
 
 \endlang
 
@@ -58,11 +58,11 @@
 
 \en
 
-	\brief TODO
+	\brief \f$\frac{\pi}{2}\f$
 
 \ru
 
-	\brief Число \f$\frac{\pi}{2}\f$
+	\brief \f$\frac{\pi}{2}\f$
 
 \endlang
 
@@ -73,11 +73,11 @@
 
 \en
 
-	\brief TODO
+	\brief \f$ \sqrt{2} \f$
 
 \ru
 
-	\brief Число \f$ \sqrt{2) \f$
+	\brief \f$ \sqrt{2} \f$
 
 \endlang
 

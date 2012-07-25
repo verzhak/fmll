@@ -96,7 +96,7 @@ int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов перцептрона по LeCun'у
+	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному LeCun Y.
 
 	\param perc - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел.
@@ -129,8 +129,6 @@ int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd)
 	\param perc - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел.
 	
-	Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
-
 	\return 0 - в случае успеха;
 	\return <> 0 - в случае неудачи.
 
