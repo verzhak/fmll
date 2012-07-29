@@ -5,9 +5,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
 \ru
 
@@ -45,7 +45,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -57,25 +57,25 @@
 typedef struct t_fmll_som
 {
 
-	/*! \en TODO \ru Веса синапсов нейронов \endlang */
+	/*! \en TRANSLATE \ru Веса синапсов нейронов \endlang */
 	double ** w;
 
-	/*! \en TODO \ru Координаты нейронов \endlang */
+	/*! \en TRANSLATE \ru Координаты нейронов \endlang */
 	double ** coord;
 
-	/*! \en TODO \ru Количество нейронов \endlang */
+	/*! \en TRANSLATE \ru Количество нейронов \endlang */
 	unsigned num;
 
-	/*! \en TODO \ru Размерность нейронной карты \endlang */
+	/*! \en TRANSLATE \ru Размерность нейронной карты \endlang */
 	unsigned map_dim;
 	
-	/*! \en TODO \ru Размерность классифицируемого векторного пространства \endlang */
+	/*! \en TRANSLATE \ru Размерность классифицируемого векторного пространства \endlang */
 	unsigned dim;
 
-	/*! \en TODO \ru Указатель на функцию, расчитывающую расстояние между нейронами на карте нейронов \endlang */
+	/*! \en TRANSLATE \ru Указатель на функцию, расчитывающую расстояние между нейронами на карте нейронов \endlang */
 	double (* distance_w)(const double *, const double *, unsigned);
 
-	/*! \en TODO \ru Указатель на функцию, расчитывающую расстояние между векторами \endlang */
+	/*! \en TRANSLATE \ru Указатель на функцию, расчитывающую расстояние между векторами \endlang */
 	double (* distance)(const double *, const double *, unsigned);
 
 	/*! \cond HIDDEN_SYMBOLS */
@@ -97,16 +97,16 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO;
-	\param gamma_mult - TODO;
-	\param gamma_add - TODO;
-	\param index_winner - TODO;
-	\param index - TODO.
+	\param som - TRANSLATE;
+	\param gamma_mult - TRANSLATE;
+	\param gamma_add - TRANSLATE;
+	\param index_winner - TRANSLATE;
+	\param index - TRANSLATE.
 
-	\return 1 - TODO;
-	\return 0 - TODO.
+	\return 1 - TRANSLATE;
+	\return 0 - TRANSLATE.
 
 	\sa fmll_som_neighbor_radial().
 
@@ -134,29 +134,29 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	\gamma_{mult} ~ exp \left( - \frac{distance^2_w(c_{winner}, c_{current})}{\gamma_{add}} \right )
 	\f]
 	
-	TODO:
+	TRANSLATE:
 
-	- \f$\gamma_{mult}\f$ - TODO;
-	- \f$\gamma_{add}\f$ - TODO;
-	- \f$distance_w()\f$ - TODO;
-	- \f$c_{winner}\f$ - TODO;
-	- \f$c_{current}\f$ - TODO.
+	- \f$\gamma_{mult}\f$ - TRANSLATE;
+	- \f$\gamma_{add}\f$ - TRANSLATE;
+	- \f$distance_w()\f$ - TRANSLATE;
+	- \f$c_{winner}\f$ - TRANSLATE;
+	- \f$c_{current}\f$ - TRANSLATE.
 
-	\param som - TODO;
-	\param gamma_mult - TODO;
-	\param gamma_add - TODO;
-	\param index_winner - TODO;
-	\param index - TODO.
+	\param som - TRANSLATE;
+	\param gamma_mult - TRANSLATE;
+	\param gamma_add - TRANSLATE;
+	\param index_winner - TRANSLATE;
+	\param index - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 	\sa fmll_som_neighbor_wta().
 
@@ -199,23 +199,23 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param N - TODO;
-	\param map_dim - TODO;
-	\param dim - TODO;
-	\param rnd - TODO;
-	\param distance_w - TODO;
-	\param distance - TODO.
+	\param N - TRANSLATE;
+	\param map_dim - TRANSLATE;
+	\param dim - TRANSLATE;
+	\param rnd - TRANSLATE;
+	\param distance_w - TRANSLATE;
+	\param distance - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -247,9 +247,9 @@ fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, fml
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO.
+	\param som - TRANSLATE.
 
 \ru
 
@@ -266,13 +266,13 @@ void fmll_som_destroy(fmll_som * som);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO;
-	\param fname_prefix - TODO (TODO).
+	\param som - TRANSLATE;
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -293,14 +293,14 @@ int fmll_som_save(fmll_som * som, const char * fname_prefix);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param fname_prefix - TODO (TODO);
-	\param distance_w - TODO;
-	\param distance - TODO.
+	\param fname_prefix - TRANSLATE (TRANSLATE);
+	\param distance_w - TRANSLATE;
+	\param distance - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -323,12 +323,12 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO;
-	\param vec - TODO.
+	\param som - TRANSLATE;
+	\param vec - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -348,37 +348,37 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO;
-	\param vec - TODO;
-	\param vec_num - TODO;
-	\param beta_0 - TODO, \f$\beta_0 ~ \in ~ [0, 1]\f$;
-	\param next_beta - TODO;
-	\param gamma_mult - TODO;
-	\param gamma_add - TODO;
-	\param neighbor - TODO.
+	\param som - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param beta_0 - TRANSLATE, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+	\param next_beta - TRANSLATE;
+	\param gamma_mult - TRANSLATE;
+	\param gamma_add - TRANSLATE;
+	\param neighbor - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	TODO: \f$neighbor() ~ \to ~ 1\f$ TODO \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TODO:
+	TRANSLATE: \f$neighbor() ~ \to ~ 1\f$ TRANSLATE \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TRANSLATE:
 
-	- \f$distance_w()\f$ - TODO;
-	- \f$c_{winner}\f$ - TODO;
-	- \f$c_{current}\f$ - TODO.
+	- \f$distance_w()\f$ - TRANSLATE;
+	- \f$c_{winner}\f$ - TRANSLATE;
+	- \f$c_{current}\f$ - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -424,39 +424,39 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param som - TODO;
-	\param vec - TODO;
-	\param vec_num - TODO;
-	\param beta_0 - TODO, \f$\beta_0 ~ \in ~ [0, 1]\f$;
-	\param next_beta - TODO;
-	\param gamma_mult - TODO;
-	\param gamma_add - TODO;
-	\param neighbor - TODO;
-	\param max_win - TODO;
-	\param penalty - TODO.
+	\param som - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param beta_0 - TRANSLATE, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+	\param next_beta - TRANSLATE;
+	\param gamma_mult - TRANSLATE;
+	\param gamma_add - TRANSLATE;
+	\param neighbor - TRANSLATE;
+	\param max_win - TRANSLATE;
+	\param penalty - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	TODO: \f$neighbor() ~ \to ~ 1\f$ TODO \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TODO:
+	TRANSLATE: \f$neighbor() ~ \to ~ 1\f$ TRANSLATE \f$distance_w(c_{winner}, c_{current}) ~ \to ~ 0\f$, TRANSLATE:
 
-	- \f$distance_w()\f$ - TODO;
-	- \f$c_{winner}\f$ - TODO;
-	- \f$c_{current}\f$ - TODO.
+	- \f$distance_w()\f$ - TRANSLATE;
+	- \f$c_{winner}\f$ - TRANSLATE;
+	- \f$c_{current}\f$ - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 

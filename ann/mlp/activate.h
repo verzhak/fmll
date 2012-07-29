@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -29,9 +29,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_sin, fmll_d_sin.
 
@@ -52,9 +52,9 @@ extern double fmll_sin_a;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_sin, fmll_d_sin.
 
@@ -75,9 +75,9 @@ extern double fmll_sin_b;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_sigmoid, fmll_d_sigmoid.
 
@@ -98,9 +98,9 @@ extern double fmll_sigmoid_a;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_tanh, fmll_d_tanh.
 
@@ -121,9 +121,9 @@ extern double fmll_tanh_a;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_tanh, fmll_d_tanh.
 
@@ -144,9 +144,9 @@ extern double fmll_tanh_b;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_gaussian, fmll_d_gaussian.
 
@@ -167,9 +167,9 @@ extern double fmll_gaussian_a;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 0.
+	TRANSLATE: 0.
 
 	\sa fmll_gaussian, fmll_d_gaussian.
 
@@ -190,9 +190,9 @@ extern double fmll_gaussian_b;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: \f$ \sqrt{2} \f$.
+	TRANSLATE: \f$ \sqrt{2} \f$.
 
 	\sa fmll_gaussian, fmll_d_gaussian.
 
@@ -218,9 +218,9 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f(x) ~ = ~ A ~ \sin(Bx)
@@ -249,9 +249,9 @@ double fmll_sin(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
@@ -280,9 +280,9 @@ double fmll_d_sin(double x);
 
 \en
 
-	\brief TODO (TODO)
+	\brief TRANSLATE (TRANSLATE)
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
@@ -311,9 +311,9 @@ double fmll_sigmoid(double x);
 
 \en
 
-	\brief TODO (TODO)
+	\brief TRANSLATE (TRANSLATE)
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
@@ -342,9 +342,9 @@ double fmll_d_sigmoid(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f(x) ~ = ~ A ~ \tanh(Bx)
@@ -373,9 +373,9 @@ double fmll_tanh(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
@@ -404,7 +404,7 @@ double fmll_d_tanh(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -419,7 +419,7 @@ double fmll_line(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -434,9 +434,9 @@ double fmll_d_line(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f(x) ~ = ~ A ~ e ^ {- \frac{(x - B) ^ 2}{2 C ^ 2}}
@@ -465,9 +465,9 @@ double fmll_gaussian(double x);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)

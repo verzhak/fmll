@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -33,13 +33,13 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param vec_1 - TODO;
-	\param vec_2 - TODO;
-	\param dim - TODO.
+	\param vec_1 - TRANSLATE;
+	\param vec_2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -60,13 +60,13 @@ double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, u
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param vec_1 - TODO;
-	\param vec_2 - TODO;
-	\param dim - TODO.
+	\param vec_1 - TRANSLATE;
+	\param vec_2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -87,13 +87,13 @@ double fmll_distance_euclid(const double * vec_1, const double * vec_2, unsigned
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param vec_1 - TODO;
-	\param vec_2 - TODO;
-	\param dim - TODO.
+	\param vec_1 - TRANSLATE;
+	\param vec_2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -114,13 +114,13 @@ double fmll_distance_scalar(const double * vec_1, const double * vec_2, unsigned
 
 \en
 
-	\brief TODO (TODO), TODO
+	\brief TRANSLATE (TRANSLATE), TRANSLATE
 
-	\param vec_1 - TODO;
-	\param vec_2 - TODO;
-	\param dim - TODO.
+	\param vec_1 - TRANSLATE;
+	\param vec_2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -141,13 +141,13 @@ double fmll_distance_manhattan(const double * vec_1, const double * vec_2, unsig
 
 \en
 
-	\brief TODO (TODO), TODO
+	\brief TRANSLATE (TRANSLATE), TRANSLATE
 
-	\param vec_1 - TODO;
-	\param vec_2 - TODO;
-	\param dim - TODO.
+	\param vec_1 - TRANSLATE;
+	\param vec_2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 

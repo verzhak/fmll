@@ -5,28 +5,28 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
 \ru
 
-	\brief Однослойные и многослойные перцептроны
+	\brief Многослойный перцептрон
 
 	Последовательность действий по использованию перцептрона:
 
-	-# Создать перцептрон с помощью функции fmll_perceptron_init();
-	-# Обучить перцептрон с помощью одной из *_perceptron_teach_* функций;
-	-# Оценить качество обучения перцептрона с помощью функции fmll_perceptron_test();
-	-# Прогнать перцептрон над целевыми векторами с помощью функции fmll_perceptron_run();
-	-# Удалить перцептрон с помощью функции fmll_perceptron_destroy().
+	-# Создать перцептрон с помощью функции fmll_mlp_init();
+	-# Обучить перцептрон с помощью одной из *_mlp_teach_* функций;
+	-# Оценить качество обучения перцептрона с помощью функции fmll_mlp_test();
+	-# Прогнать перцептрон над целевыми векторами с помощью функции fmll_mlp_run();
+	-# Удалить перцептрон с помощью функции fmll_mlp_destroy().
 
 \endlang
 
 */
 
-#ifndef FMLL_PERCEPTRON_H
-#define FMLL_PERCEPTRON_H
+#ifndef FMLL_mlp_H
+#define FMLL_mlp_H
 
 #ifdef FMLL_BUILD
 
@@ -45,7 +45,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -54,31 +54,31 @@
 \endlang
 
 */
-typedef struct t_fmll_perceptron
+typedef struct t_fmll_mlp
 {
 
-	/*! \en TODO \ru Массив весов синапсов нейронов \endlang */
+	/*! \en TRANSLATE \ru Массив весов синапсов нейронов \endlang */
 	double ** w;
 
-	/*! \en TODO \ru Массив входных и выходных векторов значений слоев перцептрона (в том числе и вектор выходных значений) \endlang */
+	/*! \en TRANSLATE \ru Массив входных и выходных векторов значений слоев перцептрона (в том числе и вектор выходных значений) \endlang */
 	double *** y;
 
-	/*! \en TODO \ru Размерность входного вектора \endlang */
+	/*! \en TRANSLATE \ru Размерность входного вектора \endlang */
 	unsigned dim;
 
-	/*! \en TODO \ru Количество скрытых слоев \endlang */
+	/*! \en TRANSLATE \ru Количество скрытых слоев \endlang */
 	unsigned layers_num;
 
-	/*! \en TODO \ru Количество нейронов в каждом из скрытых слоев \endlang */
+	/*! \en TRANSLATE \ru Количество нейронов в каждом из скрытых слоев \endlang */
 	unsigned * N;
 
-	/*! \en TODO \ru Суммарное количество нейронов во всех скрытых слоях \endlang */
+	/*! \en TRANSLATE \ru Суммарное количество нейронов во всех скрытых слоях \endlang */
 	unsigned num;
 
-	/*! \en TODO \ru Массив функций активаций (своя функция активации для каждого из скрытых слоев) \endlang */
+	/*! \en TRANSLATE \ru Массив функций активаций (своя функция активации для каждого из скрытых слоев) \endlang */
 	double (** fun)(double);
 
-	/*! \en TODO \ru Массив производных функций активаций \endlang */
+	/*! \en TRANSLATE \ru Массив производных функций активаций \endlang */
 	double (** d_fun)(double);
 
 	/*! \cond HIDDEN_SYMBOLS */
@@ -88,7 +88,7 @@ typedef struct t_fmll_perceptron
 
 	/*! \endcond */
 
-} fmll_perceptron;
+} fmll_mlp;
 
 /* ############################################################################ */
 
@@ -101,18 +101,18 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param dim - TODO;
-	\param layers_num - TODO;
-	\param N - TODO;
-	\param rnd - TODO (TODO);
-	\param weight_init - TODO;
-	\param fun - TODO;
-	\param d_fun - TODO.
+	\param dim - TRANSLATE;
+	\param layers_num - TRANSLATE;
+	\param N - TRANSLATE;
+	\param rnd - TRANSLATE (TRANSLATE);
+	\param weight_init - TRANSLATE;
+	\param fun - TRANSLATE;
+	\param d_fun - TRANSLATE.
 
-	\return TODO;
-	\return TODO.
+	\return TRANSLATE;
+	\return TRANSLATE.
 
 \ru
 
@@ -132,45 +132,45 @@ extern "C"
 \endlang
 
 */
-fmll_perceptron * fmll_perceptron_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
-		int (* weight_init)(fmll_perceptron *, fmll_random *), double (** fun)(double), double (** d_fun)(double));
+fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
+		int (* weight_init)(fmll_mlp *, fmll_random *), double (** fun)(double), double (** d_fun)(double));
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO.
+	\param mlp - TRANSLATE.
 
 \ru
 
 	\brief Удаление перцептрона
 
-	\param perc - указатель на описатель перцептрона.
+	\param mlp - указатель на описатель перцептрона.
 
 \endlang
 
 */
-void fmll_perceptron_destroy(fmll_perceptron * perc);
+void fmll_mlp_destroy(fmll_mlp * mlp);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param fname_prefix - TODO (TODO).
+	\param mlp - TRANSLATE;
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
 	\brief Сохранение в XML-файл описателя перцептрона
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param fname_prefix - путь и имя XML-файла (к строке fname_prefix будет добавлено расширение .xml).
 
 	\return 0 - в случае успешного сохранения описателя перцептрона;
@@ -179,20 +179,20 @@ void fmll_perceptron_destroy(fmll_perceptron * perc);
 \endlang
 
 */
-int fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix);
+int fmll_mlp_save(fmll_mlp * mlp, const char * fname_prefix);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param fname_prefix - TODO (TODO);
-	\param fun - TODO (TODO);
-	\param d_fun - TODO.
+	\param fname_prefix - TRANSLATE (TRANSLATE);
+	\param fun - TRANSLATE (TRANSLATE);
+	\param d_fun - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -208,24 +208,24 @@ int fmll_perceptron_save(fmll_perceptron * perc, const char * fname_prefix);
 \endlang
 
 */
-fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double));
+fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double));
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param vec - TODO.
+	\param mlp - TRANSLATE;
+	\param vec - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Прогон перцептрона над некоторым вектором
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param vec - некоторый вектор.
 
 	\return указатель на массив выходных значений перцептрона.
@@ -233,39 +233,39 @@ fmll_perceptron * fmll_perceptron_load(const char * fname_prefix, double (** fun
 \endlang
 
 */
-const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
+const double * fmll_mlp_run(fmll_mlp * mlp, const double * vec);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param deviation - TODO;
-	\param vec_num - TODO;
-	\param st_func - TODO (TODO);
-	\param st_param - TODO (TODO).
+	\param mlp - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param deviation - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param st_func - TRANSLATE (TRANSLATE);
+	\param st_param - TRANSLATE (TRANSLATE).
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Тестирование перцептрона
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param vec - тестовое множество векторов;
 	\param d - множество эталонных откликов;
 	\param deviation - допустимые отклонения для каждого из откликов;
@@ -288,34 +288,34 @@ const double * fmll_perceptron_run(fmll_perceptron * perc, const double * vec);
 \endlang
 
 */
-unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d, double * deviation, unsigned vec_num,
-		void (* st_func)(fmll_perceptron *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
+unsigned fmll_mlp_test(fmll_mlp * mlp, double ** vec, double ** d, double * deviation, unsigned vec_num,
+		void (* st_func)(fmll_mlp *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param beta_0 - TODO;
-	\param next_beta - TODO;
-	\param coef_moment - TODO;
-	\param max_iter - TODO;
-	\param E_thres - TODO;
-	\param d_E_thres - TODO.
+	\param mlp - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param beta_0 - TRANSLATE;
+	\param next_beta - TRANSLATE;
+	\param coef_moment - TRANSLATE;
+	\param max_iter - TRANSLATE;
+	\param E_thres - TRANSLATE;
+	\param d_E_thres - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
 	\brief Обучение перцептрона путем пакетного градиентного спуска с использованием алгоритма обратного распространения ошибки
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param vec - массив обучающих векторов;
 	\param d - множество эталонных откликов;
 	\param vec_num - количество векторов в массиве обучающих векторов;
@@ -332,33 +332,33 @@ unsigned fmll_perceptron_test(fmll_perceptron * perc, double ** vec, double ** d
 \endlang
 
 */
-int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
 		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param eta_0 - TODO;
-	\param eta_coef - TODO (TODO);
-	\param max_iter - TODO;
-	\param E_thres - TODO;
-	\param d_E_thres - TODO.
+	\param mlp - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param eta_0 - TRANSLATE;
+	\param eta_coef - TRANSLATE (TRANSLATE);
+	\param max_iter - TRANSLATE;
+	\param E_thres - TRANSLATE;
+	\param d_E_thres - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
 	\brief Обучение перцептрона по алгоритму Левенберга - Марквардта (один из квазиньютоновских методов)
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param vec - массив обучающих векторов;
 	\param d - множество эталонных откликов;
 	\param vec_num - количество векторов в массиве обучающих векторов;
@@ -374,32 +374,32 @@ int fmll_perceptron_teach_gradient_batch(fmll_perceptron * perc, double ** vec, 
 \endlang
 
 */
-int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num,
+int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
 		double eta_0, double eta_coef, unsigned max_iter, double E_thres, double d_E_thres);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param max_iter - TODO;
-	\param coef_E - TODO;
-	\param E_thres - TODO;
-	\param d_E_thres - TODO.
+	\param mlp - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param max_iter - TRANSLATE;
+	\param coef_E - TRANSLATE;
+	\param E_thres - TRANSLATE;
+	\param d_E_thres - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
 	\brief Обучение перцептрона по алгоритму сопряженных градиентов
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param vec - массив обучающих векторов;
 	\param d - множество эталонных откликов;
 	\param vec_num - количество векторов в массиве обучающих векторов;
@@ -414,7 +414,7 @@ int fmll_perceptron_teach_Levenberg_Marquardt(fmll_perceptron * perc, double ** 
 \endlang
 
 */
-int fmll_perceptron_teach_conjugate_gradient(fmll_perceptron * perc, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
+int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
 		double coef_E, double E_thres, double d_E_thres);
 
 #ifdef __cplusplus

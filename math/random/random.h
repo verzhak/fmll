@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -36,7 +36,7 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -48,10 +48,10 @@ extern "C"
 typedef enum t_fmll_random_algorithm
 {
 
-	/*! \en TODO \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
+	/*! \en TRANSLATE \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
 	FMLL_RANDOM_ALGORITHM_MT19937,
 
-	/*! \en TODO \ru Линейный конгруэнтный метод \endlang */
+	/*! \en TRANSLATE \ru Линейный конгруэнтный метод \endlang */
 	FMLL_RANDOM_ALGORITHM_LCG
 
 } fmll_random_algorithm;
@@ -60,7 +60,7 @@ typedef enum t_fmll_random_algorithm
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -76,9 +76,9 @@ typedef enum t_fmll_random_distribution
 	
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
 \ru
 
@@ -98,9 +98,9 @@ typedef enum t_fmll_random_distribution
 	
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
 \ru
 
@@ -124,7 +124,7 @@ typedef enum t_fmll_random_distribution
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -136,10 +136,10 @@ typedef enum t_fmll_random_distribution
 typedef struct t_fmll_random
 {
 
-	/*! \en TODO \ru Идентификатор датчика (псевдо) случайных чисел \endlang */
+	/*! \en TRANSLATE \ru Идентификатор датчика (псевдо) случайных чисел \endlang */
 	fmll_random_algorithm algo;
 
-	/*! \en TODO \ru Идентификатор распределения (псевдо) случайных чисел \endlang */
+	/*! \en TRANSLATE \ru Идентификатор распределения (псевдо) случайных чисел \endlang */
 	fmll_random_distribution dist;
 
 	/*! \cond HIDDEN_SYMBOLS */
@@ -155,15 +155,15 @@ typedef struct t_fmll_random
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param algo - TODO;
-	\param dist - TODO;
-	\param param - TODO;
-	\param seed - TODO.
+	\param algo - TRANSLATE;
+	\param dist - TRANSLATE;
+	\param param - TRANSLATE;
+	\param seed - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 	\sa fmll_random_distribution
 
@@ -190,15 +190,15 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param algo - TODO;
-	\param dist - TODO;
-	\param from - TODO;
-	\param to - TODO.
+	\param algo - TRANSLATE;
+	\param dist - TRANSLATE;
+	\param from - TRANSLATE;
+	\param to - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 	\sa fmll_random_distribution
 
@@ -224,9 +224,9 @@ fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo, fmll_ran
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param rnd - TODO.
+	\param rnd - TRANSLATE.
 
 \ru
 
@@ -243,11 +243,11 @@ void fmll_random_destroy(fmll_random * rnd);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param rnd - TODO.
+	\param rnd - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 

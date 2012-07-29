@@ -5,7 +5,7 @@
 
 \en
 	
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -35,19 +35,19 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = v_1^T v_2
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -74,19 +74,19 @@ double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^2
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -113,19 +113,19 @@ double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^3
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -152,19 +152,19 @@ double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 \right )^4
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -193,19 +193,19 @@ double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = v_1^T v_2 + 1
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -232,19 +232,19 @@ double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^2
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -271,19 +271,19 @@ double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^3
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -310,19 +310,19 @@ double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \left ( v_1^T v_2 + 1 \right )^4
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -351,9 +351,9 @@ double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_kernel_radial.
 
@@ -374,19 +374,19 @@ extern double fmll_kernel_radial_sigma;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = exp \left ( - \frac{1}{2\sigma^2} | v_1 - v_2 |^2 \right )
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 	\sa fmll_kernel_radial_sigma.
 \ru
@@ -418,9 +418,9 @@ double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 1.
+	TRANSLATE: 1.
 
 	\sa fmll_kernel_tanh.
 
@@ -441,9 +441,9 @@ extern double fmll_kernel_tanh_a;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO: 0.
+	TRANSLATE: 0.
 
 	\sa fmll_kernel_tanh.
 
@@ -464,19 +464,19 @@ extern double fmll_kernel_tanh_b;
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = tanh \left ( A v_1^T v_2 + B \right )
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 	\sa fmll_kernel_tanh_a, fmll_kernel_tanh_b.
 
@@ -509,19 +509,19 @@ double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param v1 - TODO;
-	\param v2 - TODO;
-	\param dim - TODO.
+	\param v1 - TRANSLATE;
+	\param v2 - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
 	\f[
 	K(v_1, v_2) = \sum_{i = 1}^{dim} \min(v_{1i}, v_{2i})
 	\f]
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 

@@ -1,5 +1,5 @@
 
-#include "ann/perceptron/activate.h"
+#include "ann/mlp/activate.h"
 
 double fmll_sin_a = 1;
 double fmll_sin_b = 1;

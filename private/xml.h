@@ -6,7 +6,7 @@
 #include "lib/memory.h"
 #include "lib/exception.h"
 
-#define TYPE_PERCEPTRON "perceptron"
+#define TYPE_MLP "mlp"
 #define TYPE_SOM "som"
 #define TYPE_PCA "pca"
 #define TYPE_SVM "svm"

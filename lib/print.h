@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -31,22 +31,22 @@ extern "C"
 {
 #endif
 
-/*! \en TODO \ru Указатель на функцию вывода информационных сообщений (может принимать значение NULL) \endlang */
+/*! \en TRANSLATE \ru Указатель на функцию вывода информационных сообщений (может принимать значение NULL) \endlang */
 extern int (* fmll_print_fun)(const char * format, va_list param);
 
-/*! \en TODO \ru Указатель на функцию вывода сообщений об ошибках (может принимать значение NULL) \endlang */
+/*! \en TRANSLATE \ru Указатель на функцию вывода сообщений об ошибках (может принимать значение NULL) \endlang */
 extern int (* fmll_print_error_fun)(const char * format, va_list param);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -66,12 +66,12 @@ int fmll_stderr_print(const char * format, va_list param);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -91,12 +91,12 @@ int fmll_print(const char * format, ...);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 

@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -33,11 +33,11 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -56,11 +56,11 @@ double fmll_timing_next_beta_step_minus_0_1(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -79,11 +79,11 @@ double fmll_timing_next_beta_step_minus_0_01(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -102,11 +102,11 @@ double fmll_timing_next_beta_step_minus_0_001(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -125,11 +125,11 @@ double fmll_timing_next_beta_step_minus_0_0001(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -148,11 +148,11 @@ double fmll_timing_next_beta_step_minus_0_00001(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -171,11 +171,11 @@ double fmll_timing_next_beta_step_0(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -194,11 +194,11 @@ double fmll_timing_next_beta_step_plus_0_1(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -217,11 +217,11 @@ double fmll_timing_next_beta_step_plus_0_01(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -240,11 +240,11 @@ double fmll_timing_next_beta_step_plus_0_001(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -263,11 +263,11 @@ double fmll_timing_next_beta_step_plus_0_0001(double beta);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param beta - TODO.
+	\param beta - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 

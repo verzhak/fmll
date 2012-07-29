@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -22,7 +22,7 @@
 
 	#include "all.h"
 	#include "math/random/random.h"
-	#include "ann/perceptron/perceptron.h"
+	#include "ann/mlp/mlp.h"
 
 #endif
 
@@ -35,18 +35,18 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param rnd - TODO.
+	\param mlp - TRANSLATE;
+	\param rnd - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Установ весов синапсов нейронов перцептрона в 0
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел (не используется).
 
 	\return 0 - в случае успеха;
@@ -55,24 +55,24 @@ extern "C"
 \endlang
 
 */
-int fmll_perceptron_weight_init_0(fmll_perceptron * perc, fmll_random * rnd);
+int fmll_mlp_weight_init_0(fmll_mlp * mlp, fmll_random * rnd);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param rnd - TODO.
+	\param mlp - TRANSLATE;
+	\param rnd - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Инициализация весов синапсов нейронов перцептрона (псевдо) случайными значениями
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел.
 
 	\return 0 - в случае успеха;
@@ -81,24 +81,24 @@ int fmll_perceptron_weight_init_0(fmll_perceptron * perc, fmll_random * rnd);
 \endlang
 
 */
-int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd);
+int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param rnd - TODO.
+	\param mlp - TRANSLATE;
+	\param rnd - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному LeCun Y.
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел.
 	
 	Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
@@ -109,24 +109,24 @@ int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd
 \endlang
 
 */
-int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd);
+int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd);
 
 /*!
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param perc - TODO;
-	\param rnd - TODO.
+	\param mlp - TRANSLATE;
+	\param rnd - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
 	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному Nguyen D. и Widrow B.
 
-	\param perc - указатель на описатель перцептрона;
+	\param mlp - указатель на описатель перцептрона;
 	\param rnd - описатель датчика (псевдо) случайных чисел.
 	
 	\return 0 - в случае успеха;
@@ -135,7 +135,7 @@ int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd)
 \endlang
 
 */
-int fmll_perceptron_weight_init_nguyen_widrow(fmll_perceptron * perc, fmll_random * rnd);
+int fmll_mlp_weight_init_nguyen_widrow(fmll_mlp * mlp, fmll_random * rnd);
 
 #ifdef __cplusplus
 }

@@ -5,9 +5,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO.
+	TRANSLATE.
 
 \ru
 
@@ -43,7 +43,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -55,10 +55,10 @@
 typedef struct t_fmll_svm_net
 {
 
-	/*! \en TODO \ru Количество машин опорных векторов в сети \endlang */
+	/*! \en TRANSLATE \ru Количество машин опорных векторов в сети \endlang */
 	unsigned num;
 
-	/*! \en TODO \ru Массив указателей на описатели машин опорных векторов \endlang */
+	/*! \en TRANSLATE \ru Массив указателей на описатели машин опорных векторов \endlang */
 	fmll_svm ** svm;
 
 } fmll_svm_net;
@@ -74,14 +74,14 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param num - TODO;
-	\param dim - TODO;
-	\param K - TODO.
+	\param num - TRANSLATE;
+	\param dim - TRANSLATE;
+	\param K - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -103,9 +103,9 @@ fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm_net - TODO.
+	\param svm_net - TRANSLATE.
 
 \ru
 
@@ -122,13 +122,13 @@ void fmll_svm_net_destroy(fmll_svm_net * svm_net);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm_net - TODO;
-	\param fname_prefix - TODO (TODO).
+	\param svm_net - TRANSLATE;
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -149,13 +149,13 @@ int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param fname_prefix - TODO;
-	\param K - TODO.
+	\param fname_prefix - TRANSLATE;
+	\param K - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -176,18 +176,18 @@ fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm_net - TODO;
-	\param vec - TODO;
-	\param y - TODO.
+	\param svm_net - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param y - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return TODO;
-	\return -1 - TODO;
-	\return -2 - TODO;
-	\return < -2 - TODO.
+	\return TRANSLATE;
+	\return -1 - TRANSLATE;
+	\return -2 - TRANSLATE;
+	\return < -2 - TRANSLATE.
 
 \ru
 
@@ -213,27 +213,27 @@ int fmll_svm_net_run(fmll_svm_net * svm_net, const double * vec, double * y);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm_net - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param st_func - TODO (TODO);
-	\param st_param - TODO (TODO).
+	\param svm_net - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param st_func - TRANSLATE (TRANSLATE);
+	\param st_param - TRANSLATE (TRANSLATE).
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -269,20 +269,20 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm_net - TODO;
-	\param vec - TODO;
-	\param d - TODO (TODO);
-	\param vec_num - TODO;
-	\param C - TODO;
-	\param tau - TODO;
-	\param selector - TODO;
-	\param max_iter - TODO;
-	\param epsilon - TODO.
+	\param svm_net - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE (TRANSLATE);
+	\param vec_num - TRANSLATE;
+	\param C - TRANSLATE;
+	\param tau - TRANSLATE;
+	\param selector - TRANSLATE;
+	\param max_iter - TRANSLATE;
+	\param epsilon - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 	\sa fmll_svm_teach_smo.
 

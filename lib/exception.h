@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -45,9 +45,9 @@
 
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 
-		TODO
+		TRANSLATE
 
 	\ru
 
@@ -62,7 +62,7 @@
 
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 
 	\ru
 
@@ -78,7 +78,7 @@
 
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 		
 	\ru
 
@@ -94,7 +94,7 @@
 
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 
 	\ru
 
@@ -110,7 +110,7 @@
 
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 
 	\ru
 
@@ -131,9 +131,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param condition - TODO.
+	\param condition - TRANSLATE.
 
 \ru
 
@@ -154,9 +154,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param pointer - TODO.
+	\param pointer - TRANSLATE.
 
 \ru
 

@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -34,14 +34,14 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param type_size - TODO;
-	\param dim - TODO;
-	\param ... - TODO.
+	\param type_size - TRANSLATE;
+	\param dim - TRANSLATE;
+	\param ... - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -70,12 +70,12 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param size - TODO.
+	\param size - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -99,9 +99,9 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param mem - TODO.
+	\param mem - TRANSLATE.
 
 \ru
 

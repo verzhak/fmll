@@ -5,9 +5,9 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO
+	TRANSLATE
 
 \ru
 
@@ -44,7 +44,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -56,22 +56,22 @@
 typedef struct t_fmll_pca
 {
 
-	/*! \en TODO \ru Веса синапсов нейронов \endlang */
+	/*! \en TRANSLATE \ru Веса синапсов нейронов \endlang */
 	double ** w;
 
-	/*! \en TODO \ru Вектор выходных значений \endlang */
+	/*! \en TRANSLATE \ru Вектор выходных значений \endlang */
 	double * y;
 
-	/*! \en TODO \ru Размерность исходного векторного пространства \endlang*/
+	/*! \en TRANSLATE \ru Размерность исходного векторного пространства \endlang*/
 	unsigned dim;
 
 	/*!
 	
 	\en
 
-		TODO
+		TRANSLATE
 
-		TODO: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
+		TRANSLATE: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
 	\ru
 
@@ -97,16 +97,16 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param dim - TODO;
-	\param num - TODO;
-	\param rnd - TODO.
+	\param dim - TRANSLATE;
+	\param num - TRANSLATE;
+	\param rnd - TRANSLATE.
 
-	TODO: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
+	TRANSLATE: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -130,9 +130,9 @@ fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param pca - TODO.
+	\param pca - TRANSLATE.
 
 \ru
 
@@ -149,13 +149,13 @@ void fmll_pca_destroy(fmll_pca * pca);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param pca - TODO;
-	\param fname_prefix - TODO (TODO).
+	\param pca - TRANSLATE;
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -176,12 +176,12 @@ int fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param fname_prefix - TODO (TODO).
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -201,12 +201,12 @@ fmll_pca * fmll_pca_load(const char * fname_prefix);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param pca - TODO;
-	\param vec - TODO.
+	\param pca - TRANSLATE;
+	\param vec - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -226,22 +226,22 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param pca - TODO;
-	\param vec - TODO;
-	\param vec_num - TODO;
-	\param beta_0 - TODO, \f$\beta_0 ~ \in ~ [0, 1]\f$;
-	\param next_beta - TODO;
-	\param max_d - TODO;
-	\param eigen - TODO.
+	\param pca - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param beta_0 - TRANSLATE, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+	\param next_beta - TRANSLATE;
+	\param max_d - TRANSLATE;
+	\param eigen - TRANSLATE.
 
-	<b>TODO.</b>
+	<b>TRANSLATE.</b>
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 

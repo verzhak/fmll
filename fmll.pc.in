@@ -5,6 +5,6 @@ includedir = @CMAKE_INSTALL_PREFIX@/include
 Name: FMLL
 Description: Four of Meaningless Letters Library
 Version: 1.0
-Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lfmll_lib -lfmll_math_matrix -lfmll_math_random -lfmll_math_various -lfmll_ann_base -lfmll_ann_perceptron -lfmll_ann_som -lfmll_ann_pca -lfmll_ann_svm
+Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lfmll_lib -lfmll_math_matrix -lfmll_math_random -lfmll_math_various -lfmll_ann_base -lfmll_ann_mlp -lfmll_ann_som -lfmll_ann_pca -lfmll_ann_svm
 Cflags: -I@CMAKE_INSTALL_PREFIX@/include -Wall
 

@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -35,14 +35,14 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param vec - TODO;
-	\param vec_num - TODO;
-	\param dim - TODO.
+	\param vec - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -64,14 +64,14 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 
 \en
 
-	\brief TODO (TODO)
+	\brief TRANSLATE (TRANSLATE)
 
-	\param vec - TODO;
-	\param vec_num - TODO;
-	\param dim - TODO.
+	\param vec - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param dim - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 

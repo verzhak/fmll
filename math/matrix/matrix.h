@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -35,15 +35,15 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param value - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param value - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -66,15 +66,15 @@ int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, un
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param F - TODO;
-	\param T - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param F - TRANSLATE;
+	\param T - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -97,15 +97,15 @@ int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param R - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -128,14 +128,14 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return >= 0 - TODO;
-	\return < 0 - TODO.
+	\return >= 0 - TRANSLATE;
+	\return < 0 - TRANSLATE.
 
 \ru
 
@@ -157,22 +157,22 @@ double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param alpha_1 - TODO;
-	\param M1 - TODO;
-	\param alpha_2 - TODO;
-	\param M2 - TODO;
-	\param R - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param alpha_1 - TRANSLATE;
+	\param M1 - TRANSLATE;
+	\param alpha_2 - TRANSLATE;
+	\param M2 - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
 	\f[
 	sum = \alpha_1 M_1 + \alpha_2 M_2
 	\f]
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -202,16 +202,16 @@ int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double **
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param value - TODO;
-	\param R - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param value - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -235,16 +235,16 @@ int fmll_math_matrix_mult_scalar(double ** M, double value, double ** R, unsigne
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param V - TODO;
-	\param R - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param V - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -268,19 +268,19 @@ int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned r
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M1 - TODO;
-	\param M2 - TODO;
-	\param R - TODO;
-	\param rows_M1 - TODO;
-	\param cols_M1 - TODO;
-	\param cols_M2 - TODO.
+	\param M1 - TRANSLATE;
+	\param M2 - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows_M1 - TRANSLATE;
+	\param cols_M1 - TRANSLATE;
+	\param cols_M2 - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -309,17 +309,17 @@ int fmll_math_matrix_mult(double ** M1, double ** M2, double ** R, unsigned rows
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param L - TODO;
-	\param U - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param L - TRANSLATE;
+	\param U - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -344,18 +344,18 @@ int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param L - TODO;
-	\param U - TODO;
-	\param P - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param L - TRANSLATE;
+	\param U - TRANSLATE;
+	\param P - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -381,16 +381,16 @@ int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, uns
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param MI - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param MI - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -414,16 +414,16 @@ int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param MI - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param MI - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -447,16 +447,16 @@ int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param MI - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param MI - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -480,16 +480,16 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param H - TODO;
-	\param rows - TODO.
+	\param M - TRANSLATE;
+	\param H - TRANSLATE;
+	\param rows - TRANSLATE.
 
-	TODO
+	TRANSLATE
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -513,17 +513,17 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param S - TODO;
-	\param rows - TODO;
-	\param precision - TODO.
+	\param M - TRANSLATE;
+	\param S - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param precision - TRANSLATE.
 
-	TODO
+	TRANSLATE
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -548,16 +548,16 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param Q - TODO;
-	\param R - TODO;
-	\param rows - TODO;
-	\param cols - TODO.
+	\param M - TRANSLATE;
+	\param Q - TRANSLATE;
+	\param R - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param cols - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -581,18 +581,18 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param M - TODO;
-	\param eigen_real - TODO;
-	\param eigen_complex - TODO;
-	\param rows - TODO;
-	\param precision_shur - TODO.
+	\param M - TRANSLATE;
+	\param eigen_real - TRANSLATE;
+	\param eigen_complex - TRANSLATE;
+	\param rows - TRANSLATE;
+	\param precision_shur - TRANSLATE.
 
-	TODO.
+	TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 

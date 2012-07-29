@@ -1,16 +1,16 @@
 
-#include "ann/perceptron/weight_init.h"
+#include "ann/mlp/weight_init.h"
 
-int fmll_perceptron_weight_init_0(fmll_perceptron * perc, fmll_random * rnd)
+int fmll_mlp_weight_init_0(fmll_mlp * mlp, fmll_random * rnd)
 {
-	return fmll_perceptron_weight_init_random(perc, NULL);
+	return fmll_mlp_weight_init_random(mlp, NULL);
 }
 
-int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd)
+int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;
-	unsigned u, v, t, q, N_u, prev_num, dim = perc->dim, layers_num = perc->layers_num, * N = perc->N;
-	double ** w = perc->w;
+	unsigned u, v, t, q, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	double ** w = mlp->w;
 
 	fmll_try;
 
@@ -33,11 +33,11 @@ int fmll_perceptron_weight_init_random(fmll_perceptron * perc, fmll_random * rnd
 	return ret;
 }
 
-int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd)
+int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;
-	unsigned u, v, t, q, N_u, prev_num, dim = perc->dim, layers_num = perc->layers_num, * N = perc->N;
-	double tparam, param[2], ** w = perc->w;
+	unsigned u, v, t, q, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	double tparam, param[2], ** w = mlp->w;
 
 	fmll_try;
 
@@ -69,15 +69,15 @@ int fmll_perceptron_weight_init_lecun(fmll_perceptron * perc, fmll_random * rnd)
 	return ret;
 }
 
-int fmll_perceptron_weight_init_nguyen_widrow(fmll_perceptron * perc, fmll_random * rnd)
+int fmll_mlp_weight_init_nguyen_widrow(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;
-	unsigned u, v, t, q, old_t, N_u, prev_num, dim = perc->dim, layers_num = perc->layers_num, * N = perc->N;
-	double n, beta, ** w = perc->w;
+	unsigned u, v, t, q, old_t, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	double n, beta, ** w = mlp->w;
 
 	fmll_try;
 
-		fmll_throw_if(fmll_perceptron_weight_init_random(perc, rnd));
+		fmll_throw_if(fmll_mlp_weight_init_random(mlp, rnd));
 
 		for(u = t = 0, N_u = dim; u < layers_num; u++)
 		{

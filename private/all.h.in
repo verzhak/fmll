@@ -37,9 +37,9 @@
 
 #define LIB_NAME "FMLL - Four of Meaningless Letters Library (ANN Library)"
 #define ID "0x251C816"
-#define VERSION "0.05"
-#define CURRENT_VERSION 2
-#define MIN_VERSION 1
+#define VERSION "0.07"
+#define CURRENT_VERSION 3
+#define MIN_VERSION 3
 
 #endif
 

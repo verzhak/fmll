@@ -7,7 +7,7 @@
 
 	\brief Support Vector Machine (SVM)
 
-	TODO
+	TRANSLATE
 
 \ru
 
@@ -43,7 +43,7 @@
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
 \ru
 
@@ -55,19 +55,19 @@
 typedef struct t_fmll_svm
 {
 
-	/*! \en TODO \ru Размерность векторного пространства \endlang */
+	/*! \en TRANSLATE \ru Размерность векторного пространства \endlang */
 	unsigned dim;
 
-	/*! \en TODO \ru Количество опорных векторов \endlang */
+	/*! \en TRANSLATE \ru Количество опорных векторов \endlang */
 	unsigned num;
 
 	/*!
 	
 	\en
 
-		\brief TODO
+		\brief TRANSLATE
 
-		TODO.
+		TRANSLATE.
 
 	\ru
 
@@ -80,13 +80,13 @@ typedef struct t_fmll_svm
 	*/
 	double * w;
 
-	/*! \en TODO \ru Опорные векторы \endlang */
+	/*! \en TRANSLATE \ru Опорные векторы \endlang */
 	double ** s;
 
-	/*! \en TODO \ru Порог \endlang */
+	/*! \en TRANSLATE \ru Порог \endlang */
 	double b;
 
-	/*! \en TODO \ru Указатель на функцию, вычисляющую ядро скалярного произведения \endlang */
+	/*! \en TRANSLATE \ru Указатель на функцию, вычисляющую ядро скалярного произведения \endlang */
 	double (* K)(const double *, const double *, unsigned);
 
 } fmll_svm;
@@ -102,13 +102,13 @@ extern "C"
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param dim - TODO;
-	\param K - TODO.
+	\param dim - TRANSLATE;
+	\param K - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -129,9 +129,9 @@ fmll_svm * fmll_svm_init(unsigned dim, double (* K)(const double *, const double
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm - TODO.
+	\param svm - TRANSLATE.
 
 \ru
 
@@ -148,13 +148,13 @@ void fmll_svm_destroy(fmll_svm * svm);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm - TODO;
-	\param fname_prefix - TODO (TODO).
+	\param svm - TRANSLATE;
+	\param fname_prefix - TRANSLATE (TRANSLATE).
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 \ru
 
@@ -186,13 +186,13 @@ int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param fname_prefix - TODO (TODO);
-	\param K - TODO.
+	\param fname_prefix - TRANSLATE (TRANSLATE);
+	\param K - TRANSLATE.
 
-	\return TODO;
-	\return NULL - TODO.
+	\return TRANSLATE;
+	\return NULL - TRANSLATE.
 
 \ru
 
@@ -224,12 +224,12 @@ fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const dou
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm - TODO;
-	\param vec - TODO.
+	\param svm - TRANSLATE;
+	\param vec - TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -249,26 +249,26 @@ double fmll_svm_run(fmll_svm * svm, const double * vec);
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param st_func - TODO (TODO);
-	\param st_param - TODO (TODO).
+	\param svm - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param st_func - TRANSLATE (TRANSLATE);
+	\param st_param - TRANSLATE (TRANSLATE).
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	\return TODO.
+	\return TRANSLATE.
 
 \ru
 
@@ -303,40 +303,40 @@ unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	\param svm - TODO;
-	\param vec - TODO;
-	\param d - TODO;
-	\param vec_num - TODO;
-	\param C - TODO;
-	\param tau - TODO;
-	\param selector - TODO;
-	\param max_iter - TODO;
-	\param epsilon - TODO.
+	\param svm - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param C - TRANSLATE;
+	\param tau - TRANSLATE;
+	\param selector - TRANSLATE;
+	\param max_iter - TRANSLATE;
+	\param epsilon - TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO;
-	-# TODO.
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE;
+	-# TRANSLATE.
 
-	TODO:
+	TRANSLATE:
 
-	- 0 - TODO;
-	- <> 0 - TODO.
+	- 0 - TRANSLATE;
+	- <> 0 - TRANSLATE.
 
-	\return 0 - TODO;
-	\return <> 0 - TODO.
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
 
 	\sa fmll_svm_teach_smo_selector_keerthi, fmll_svm_teach_smo_selector_fan_chen_lin.
 
@@ -390,9 +390,9 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO.
+	TRANSLATE.
 
 	\sa fmll_svm_teach_smo.
 
@@ -414,9 +414,9 @@ int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d,
 
 \en
 
-	\brief TODO
+	\brief TRANSLATE
 
-	TODO.
+	TRANSLATE.
 
 	\sa fmll_svm_teach_smo.
 
