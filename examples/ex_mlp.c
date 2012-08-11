@@ -154,21 +154,22 @@ int image_analysis(const int argc, const char * argv[])
 
 	for(u = 0; u < N_NUM; u++)
 	{
-		fun[u] = & fmll_gaussian;
-		d_fun[u] = & fmll_d_gaussian;
+		fun[u] = & fmll_tanh;
+		d_fun[u] = & fmll_d_tanh;
 	}
 
-	param[0] = 0;
+	param[0] = -1;
 	param[1] = 1;
 
 	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
-	mlp = fmll_mlp_init(3, N_NUM, N, rnd, & fmll_mlp_weight_init_random, fun, d_fun);
+	mlp = fmll_mlp_init(3, N_NUM, N, fun, d_fun);
+	fmll_mlp_weight_init_nguyen_widrow(mlp, rnd);
 
 	/* ############################################################################ */
 
 	/* fmll_mlp_teach_gradient_batch(mlp, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001); */
 	/* fmll_mlp_teach_Levenberg_Marquardt(mlp, x, d, vec_num, 100000, 5, 100000, 0.0005, 0); */
-	fmll_mlp_teach_conjugate_gradient(mlp, x, d, vec_num, 100000, 0.0001, 0.001, 0);
+	fmll_mlp_teach_conjugate_gradient(mlp, x, d, vec_num, 100000, 0.001, 0.001, 0);
 
 	/* ############################################################################ */
 
@@ -235,10 +236,10 @@ int image_analysis(const int argc, const char * argv[])
 
 int xor()
 {
-	unsigned u, N[3] = {2, 1, 1};
+	unsigned u, N[2] = {2, 1};
 	double ** vec, ** d;
-	double (* fun[3])(double) = {& fmll_tanh, & fmll_tanh, & fmll_tanh};
-	double (* d_fun[3])(double) = {& fmll_d_tanh, & fmll_d_tanh, & fmll_d_tanh};
+	double (* fun[2])(double) = {& fmll_tanh, & fmll_tanh};
+	double (* d_fun[2])(double) = {& fmll_d_tanh, & fmll_d_tanh};
 	fmll_random * rnd;
 	fmll_mlp * mlp;
 
@@ -262,7 +263,8 @@ int xor()
 	/* ############################################################################ */
 	
 	rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL);
-	mlp = fmll_mlp_init(2, 2, N, rnd, & fmll_mlp_weight_init_nguyen_widrow, fun, d_fun);
+	mlp = fmll_mlp_init(2, 2, N, fun, d_fun);
+	fmll_mlp_weight_init_nguyen_widrow(mlp, rnd);
 
 	/* ############################################################################ */
 

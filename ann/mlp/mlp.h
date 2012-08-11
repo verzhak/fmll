@@ -16,10 +16,13 @@
 	Последовательность действий по использованию перцептрона:
 
 	-# Создать перцептрон с помощью функции fmll_mlp_init();
+	-# Иницилизировать веса синапсов нейронов перцептрона с помощью одной из *_weight_init() функций;
 	-# Обучить перцептрон с помощью одной из *_mlp_teach_* функций;
 	-# Оценить качество обучения перцептрона с помощью функции fmll_mlp_test();
 	-# Прогнать перцептрон над целевыми векторами с помощью функции fmll_mlp_run();
 	-# Удалить перцептрон с помощью функции fmll_mlp_destroy().
+
+	\sa weight_init.h
 
 \endlang
 
@@ -106,8 +109,6 @@ extern "C"
 	\param dim - TRANSLATE;
 	\param layers_num - TRANSLATE;
 	\param N - TRANSLATE;
-	\param rnd - TRANSLATE (TRANSLATE);
-	\param weight_init - TRANSLATE;
 	\param fun - TRANSLATE;
 	\param d_fun - TRANSLATE.
 
@@ -121,10 +122,10 @@ extern "C"
 	\param dim - размер входного вектора;
 	\param layers_num - количество скрытых слоев;
 	\param N - количество нейронов в каждом из скрытых слоев;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел (данный указатель передается как второй параметр в функцию (* weight_init));
-	\param weight_init - указатель на функцию, инициализирующую веса синапсов нейронов;
 	\param fun - массив функций активации нейронов (своя функция активации для каждого из скрытых слоев);
 	\param d_fun - массив производных функций активации нейронов.
+
+	Веса синапсов нейронов перцептрона устанавливаются в ноль.
 
 	\return указатель на описатель перцептрона в случае его успешного создания;
 	\return NULL в случае неудачи.
@@ -132,8 +133,7 @@ extern "C"
 \endlang
 
 */
-fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
-		int (* weight_init)(fmll_mlp *, fmll_random *), double (** fun)(double), double (** d_fun)(double));
+fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, double (** fun)(double), double (** d_fun)(double));
 
 /*!
 

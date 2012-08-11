@@ -44,32 +44,6 @@ extern "C"
 
 \ru
 
-	\brief Установ весов синапсов нейронов перцептрона в 0
-
-	\param mlp - указатель на описатель перцептрона;
-	\param rnd - описатель датчика (псевдо) случайных чисел (не используется).
-
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
-
-\endlang
-
-*/
-int fmll_mlp_weight_init_0(fmll_mlp * mlp, fmll_random * rnd);
-
-/*!
-
-\en
-
-	\brief TRANSLATE
-
-	\param mlp - TRANSLATE;
-	\param rnd - TRANSLATE.
-
-	\return TRANSLATE.
-
-\ru
-
 	\brief Инициализация весов синапсов нейронов перцептрона (псевдо) случайными значениями
 
 	\param mlp - указатель на описатель перцептрона;

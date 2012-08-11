@@ -148,58 +148,53 @@ double fmll_random_generate(fmll_random * rnd)
 
 	fmll_try;
 
-		if(rnd == NULL)
-			value = 0;
-		else
+		switch(rnd->algo)
 		{
-			switch(rnd->algo)
+			case FMLL_RANDOM_ALGORITHM_MT19937:
 			{
-				case FMLL_RANDOM_ALGORITHM_MT19937:
-				{
-					generate = & mt19937_generate;
+				generate = & mt19937_generate;
 
-					break;
-				}
+				break;
+			}
 
-				case FMLL_RANDOM_ALGORITHM_LCG:
-				{
-					generate = & lcg_generate;
-
-					break;
-				}
-
-				default:
-					fmll_throw;
-			};
-
-			switch(rnd->dist)
+			case FMLL_RANDOM_ALGORITHM_LCG:
 			{
-				case FMLL_RANDOM_DISTRIBUTION_UNIFORM:
-				{
-					value = (rnd->param[1] - rnd->param[0]) * (* generate)(rnd) / rnd->max + rnd->param[0];
+				generate = & lcg_generate;
 
-					break;
-				}
+				break;
+			}
 
-				case FMLL_RANDOM_DISTRIBUTION_NORMAL:
-				{
-					/* Преобразование Бокса - Мюллера
-					 *
-					 * Для упрощения реализации вместо двух чисел от независимых датчиков используются две реализации одного и того же датчика
-					 */
+			default:
+				fmll_throw;
+		};
 
-					double phi = (* generate)(rnd) / rnd->max, r = (* generate)(rnd) / rnd->max;
+		switch(rnd->dist)
+		{
+			case FMLL_RANDOM_DISTRIBUTION_UNIFORM:
+			{
+				value = (rnd->param[1] - rnd->param[0]) * (* generate)(rnd) / rnd->max + rnd->param[0];
 
-					value = cos(FMLL_2_PI * phi) * sqrt(- 2 * log(r));
-					value = rnd->param[1] * value + rnd->param[0];
+				break;
+			}
 
-					break;
-				}
+			case FMLL_RANDOM_DISTRIBUTION_NORMAL:
+			{
+				/* Преобразование Бокса - Мюллера
+				 *
+				 * Для упрощения реализации вместо двух чисел от независимых датчиков используются две реализации одного и того же датчика
+				 */
 
-				default:
-					fmll_throw;
-			};
-		}
+				double phi = (* generate)(rnd) / rnd->max, r = (* generate)(rnd) / rnd->max;
+
+				value = cos(FMLL_2_PI * phi) * sqrt(- 2 * log(r));
+				value = rnd->param[1] * value + rnd->param[0];
+
+				break;
+			}
+
+			default:
+				fmll_throw;
+		};
 
 	fmll_catch;
 

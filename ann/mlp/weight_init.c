@@ -1,11 +1,6 @@
 
 #include "ann/mlp/weight_init.h"
 
-int fmll_mlp_weight_init_0(fmll_mlp * mlp, fmll_random * rnd)
-{
-	return fmll_mlp_weight_init_random(mlp, NULL);
-}
-
 int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;

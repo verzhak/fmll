@@ -1,6 +1,5 @@
 
 #include "ann/mlp/mlp.h"
-#include "ann/mlp/weight_init.h"
 
 /* ############################################################################ */
 /* Вспомогательные функции */
@@ -136,14 +135,13 @@ double grad_Jacobian(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_nu
 
 /* ############################################################################ */
 
-fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, fmll_random * rnd,
-		int (* weight_init)(fmll_mlp *, fmll_random *), double (** fun)(double), double (** d_fun)(double))
+fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, double (** fun)(double), double (** d_fun)(double))
 {
 	fmll_mlp * mlp = NULL;
 	double (** t_fun)(double);
 	double (** t_d_fun)(double);
 	double ** w;
-	unsigned u, num_weight, num, max_N, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
+	unsigned v, u, num_weight, num, max_N, max_N_1, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
 
 	fmll_try;
 
@@ -169,9 +167,11 @@ fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, 
 			if(max_N < N[u])
 				max_N = N[u];
 		}
+		
+		max_N_1 = max_N + 1;
 
 		fmll_throw_if(! (mlp->num = num));
-		fmll_throw_null(w = mlp->w = (double **) fmll_alloc(sizeof(double), 2, num, max_N + 1));
+		fmll_throw_null(w = mlp->w = (double **) fmll_alloc(sizeof(double), 2, num, max_N_1));
 		fmll_throw_null(mlp->y = (double ***) fmll_alloc(sizeof(double), 3, t_num, layers_num + 1, max_N));
 		fmll_throw_null(mlp->net = (double **) fmll_alloc(sizeof(double), 2, t_num, num));
 		
@@ -184,8 +184,9 @@ fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, 
 		mlp->max_N = max_N;
 		mlp->num_weight = num_weight;
 
-		fmll_throw_null(weight_init);
-		fmll_throw_if((* weight_init)(mlp, rnd));
+		for(v = 0; v < num; v++)
+			for(u = 0; u < max_N_1; u++)
+				w[v][u] = 0;
 
 	fmll_catch;
 
@@ -295,7 +296,7 @@ fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(double), dou
 			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
 		}
 
-		fmll_throw_null(mlp = fmll_mlp_init(dim, layers_num, N, NULL, & fmll_mlp_weight_init_0, fun, d_fun));
+		fmll_throw_null(mlp = fmll_mlp_init(dim, layers_num, N, fun, d_fun));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(i = 0, t = 0, c_N = dim, w = mlp->w; i < layers_num; i++)
