@@ -56,6 +56,15 @@ int xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** co
 \
 	return ret;
 
+int xml_set_uchar(mxml_node_t * parent_node, const char * node_name, unsigned char value)
+{
+	BEGIN_XML_SET("uchar");
+	
+	mxmlNewInteger(node, value);
+	
+	END_XML_SET;
+}
+
 int xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
 {
 	BEGIN_XML_SET("int");
@@ -104,6 +113,15 @@ int xml_set_double(mxml_node_t * parent_node, const char * node_name, double val
 \
 	return ret;
 
+int xml_get_uchar(mxml_node_t * node, const char * node_name, unsigned char * var)
+{
+	BEGIN_XML_GET;
+	
+	* var = sub_node->child->value.integer;
+	
+	END_XML_GET;
+}
+
 int xml_get_int(mxml_node_t * node, const char * node_name, int * var)
 {
 	BEGIN_XML_GET;
@@ -146,6 +164,8 @@ mxml_type_t xml_load_callback(mxml_node_t *node)
 
   if (! strcmp(type, "double"))
 	  return MXML_REAL;
+  else if (! strcmp(type, "uchar"))
+	  return MXML_INTEGER;
   else if (! strcmp(type, "int"))
 	  return MXML_INTEGER;
   else if (! strcmp(type, "text"))

@@ -1,28 +1,32 @@
 
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include <time.h>
 
 #include <fmll.h>
 
-/* TODO */
+int xor();
 
 int main(const int argc, const char * argv[])
 {
+	return xor();
+}
+
+int xor()
+{
 	int ret = 0;
-	char ** connect = NULL;
-	unsigned v, u, num;
-	double ** vec, ** d;
+	unsigned char ** connect = NULL;
+	unsigned v, num;
+	double deviation[1], param[2], ** vec, ** d;
 	double (** fun)(double) = NULL;
 	double (** d_fun)(double) = NULL;
 	fmll_ff * ff = NULL;
+	fmll_random * rnd = NULL;
 
 	fmll_try;
 
 		num = 5;
 
-		fmll_throw_null(connect = fmll_alloc(sizeof(char), 2, num, num));
+		fmll_throw_null(connect = fmll_alloc(sizeof(unsigned char), 2, num, num));
 		fmll_throw_null(fun = fmll_alloc(sizeof(double (*)(double)), 1, num));
 		fmll_throw_null(d_fun = fmll_alloc(sizeof(double (*)(double)), 1, num));
 
@@ -68,8 +72,16 @@ int main(const int argc, const char * argv[])
 			d_fun[v] = & fmll_d_tanh;
 		}
 
+		param[0] = -1;
+		param[1] = 1;
+
+		fmll_throw_null(rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL)));
+
 		fmll_throw_null(ff = fmll_ff_init(num, fun, d_fun));
 		fmll_throw_if(fmll_ff_set_connect(ff, connect));
+		fmll_throw_if(fmll_ff_weight_init_random(ff, rnd));
+
+		/* TODO teach */
 
 		ff->w[0][0] = 0;
 		ff->w[0][1] = 0;
@@ -123,18 +135,32 @@ int main(const int argc, const char * argv[])
 		d[0][0] = d[3][0] = 0;
 		d[1][0] = d[2][0] = 1;
 
-		printf("\nXOR:\n\n");
+		/* ############################################################################ */
+
+		deviation[0] = 0.1;
+
+		printf("\nXOR (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
+
+		for(v = 0; v < 4; v++)
+			printf("\t[%.0f, %.0f] = %.0f = %f\n", vec[v][0], vec[v][1], d[v][0], fmll_ff_run(ff, vec[v])[0]);
+
+		/* ############################################################################ */
+
+		fmll_throw_if(fmll_ff_save(ff, "ff"));
+
+		fmll_ff_destroy(ff);
+		ff = NULL;
+
+		fmll_throw_null(ff = fmll_ff_load("ff", fun, d_fun));
+
+		/* ############################################################################ */
+
+		printf("\nXOR after load (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
 
 		for(v = 0; v < 4; v++)
 			printf("\t[%.0f, %.0f] = %.0f = %f\n", vec[v][0], vec[v][1], d[v][0], fmll_ff_run(ff, vec[v])[0]);
 
 		printf("\n");
-
-	/*
-TODO
-int fmll_ff_save(fmll_ff * ff, const char * fname_prefix);
-fmll_ff * fmll_ff_load(const char * fname_prefix);
-*/
 
 	fmll_catch;
 
@@ -147,6 +173,7 @@ fmll_ff * fmll_ff_load(const char * fname_prefix);
 		fmll_free(connect);
 		fmll_free(fun);
 		fmll_free(d_fun);
+		fmll_random_destroy(rnd);
 		fmll_ff_destroy(ff);
 
 	return ret;

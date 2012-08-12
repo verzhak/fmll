@@ -1,5 +1,5 @@
 
-#include "ann/mlp/activate.h"
+#include "ann/base/activate.h"
 
 double fmll_sin_a = 1;
 double fmll_sin_b = 1;

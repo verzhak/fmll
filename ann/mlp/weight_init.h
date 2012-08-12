@@ -15,8 +15,8 @@
 
 */
 
-#ifndef FMLL_WEIGHT_INIT_H
-#define FMLL_WEIGHT_INIT_H
+#ifndef FMLL_MLP_WEIGHT_INIT_H
+#define FMLL_MLP_WEIGHT_INIT_H
 
 #ifdef FMLL_BUILD
 

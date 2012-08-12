@@ -62,7 +62,7 @@ extern "C"
 \endlang
 
 */
-int fmll_math_graph_warshall(char ** A, char  ** W, unsigned num);
+int fmll_math_graph_warshall(unsigned char ** A, unsigned char  ** W, unsigned num);
 
 #ifdef __cplusplus
 }

@@ -3,29 +3,20 @@
 
 int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 {
-	int ret = 0;
 	unsigned u, v, t, q, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
 	double ** w = mlp->w;
 
-	fmll_try;
+	for(u = t = 0, N_u = dim; u < layers_num; u++)
+	{
+		prev_num = N_u;
+		N_u = N[u];
 
-		for(u = t = 0, N_u = dim; u < layers_num; u++)
-		{
-			prev_num = N_u;
-			N_u = N[u];
+		for(v = 0; v < N_u; v++, t++)
+			for(q = 0; q <= prev_num; q++)
+				w[t][q] = fmll_random_generate(rnd);
+	}
 
-			for(v = 0; v < N_u; v++, t++)
-				for(q = 0; q <= prev_num; q++)
-					w[t][q] = fmll_random_generate(rnd);
-		}
-
-	fmll_catch;
-
-		ret = -1;
-
-	fmll_finally;
-
-	return ret;
+	return 0;
 }
 
 int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd)
