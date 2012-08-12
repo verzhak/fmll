@@ -316,7 +316,49 @@ const double * fmll_ff_run(fmll_ff * ff, const double * vec);
 unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviation, unsigned vec_num,
 		void (* st_func)(fmll_ff *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
 
-/* TODO Обратное распространение ошибки ff_teach */
+/*!
+
+\en
+
+	\brief TRANSLATE
+
+	\param ff - TRANSLATE;
+	\param vec - TRANSLATE;
+	\param d - TRANSLATE;
+	\param vec_num - TRANSLATE;
+	\param beta_0 - TRANSLATE;
+	\param next_beta - TRANSLATE;
+	\param coef_moment - TRANSLATE;
+	\param max_iter - TRANSLATE;
+	\param E_thres - TRANSLATE;
+	\param d_E_thres - TRANSLATE.
+
+	\return 0 - TRANSLATE;
+	\return <> 0 - TRANSLATE.
+
+\ru
+
+	\brief Обучение сети прямого распространения путем пакетного градиентного спуска с использованием алгоритма обратного распространения ошибки
+
+	\param ff - указатель на описатель сети;
+	\param vec - массив обучающих векторов;
+	\param d - множество эталонных откликов;
+	\param vec_num - количество векторов в массиве обучающих векторов;
+	\param beta_0 - начальное значение коэффициента скорости обучения, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+	\param next_beta - указатель на функцию, пересчитывающую значение коэффициента скорости обучения в начале каждой итерации обучения по значению коэффициента на предыдущей итерации;
+	\param coef_moment - коэффициент момента;
+	\param max_iter - максимальное количество итераций процесса обучения;
+	\param E_thres - максимальное значение ошибки, при котором обучение будет остановлено;
+	\param d_E_thres - минимальное значение модуля производной функционала ошибки, при котором обучение будет остановлено.
+
+	\return 0 - в случае успеха;
+	\return <> 0 - в случае неудачи.
+
+\endlang
+
+*/
+int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsigned vec_num,
+		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres);
 
 #ifdef __cplusplus
 }

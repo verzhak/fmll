@@ -432,7 +432,7 @@ int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, un
 						w[t_w][k] += (moment[t_weight] = coef_moment * moment[t_weight] + beta * grad[t_weight]);
 			}
 
-			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1.0)) / max_iter,
+			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1)) / max_iter,
 					beta, E, E - prev_E);
 		}
 
@@ -606,7 +606,7 @@ int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** 
 				prev_E /= norm_E;
 			}
 
-			fmll_print("Iteration = %u from %u (%.5f %%), eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1.0)) / max_iter,
+			fmll_print("Iteration = %u from %u (%.5f %%), eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1)) / max_iter,
 					eta, E, E - prev_E);
 		}
 
@@ -806,7 +806,7 @@ int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, double ** vec, double ** d
 			E = tE[1] / norm_E;
 
 			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, eta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter,
-					(100.0 * (iter + 1.0)) / max_iter, iter ? beta : 0, eta_1, E, E - prev_E);
+					(100.0 * (iter + 1)) / max_iter, iter ? beta : 0, eta_1, E, E - prev_E);
 		}
 
 	fmll_catch;
