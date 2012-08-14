@@ -1,11 +1,219 @@
 
 #include "ann/ff/ff.h"
 
-fmll_ff * fmll_ff_init(unsigned num, double (** fun)(double), double (** d_fun)(double))
+struct t_fmll_ff_neuro
+{
+
+	fmll_ff_neuro ** in, ** out;
+	unsigned ind, in_counter, out_counter, in_num, out_num;
+	double net, y, E_out;
+	double (* fun)(double);
+	double (* d_fun)(double);
+
+};
+
+int fmll_ff_neuro_init(fmll_ff * ff);
+void fmll_ff_neuro_destroy(fmll_ff * ff);
+void fmll_ff_neuro_reset(fmll_ff * ff);
+void fmll_ff_neuro_run(fmll_ff * ff, fmll_ff_neuro * neuro);
+double fmll_ff_neuro_grad(fmll_ff * ff, double * d, double ** grad, double * grad_b);
+void fmll_ff_neuro_grad_main(fmll_ff * ff, fmll_ff_neuro * neuro, double ** grad, double * grad_b);
+
+int fmll_ff_neuro_init(fmll_ff * ff)
+{
+	int ret = 0;
+	fmll_ff_neuro * neuro, ** in_neuro, ** out_neuro;
+	unsigned char ** connect = ff->connect;
+	unsigned v, u, in_counter, out_counter, in_num, out_num, in_dim = ff->in_dim, out_dim = ff->out_dim, num = ff->num, * in = ff->in, * out = ff->out;
+	double (** fun)(double) = ff->fun;
+	double (** d_fun)(double) = ff->d_fun
+
+	fmll_try;
+
+		ff->neuro = NULL;
+		ff->in_neuro = ff->out_neuro = NULL;
+
+		fmll_throw_null(neuro = ff->neuro = fmll_alloc(sizeof(fmll_ff_neuro), 1, num));
+		fmll_throw_null(in_neuro = ff->in_neuro = fmll_alloc(sizeof(fmll_ff_neuro *), 1, in_dim));
+		fmll_throw_null(out_neuro = ff->out_neuro = fmll_alloc(sizeof(fmll_ff_neuro *), 1, out_dim));
+
+		for(v = 0; v < num; v++)
+		{
+			neuro[v].ind = v;
+			neuro[v].in = neuro[v].out = NULL;
+			neuro[v].in_num = neuro[v].out_num = neuro[v].in_counter = neuro[v].out_counter = 0;
+			neuro[v].fun = fun[v];
+			neuro[v].d_fun = d_fun[v];
+		}
+
+		for(v = 0; v < in_dim; v++)
+			in_neuro[v] = NULL;
+
+		for(v = 0; v < out_dim; v++)
+			out_neuro[v] = NULL;
+
+		for(v = 0, in_counter = 0, out_counter = 0; v < num; v++)
+		{
+			if(in_counter < in_dim && v == in[in_counter])
+			{
+				in_neuro[in_counter] = neuro + v;
+				in_counter ++;
+			}
+
+			if(out_counter < out_dim && v == out[out_counter])
+			{
+				out_neuro[out_counter] = neuro + v;
+				out_counter ++;
+			}
+
+			for(u = 0, in_num = 0, out_num = 0; u < num; u++)
+			{
+				if(connect[u][v])
+					in_num ++;
+
+				if(connect[v][u])
+					out_num ++;
+			}
+
+			neuro[v].in_num = in_num;
+			neuro[v].out_num = out_num;
+
+			if(in_num)
+				fmll_throw_null(neuro[v].in = fmll_alloc(sizeof(fmll_ff_neuro *), 1, in_num));
+
+			if(out_num)
+				fmll_throw_null(neuro[v].out = fmll_alloc(sizeof(fmll_ff_neuro *), 1, out_num));
+
+			for(u = 0, in_num = 0, out_num = 0; u < num; u++)
+			{
+				if(connect[u][v])
+				{
+					neuro[v].in[in_num] = neuro + u;
+					in_num ++;
+				}
+
+				if(connect[v][u])
+				{
+					neuro[v].out[out_num] = neuro + u;
+					out_num ++;
+				}
+			}
+		}
+
+		fmll_ff_neuro_reset(ff);
+
+	fmll_catch;
+
+		fmll_ff_neuro_destroy(ff);
+		ret = -1;
+
+	fmll_finally;
+
+	return ret;
+}
+
+void fmll_ff_neuro_destroy(fmll_ff * ff)
+{
+	unsigned v, num = ff->num;
+	fmll_ff_neuro * neuro = ff->neuro;
+
+	if(neuro != NULL)
+	{
+		for(v = 0; v < num; v++)
+		{
+			fmll_free(neuro[v].in);
+			fmll_free(neuro[v].out);
+		}
+	}
+
+	fmll_free(neuro);
+	ff->neuro = NULL;
+
+	fmll_free(ff->in_neuro);
+	ff->in_neuro = NULL;
+
+	fmll_free(ff->out_neuro);
+	ff->out_neuro = NULL;
+}
+
+void fmll_ff_neuro_reset(fmll_ff * ff)
+{
+	unsigned v, num = ff->num;
+	fmll_ff_neuro * neuro = ff->neuro;
+
+	for(v = 0; v < num; v++, neuro++)
+	{
+		neuro->in_counter = neuro->out_counter = 0;
+		neuro->net = neuro->y = neuro->E_out = 0;
+	}
+}
+
+void fmll_ff_neuro_run(fmll_ff * ff, fmll_ff_neuro * neuro)
+{
+	fmll_ff_neuro ** out = neuro->out;
+	unsigned v, ind = neuro->ind, out_num = neuro->out_num;
+	double y, * w = ff->w[ind];
+
+	/* Входные нейроны транслируют соответствующую компоненту входного вектора на свой выход, применяя к ней функцию активации */
+	if(neuro->in_num)
+		neuro->net -= ff->b[ind];
+	
+	y = neuro->y = (* neuro->fun)(neuro->net);
+
+	for(v = 0; v < out_num; v++)
+	{
+		out[v]->net += w[out[v]->ind] * y;
+
+		if(++ out[v]->in_counter == out[v]->in_num)
+			fmll_ff_neuro_run(ff, out[v]);
+	}
+}
+
+double fmll_ff_neuro_grad(fmll_ff * ff, double * d, double ** grad, double * grad_b)
+{
+	unsigned v, out_dim = ff->out_dim;
+	double E, t_E;
+	fmll_ff_neuro ** out_neuro = ff->out_neuro;
+
+	for(v = 0, E = 0; v < out_dim; v++)
+	{
+		out_neuro[v]->E_out = t_E = d[v] - out_neuro[v]->y;
+		fmll_ff_neuro_grad_main(ff, out_neuro[v], grad, grad_b);
+
+		E += t_E * t_E;
+	}
+
+	return E / (2 * out_dim);
+}
+
+void fmll_ff_neuro_grad_main(fmll_ff * ff, fmll_ff_neuro * neuro, double ** grad, double * grad_b)
+{
+	unsigned v, in_ind, in_num = neuro->in_num, ind = neuro->ind;
+	double E_out_net, ** w = ff->w;
+	fmll_ff_neuro ** in = neuro->in;
+
+	E_out_net = neuro->E_out * (* neuro->d_fun)(neuro->net);
+	grad_b[ind] -= E_out_net;
+
+	for(v = 0; v < in_num; v++)
+	{
+		in_ind = in[v]->ind;
+
+		in[v]->E_out += E_out_net * w[in_ind][ind];
+		grad[in_ind][ind] += E_out_net * in[v]->y;
+
+		if(++ in[v]->out_counter == in[v]->out_num)
+			fmll_ff_neuro_grad_main(ff, in[v], grad, grad_b);
+	}
+}
+
+/* ############################################################################ */
+
+fmll_ff * fmll_ff_init(unsigned num, unsigned char ** connect, double (** fun)(double), double (** d_fun)(double))
 {
 	fmll_ff * ff = NULL;
-	unsigned char ** connect;
-	unsigned v, u;
+	unsigned char ** t_connect;
+	unsigned v, u, * in, * out;
 	double ** w;
 
 	fmll_try;
@@ -16,19 +224,16 @@ fmll_ff * fmll_ff_init(unsigned num, double (** fun)(double), double (** d_fun)(
 		ff->num = num;
 		ff->in_dim = ff->out_dim = 0;
 		ff->in = ff->out = NULL;
-		ff->ry = ff->y = ff->b = NULL;
+		ff->y = ff->b = NULL;
 		ff->w = NULL;
 		ff->fun = ff->d_fun = NULL;
-		ff->is_run = NULL;
-		ff->net = NULL;
+		ff->neuro = NULL;
+		ff->in_neuro = ff->out_neuro = NULL;
 
-		fmll_throw_null(ff->is_run = fmll_alloc(sizeof(unsigned char), 1, num));
-		fmll_throw_null(connect = ff->connect = fmll_alloc(sizeof(unsigned char), 2, num, num));
-		fmll_throw_null(ff->in = fmll_alloc(sizeof(unsigned), 1, num));
-		fmll_throw_null(ff->out = fmll_alloc(sizeof(unsigned), 1, num));
-		fmll_throw_null(ff->ry = fmll_alloc(sizeof(double), 1, num));
+		fmll_throw_null(t_connect = ff->connect = fmll_alloc(sizeof(unsigned char), 2, num, num));
+		fmll_throw_null(in = ff->in = fmll_alloc(sizeof(unsigned), 1, num));
+		fmll_throw_null(out = ff->out = fmll_alloc(sizeof(unsigned), 1, num));
 		fmll_throw_null(ff->y = fmll_alloc(sizeof(double), 1, num));
-		fmll_throw_null(ff->net = fmll_alloc(sizeof(double), 1, num));
 		fmll_throw_null(ff->b = fmll_alloc(sizeof(double), 1, num));
 		fmll_throw_null(w = ff->w = fmll_alloc(sizeof(double), 2, num, num));
 		fmll_throw_null(ff->fun = fmll_alloc(sizeof(double (*)(double)), 1, num));
@@ -37,12 +242,20 @@ fmll_ff * fmll_ff_init(unsigned num, double (** fun)(double), double (** d_fun)(
 		for(v = 0; v < num; v++)
 			for(u = 0; u < num; u++)
 			{
-				connect[v][u] = 0;
+				t_connect[v][u] = 0;
 				w[v][u] = 0;
 			}
 
 		memcpy(ff->fun, fun, num * sizeof(double (*)(double)));
 		memcpy(ff->d_fun, d_fun, num * sizeof(double (*)(double)));
+
+		if(connect != NULL)
+		{
+			for(v = 0; v < num; v++)
+				memcpy(t_connect[v], connect[v], num);
+
+			fmll_throw_if(fmll_ff_init_2(ff));
+		}
 
 	fmll_catch;
 
@@ -59,13 +272,11 @@ void fmll_ff_destroy(fmll_ff * ff)
 {
 	if(ff != NULL)
 	{
-		fmll_free(ff->is_run);
+		fmll_ff_neuro_destroy(ff);
 		fmll_free(ff->connect);
 		fmll_free(ff->in);
 		fmll_free(ff->out);
-		fmll_free(ff->ry);
 		fmll_free(ff->y);
-		fmll_free(ff->net);
 		fmll_free(ff->b);
 		fmll_free(ff->w);
 		fmll_free(ff->fun);
@@ -75,12 +286,11 @@ void fmll_ff_destroy(fmll_ff * ff)
 	}
 }
 
-/* TODO Матрица смежности -> указательный граф */
-int fmll_ff_set_connect(fmll_ff * ff, unsigned char ** connect)
+int fmll_ff_init_2(fmll_ff * ff)
 {
 	int ret = 0;
 	char is_in, is_out;
-	unsigned char ** warsh = NULL, ** t_connect = ff->connect;
+	unsigned char ** warsh = NULL, ** connect = ff->connect;
 	unsigned v, u, in_dim, out_dim, num = ff->num, * in = ff->in, * out = ff->out;
 
 	fmll_try;
@@ -95,14 +305,12 @@ int fmll_ff_set_connect(fmll_ff * ff, unsigned char ** connect)
 			fmll_throw_if(warsh[v][v]);
 
 		/* ############################################################################ */
-		/* Инициализация ff->connect, in и out */
+		/* Инициализация in и out */
 
 		in_dim = out_dim = 0;
 
 		for(v = 0; v < num; v++)
 		{
-			memcpy(t_connect[v], connect[v], num * sizeof(unsigned char));
-
 			/* Строка - из, стобец - в */
 			for(u = 0, is_in = 1, is_out = 1; u < num && (is_in || is_out); u++)
 			{
@@ -131,10 +339,15 @@ int fmll_ff_set_connect(fmll_ff * ff, unsigned char ** connect)
 			}
 		}
 
-		fmll_throw_if(! (in_dim && out_dim))
+		fmll_throw_if(! (in_dim && out_dim));
 
 		ff->in_dim = in_dim;
 		ff->out_dim = out_dim;
+
+		/* ############################################################################ */
+		/* Инициализация кэша */
+
+		fmll_throw_if(fmll_ff_neuro_init(ff));
 
 	fmll_catch;
 
@@ -201,9 +414,9 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 {
 	int num;
 	char node_name[4096];
-	unsigned char ** connect = NULL;
 	unsigned v, u;
 	double * b, ** w;
+	unsigned char ** connect;
 	fmll_ff * ff = NULL;
 	mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 
@@ -213,11 +426,11 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 		fmll_throw_if(xml_get_int(content_node, "num", & num));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "neuro", NULL, NULL, MXML_DESCEND_FIRST));
 
-		fmll_throw_null(ff = fmll_ff_init(num, fun, d_fun));
-		fmll_throw_null(connect = fmll_alloc(sizeof(unsigned char), 2, num, num));
+		fmll_throw_null(ff = fmll_ff_init(num, NULL, fun, d_fun));
 
 		b = ff->b;
 		w = ff->w;
+		connect = ff->connect;
 
 		for(v = 0; v < num; v++)
 		{
@@ -237,7 +450,7 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 			}
 		}
 
-		fmll_throw_if(fmll_ff_set_connect(ff, connect));
+		fmll_throw_if(fmll_ff_init_2(ff));
 
 	fmll_catch;
 
@@ -246,7 +459,6 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 
 	fmll_finally;
 
-		fmll_free(connect);
 		xml_destroy(main_node);
 
 	return ff;
@@ -254,46 +466,20 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 
 const double * fmll_ff_run(fmll_ff * ff, const double * vec)
 {
-	unsigned char * is_run = ff->is_run, ** connect = ff->connect;
-	unsigned v, u, run_counter = 0, num = ff->num, in_dim = ff->in_dim, out_dim = ff->out_dim, * in = ff->in, * out = ff->out;
-	double t_ry, * net = ff->net, * y = ff->y, * ry = ff->ry, * b = ff->b, ** w = ff->w;
-	double (** fun)(double) = ff->fun;
+	unsigned v, in_dim = ff->in_dim, out_dim = ff->out_dim;
+	double * y = ff->y;
+	fmll_ff_neuro ** in_neuro = ff->in_neuro, ** out_neuro = ff->out_neuro;
 
-	for(v = 0; v < num; v++)
-	{
-		is_run[v] = 0;
-		net[v] = - b[v];
-	}
+	fmll_ff_neuro_reset(ff);
 
-	/* Входные нейроны транслируют соответствующую компоненту входного вектора на свой выход, применяя к ней функцию активации */
 	for(v = 0; v < in_dim; v++)
-		net[in[v]] = vec[v];
-
-	while(run_counter < num)
 	{
-		/* Строка - из, стобец - в */
-		for(v = 0; v < num; v++)
-			if(! is_run[v])
-			{
-				for(u = 0; u < num; u++)
-					if(connect[u][v] && (! is_run[u]))
-						break;
-
-				if(u == num)
-				{
-					ry[v] = t_ry = (* fun[v])(net[v]);
-					is_run[v] = 1;
-					run_counter++;
-
-					for(u = 0; u < num; u++)
-						if(connect[v][u])
-							net[u] += t_ry * w[v][u];
-				}
-			}
+		in_neuro[v]->net = vec[v];
+		fmll_ff_neuro_run(ff, in_neuro[v]);
 	}
 
 	for(v = 0; v < out_dim; v++)
-		y[v] = ry[out[v]];
+		y[v] = out_neuro[v]->y;
 
 	return y;
 }
@@ -323,18 +509,14 @@ unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviati
 	return vec_num - no;
 }
 
-/* TODO Однослойная сеть */
-/* TODO Обратное распространение ошибки - в отдельную функцию */
 /* TODO Пакетное обратное распространение ошибки - распараллелить */
 int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsigned vec_num,
 		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres)
 {
 	int ret = 0;
-	unsigned char * is_acc = NULL, ** connect = ff->connect;
-	unsigned v, u, t, iter, acc_counter, num = ff->num, out_dim = ff->out_dim, * in = ff->in, * out = ff->out;
-	double beta, E, prev_E, norm_E = 2 * vec_num * out_dim, t_E, E_out_net, * E_out = NULL, * net = ff->net, * b = ff->b, * moment_b = NULL, * grad_b = NULL,
-		   * ry = ff->ry, * y = ff->y, ** grad = NULL, ** moment = NULL, ** w = ff->w;
-	double (** d_fun)(double) = ff->d_fun;
+	unsigned char ** connect = ff->connect;
+	unsigned v, u, t, iter, num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	double beta, E, prev_E, * b = ff->b, * moment_b = NULL, * grad_b = NULL, ** grad = NULL, ** moment = NULL, ** w = ff->w;
 
 	fmll_try;
 
@@ -343,8 +525,6 @@ int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsig
 		fmll_throw_null(moment = fmll_alloc(sizeof(double), 2, num, num));
 		fmll_throw_null(grad_b = fmll_alloc(sizeof(double), 1, num));
 		fmll_throw_null(moment_b = fmll_alloc(sizeof(double), 1, num));
-		fmll_throw_null(E_out = fmll_alloc(sizeof(double), 1, num));
-		fmll_throw_null(is_acc = fmll_alloc(sizeof(unsigned char), 1, num));
 
 		for(v = 0; v < num; v++)
 		{
@@ -368,46 +548,12 @@ int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsig
 			{
 				fmll_throw_null(fmll_ff_run(ff, vec[t]));
 
-				acc_counter = 0;
-				memset(is_acc, 0, sizeof(unsigned char) * num);
-
-				for(v = 0; v < num; v++)
-					E_out[v] = 0;
-
-				for(v = 0; v < out_dim; v++)
-				{
-					E_out[out[v]] = t_E = d[t][v] - y[v];
-					E += t_E * t_E;
-				}
-
-				while(acc_counter < num)
-					for(v = 0; v < num; v++) /* Строка - из, стобец - в */
-						if(! is_acc[v])
-						{
-							for(u = 0; u < num; u++)
-								if(connect[v][u] && (! is_acc[u]))
-									break;
-
-							if(u == num)
-							{
-								E_out_net = E_out[v] * d_fun[v](net[v]);
-								grad_b[v] -= E_out_net;
-								is_acc[v] = 1;
-								acc_counter ++;
-
-								for(u = 0; u < num; u++)
-									if(connect[u][v])
-									{
-										grad[u][v] += E_out_net * ry[u];
-										E_out[u] += E_out_net * w[u][v];
-									}
-							}
-						}
+				E += fmll_ff_neuro_grad(ff, d[t], grad, grad_b);
 			}
 
 			for(v = 0, t = 0; v < num; v++)
 			{
-				if(in[t] == v) /* Входные нейроны игнорируются */
+				if(t < in_dim && in[t] == v) /* Входные нейроны игнорируются */
 					t++;
 				else
 				{
@@ -425,7 +571,7 @@ int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsig
 				}
 			}
 
-			E /= norm_E;
+			E /= vec_num;
 
 			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, E = %.7f, E' = %.7f\n", iter, max_iter, (100.0 * iter) / max_iter,
 					beta, E, E - prev_E);
@@ -437,12 +583,10 @@ int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsig
 
 	fmll_finally;
 
-		fmll_free(E_out);
 		fmll_free(grad);
 		fmll_free(moment);
 		fmll_free(grad_b);
 		fmll_free(moment_b);
-		fmll_free(is_acc);
 
 	return ret;
 }

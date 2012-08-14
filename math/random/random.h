@@ -194,8 +194,7 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 
 	\param algo - TRANSLATE;
 	\param dist - TRANSLATE;
-	\param from - TRANSLATE;
-	\param to - TRANSLATE.
+	\param param - TRANSLATE.
 
 	\return TRANSLATE;
 	\return NULL - TRANSLATE.

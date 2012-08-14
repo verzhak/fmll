@@ -254,8 +254,7 @@ int image_analysis(const int argc, const char * argv[])
 	param[1] = 1;
 
 	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
-	ff = fmll_ff_init(num, fun, d_fun);
-	fmll_ff_set_connect(ff, connect);
+	ff = fmll_ff_init(num, connect, fun, d_fun);
 	fmll_ff_weight_init_random(ff, rnd);
 
 	/* ############################################################################ */
@@ -390,8 +389,7 @@ int xor()
 		}
 
 		fmll_throw_null(rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL));
-		fmll_throw_null(ff = fmll_ff_init(num, fun, d_fun));
-		fmll_throw_if(fmll_ff_set_connect(ff, connect));
+		fmll_throw_null(ff = fmll_ff_init(num, connect, fun, d_fun));
 		fmll_throw_if(fmll_ff_weight_init_random(ff, rnd));
 
 		/* ############################################################################ */
@@ -411,13 +409,14 @@ int xor()
 		d[0][0] = d[3][0] = 0;
 		d[1][0] = d[2][0] = 1;
 
+		deviation[0] = 0.1;
+
 		/* ############################################################################ */
 
 		fmll_throw_if(fmll_ff_teach_gradient_batch(ff, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0));
 
 		/* ############################################################################ */
 
-		deviation[0] = 0.1;
 
 		printf("\nXOR (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
 

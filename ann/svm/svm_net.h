@@ -7,7 +7,7 @@
 
 	\brief TRANSLATE
 
-	TRANSLATE.
+	TRANSLATE
 
 \ru
 

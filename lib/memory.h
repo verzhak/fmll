@@ -94,7 +94,6 @@ void * fmll_alloc(unsigned type_size, unsigned dim, ...);
 
 #endif
 
-
 /*!
 
 \en
