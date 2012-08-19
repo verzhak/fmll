@@ -417,7 +417,6 @@ int xor()
 
 		/* ############################################################################ */
 
-
 		printf("\nXOR (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
 
 		for(v = 0; v < 4; v++)
