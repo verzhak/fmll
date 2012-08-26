@@ -1,5 +1,41 @@
 
-#include "ann/mlp/weight_init.h"
+#include "ann/base/weight_init.h"
+
+int simple_random(fmll_random * rnd, double ** w, unsigned num, unsigned dim)
+{
+	unsigned v, u;
+
+	for(u = 0; u < num; u++)
+		for(v = 0; v < dim; v++)
+			w[u][v] = fmll_random_generate(rnd);
+
+	return 0;
+}
+
+/* ############################################################################ */
+
+int fmll_ff_weight_init_random(fmll_ff * ff, fmll_random * rnd)
+{
+	unsigned char ** connect = ff->connect;
+	unsigned v, u, t, num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	double * b = ff->b, ** w = ff->w;
+
+	for(v = 0, t = 0; v < num; v++)
+	{
+		if(t < in_dim && in[t] == v) /* Входные нейроны игнорируются */
+			t++;
+		else
+		{
+			b[v] = fmll_random_generate(rnd);
+
+			for(u = 0; u < num; u++)
+				if(connect[u][v])
+					w[u][v] = fmll_random_generate(rnd);
+		}
+	}
+
+	return 0;
+}
 
 int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 {
@@ -17,6 +53,16 @@ int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 	}
 
 	return 0;
+}
+
+int fmll_som_weight_init_random(fmll_som * som, fmll_random * rnd)
+{
+	return simple_random(rnd, som->w, som->num, som->dim);
+}
+
+int fmll_pca_weight_init_random(fmll_pca * pca, fmll_random * rnd)
+{
+	return simple_random(rnd, pca->w, pca->num, pca->dim);
 }
 
 int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd)

@@ -17,6 +17,7 @@
 
 	-# центрировать (вычесть среднее) множество реализаций случайного вектора с помощью функции fmll_centering();
 	-# создать PCA-сеть с помощью функции fmll_pca_init();
+	-# иницилизировать веса нейронов PCA-сети с помощью одной из *_pca_weight_init_* функций;
 	-# обучить (самоорганизация) PCA-сеть с помощью функции fmll_pca_so();
 	-# прогнать PCA-сеть над целевыми векторами с помощью функции fmll_pca_run();
 	-# удалить PCA-сеть с помощью функции fmll_pca_destroy().
@@ -100,8 +101,7 @@ extern "C"
 	\brief TRANSLATE
 
 	\param dim - TRANSLATE;
-	\param num - TRANSLATE;
-	\param rnd - TRANSLATE.
+	\param num - TRANSLATE.
 
 	TRANSLATE: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -113,8 +113,7 @@ extern "C"
 	\brief Создание PCA-сети
 
 	\param dim - размерность исходного векторного пространства;
-	\param num - количество нейронов в PCA-сети (размерность целевого векторного пространства);
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел.
+	\param num - количество нейронов в PCA-сети (размерность целевого векторного пространства).
 
 	Должно выполняться условие: \f$ 0 ~ < ~ num ~ \le ~ dim \f$.
 
@@ -124,7 +123,7 @@ extern "C"
 \endlang
 
 */
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd);
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num);
 
 /*!
 

@@ -20,7 +20,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 
 /* ############################################################################  */
 
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, fmll_random * rnd,
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
 		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
 {
 	int v;
@@ -55,7 +55,7 @@ fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, fml
 		for(u = 0; u < num; u++)
 		{
 			for(v = 0; v < dim; v++)
-				w[u][v] = fmll_random_generate(rnd);
+				w[u][v] = 0;
 
 			for(v = 0; v < map_dim; v++)
 				coord[u][v] = tN[v];
@@ -169,7 +169,7 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 			sub_node = mxmlFindElement(sub_node, node, NULL, NULL, NULL, MXML_DESCEND);
 		}
 
-		fmll_throw_null(som = fmll_som_init(N, map_dim, dim, NULL, distance_w, distance));
+		fmll_throw_null(som = fmll_som_init(N, map_dim, dim, distance_w, distance));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		w = som->w;

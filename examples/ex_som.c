@@ -69,7 +69,8 @@ int main(const int argc, const char * argv[])
 	param[1] = 1;
 
 	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
-	som = fmll_som_init(N, 4, 3, rnd, & fmll_distance_euclid, & fmll_distance_euclid);
+	som = fmll_som_init(N, 4, 3, & fmll_distance_euclid, & fmll_distance_euclid);
+	fmll_som_weight_init_random(som, rnd);
 
 	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
 

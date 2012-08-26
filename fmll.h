@@ -137,10 +137,9 @@
 	#include "math/various/various.h"
 	#include "ann/base/activate.h"
 	#include "ann/base/timing.h"
+	#include "ann/base/weight_init.h"
 	#include "ann/ff/ff.h"
-	#include "ann/ff/weight_init.h"
 	#include "ann/mlp/mlp.h"
-	#include "ann/mlp/weight_init.h"
 	#include "ann/som/som.h"
 	#include "ann/pca/pca.h"
 	#include "ann/svm/kernel.h"
@@ -160,10 +159,9 @@
 	#include <fmll/math/various/various.h>
 	#include <fmll/ann/base/activate.h>
 	#include <fmll/ann/base/timing.h>
+	#include <fmll/ann/base/weight_init.h>
 	#include <fmll/ann/ff/ff.h>
-	#include <fmll/ann/ff/weight_init.h>
 	#include <fmll/ann/mlp/mlp.h>
-	#include <fmll/ann/mlp/weight_init.h>
 	#include <fmll/ann/som/som.h>
 	#include <fmll/ann/pca/pca.h>
 	#include <fmll/ann/svm/kernel.h>

@@ -18,6 +18,7 @@
 	Последовательность действий по использованию нейронной карты:
 
 	-# создать карту с помощью функции fmll_som_init();
+	-# иницилизировать веса синапсов нейронов карты с помощью одной из *_som_weight_init_* функций;
 	-# обучить (самоорганизация) карту с помощью одной из *_som_so_* функций;
 	-# прогнать карту над целевыми векторами с помощью функции fmll_som_run();
 	-# удалить карту с помощью функции fmll_som_destroy().
@@ -204,7 +205,6 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param N - TRANSLATE;
 	\param map_dim - TRANSLATE;
 	\param dim - TRANSLATE;
-	\param rnd - TRANSLATE;
 	\param distance_w - TRANSLATE;
 	\param distance - TRANSLATE.
 
@@ -224,7 +224,6 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 	\param N - массив размеров нейронной карты по каждой из ее размерностей;
 	\param map_dim - размерность нейронной карты;
 	\param dim - размерность классифицируемого векторного пространства;
-	\param rnd - указатель на описатель датчика (псевдо) случайных чисел;
 	\param distance_w - указатель на функцию, вычисляющую расстояния между нейронами на нейронной карте;
 	\param distance - указатель на функцию, вычисляющую расстояния между векторами в классифицируемом векторном пространстве.
 
@@ -240,7 +239,7 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 \endlang
 
 */
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim, fmll_random * rnd,
+fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
 		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
 
 /*!

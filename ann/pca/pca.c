@@ -1,7 +1,7 @@
 
 #include "ann/pca/pca.h"
 
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd)
+fmll_pca * fmll_pca_init(unsigned dim, unsigned num)
 {
 	double ** w;
 	unsigned u, v;
@@ -14,16 +14,15 @@ fmll_pca * fmll_pca_init(unsigned dim, unsigned num, fmll_random * rnd)
 
 		pca->w = NULL;
 		pca->y = NULL;
+		pca->dim = dim;
+		pca->num = num;
 
 		fmll_throw_null(w = pca->w = (double **) fmll_alloc(sizeof(double), 2, num, dim));
 		fmll_throw_null(pca->y = (double *) fmll_alloc(sizeof(double), 1, num));
 
-		pca->dim = dim;
-		pca->num = num;
-
 		for(u = 0; u < num; u++)
 			for(v = 0; v < dim; v++)
-				w[u][v] = fmll_random_generate(rnd);
+				w[u][v] = 0;
 
 	fmll_catch;
 
@@ -102,7 +101,7 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 		fmll_throw_if(xml_get_int(content_node, "dim", & dim));
 		fmll_throw_if(xml_get_int(content_node, "num", & num));
 
-		fmll_throw_null(pca = fmll_pca_init(dim, num, NULL));
+		fmll_throw_null(pca = fmll_pca_init(dim, num));
 		fmll_throw_null(node = mxmlFindElement(content_node, content_node, "W", NULL, NULL, MXML_DESCEND_FIRST));
 
 		for(u = 0, w = pca->w; u < num; u++)
