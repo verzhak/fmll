@@ -22,7 +22,7 @@
 	-# Прогнать сеть над целевыми векторами с помощью функции fmll_ff_run();
 	-# Удалить сеть с помощью функции fmll_ff_destroy().
 
-	\sa activate.h, ff/weight_init.h
+	\sa activate.h, weight_init.h
 
 \endlang
 

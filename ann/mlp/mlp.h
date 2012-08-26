@@ -22,7 +22,7 @@
 	-# прогнать перцептрон над целевыми векторами с помощью функции fmll_mlp_run();
 	-# удалить перцептрон с помощью функции fmll_mlp_destroy().
 
-	\sa activate.h, mlp/weight_init.h
+	\sa activate.h, weight_init.h
 
 \endlang
 

@@ -22,6 +22,8 @@
 	-# прогнать PCA-сеть над целевыми векторами с помощью функции fmll_pca_run();
 	-# удалить PCA-сеть с помощью функции fmll_pca_destroy().
 
+	\sa weight_init.h
+
 \endlang
 
 */
