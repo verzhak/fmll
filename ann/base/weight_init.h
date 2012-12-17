@@ -27,6 +27,13 @@
 	#include "ann/som/som.h"
 	#include "ann/pca/pca.h"
 
+#else
+
+	#include <fmll/ann/ff/ff.h>
+	#include <fmll/ann/mlp/mlp.h>
+	#include <fmll/ann/som/som.h>
+	#include <fmll/ann/pca/pca.h>
+
 #endif
 
 #ifdef __cplusplus

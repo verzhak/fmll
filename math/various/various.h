@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TRANSLATE
+	\brief Additional functions
 
 \ru
 
@@ -35,14 +35,14 @@ extern "C"
 
 \en
 
-	\brief TRANSLATE
+	\brief Vector normalization
 
-	\param vec - TRANSLATE;
-	\param vec_num - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec - set of vectors;
+	\param vec_num - number of vectors in set;
+	\param dim - vector dimension.
 
-	\return 0 - TRANSLATE;
-	\return <> 0 - TRANSLATE.
+	\return 0 - success;
+	\return <> 0 - fail.
 
 \ru
 
@@ -64,14 +64,14 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 
 \en
 
-	\brief TRANSLATE (TRANSLATE)
+	\brief Vector centering (subtraction from all vector components his mean values)
 
-	\param vec - TRANSLATE;
-	\param vec_num - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec - set of vectors;
+	\param vec_num - number of vectors in set;
+	\param dim - vector dimension.
 
-	\return 0 - TRANSLATE;
-	\return <> 0 - TRANSLATE.
+	\return 0 - success;
+	\return <> 0 - fail.
 
 \ru
 

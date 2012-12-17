@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TRANSLATE
+	\brief (Pseudo) random number generation
 
 \ru
 
@@ -36,7 +36,7 @@ extern "C"
 
 \en
 
-	\brief TRANSLATE
+	\brief (Pseudo) random number generator
 
 \ru
 
@@ -48,10 +48,10 @@ extern "C"
 typedef enum t_fmll_random_algorithm
 {
 
-	/*! \en TRANSLATE \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
+	/*! \en Mersenne twister (MT19937 algorithm) \ru Вихрь Мерсенна (алгоритм MT19937) \endlang */
 	FMLL_RANDOM_ALGORITHM_MT19937,
 
-	/*! \en TRANSLATE \ru Линейный конгруэнтный метод \endlang */
+	/*! \en Linear congruential algorithm \ru Линейный конгруэнтный метод \endlang */
 	FMLL_RANDOM_ALGORITHM_LCG
 
 } fmll_random_algorithm;
@@ -60,7 +60,7 @@ typedef enum t_fmll_random_algorithm
 
 \en
 
-	\brief TRANSLATE
+	\brief (Pseudo) random number distribution
 
 \ru
 
@@ -76,9 +76,12 @@ typedef enum t_fmll_random_distribution
 	
 \en
 
-	\brief TRANSLATE
+	\brief Uniform distribution
 
-	TRANSLATE
+	Parameters:
+
+	- param[0] - lower border (default = 0);
+	- param[1] - upper border (default = 1).
 
 \ru
 
@@ -98,9 +101,12 @@ typedef enum t_fmll_random_distribution
 	
 \en
 
-	\brief TRANSLATE
+	\brief Normal (Gaussian) distribution
 
-	TRANSLATE
+	Parameters:
+
+	- param[0] - mean (\f$ \mu \f$; default \f$ \mu = 0 \f$);
+	- param[1] - standard deviation (\f$ \sigma \f$; default \f$ \sigma = 1 \f$).
 
 \ru
 
@@ -124,7 +130,7 @@ typedef enum t_fmll_random_distribution
 
 \en
 
-	\brief TRANSLATE
+	\brief Descriptor for (pseudo) random number generator
 
 \ru
 
@@ -136,10 +142,10 @@ typedef enum t_fmll_random_distribution
 typedef struct t_fmll_random
 {
 
-	/*! \en TRANSLATE \ru Идентификатор датчика (псевдо) случайных чисел \endlang */
+	/*! \en (Pseudo) random number generator id \ru Идентификатор датчика (псевдо) случайных чисел \endlang */
 	fmll_random_algorithm algo;
 
-	/*! \en TRANSLATE \ru Идентификатор распределения (псевдо) случайных чисел \endlang */
+	/*! \en (Pseudo) random number distribution id \ru Идентификатор распределения (псевдо) случайных чисел \endlang */
 	fmll_random_distribution dist;
 
 	/*! \cond HIDDEN_SYMBOLS */
@@ -155,15 +161,15 @@ typedef struct t_fmll_random
 
 \en
 
-	\brief TRANSLATE
+	\brief (Pseudo) random number generator initialization
 
-	\param algo - TRANSLATE;
-	\param dist - TRANSLATE;
-	\param param - TRANSLATE;
-	\param seed - TRANSLATE.
+	\param algo - (Pseudo) random number generator id;
+	\param dist - (Pseudo) random number distribution id;
+	\param param - distribution parameters (may be NULL - in this case, distribution parameters are set in default values);
+	\param seed - generator seed.
 
-	\return TRANSLATE;
-	\return NULL - TRANSLATE.
+	\return pointer to generator descriptor on success;
+	\return NULL, if initialization failed.
 
 	\sa fmll_random_distribution
 
@@ -190,14 +196,14 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 
 \en
 
-	\brief TRANSLATE
+	\brief (Pseudo) random number generator initialization with default seed
 
-	\param algo - TRANSLATE;
-	\param dist - TRANSLATE;
-	\param param - TRANSLATE.
+	\param algo - (Pseudo) random number generator id;
+	\param dist - (Pseudo) random number distribution id;
+	\param param - distribution parameters (may be NULL - in this case, distribution parameters are set in default values).
 
-	\return TRANSLATE;
-	\return NULL - TRANSLATE.
+	\return pointer to generator descriptor on success;
+	\return NULL, if initialization failed.
 
 	\sa fmll_random_distribution
 
@@ -223,9 +229,9 @@ fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo, fmll_ran
 
 \en
 
-	\brief TRANSLATE
+	\brief Generator descriptor destroy
 
-	\param rnd - TRANSLATE.
+	\param rnd - pointer to generator descriptor.
 
 \ru
 
@@ -242,11 +248,11 @@ void fmll_random_destroy(fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+	\brief Generate double value
 
-	\param rnd - TRANSLATE.
+	\param rnd - pointer to generator descriptor.
 
-	\return TRANSLATE.
+	\return resulting value.
 
 \ru
 

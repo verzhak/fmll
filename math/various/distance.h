@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TRANSLATE
+	\brief Vectors distances
 
 \ru
 
@@ -33,13 +33,13 @@ extern "C"
 
 \en
 
-	\brief TRANSLATE
+	\brief Square of Euclidean distance
 
-	\param vec_1 - TRANSLATE;
-	\param vec_2 - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec_1 - first vector;
+	\param vec_2 - second vector;
+	\param dim - vector dimension.
 
-	\return TRANSLATE.
+	\return distance between vectors.
 
 \ru
 
@@ -60,13 +60,13 @@ double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, u
 
 \en
 
-	\brief TRANSLATE
+	\brief Euclidean distance
 
-	\param vec_1 - TRANSLATE;
-	\param vec_2 - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec_1 - first vector;
+	\param vec_2 - second vector;
+	\param dim - vector dimension.
 
-	\return TRANSLATE.
+	\return distance between vectors.
 
 \ru
 
@@ -87,13 +87,13 @@ double fmll_distance_euclid(const double * vec_1, const double * vec_2, unsigned
 
 \en
 
-	\brief TRANSLATE
+	\brief Scalar product of vectors, normalize by his dimension
 
-	\param vec_1 - TRANSLATE;
-	\param vec_2 - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec_1 - first vector;
+	\param vec_2 - second vector;
+	\param dim - vector dimension.
 
-	\return TRANSLATE.
+	\return distance between vectors.
 
 \ru
 
@@ -114,13 +114,13 @@ double fmll_distance_scalar(const double * vec_1, const double * vec_2, unsigned
 
 \en
 
-	\brief TRANSLATE (TRANSLATE), TRANSLATE
+	\brief Manhattan distance (city block distance; \f$L1\f$ distance) between vectors, normalize by his dimension
 
-	\param vec_1 - TRANSLATE;
-	\param vec_2 - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec_1 - first vector;
+	\param vec_2 - second vector;
+	\param dim - vector dimension.
 
-	\return TRANSLATE.
+	\return distance between vectors.
 
 \ru
 
@@ -141,13 +141,13 @@ double fmll_distance_manhattan(const double * vec_1, const double * vec_2, unsig
 
 \en
 
-	\brief TRANSLATE (TRANSLATE), TRANSLATE
+	\brief Chebyshev distance (\f$L_{\infty}\f$ distance) between vectors, normalize by his dimension
 
-	\param vec_1 - TRANSLATE;
-	\param vec_2 - TRANSLATE;
-	\param dim - TRANSLATE.
+	\param vec_1 - first vector;
+	\param vec_2 - second vector;
+	\param dim - vector dimension.
 
-	\return TRANSLATE.
+	\return distance between vectors.
 
 \ru
 

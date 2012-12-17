@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TRANSLATE
+	\brief Various constants
 
 \ru
 

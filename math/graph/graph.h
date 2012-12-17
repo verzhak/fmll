@@ -5,7 +5,7 @@
 
 \en
 
-	\brief TRANSLATE
+	\brief Graphs
 
 	TRANSLATE
 
@@ -45,8 +45,8 @@ extern "C"
 	\param W - TRANSLATE;
 	\param num - TRANSLATE.
 
-	\return 0 - TRANSLATE;
-	\return <> 0 - TRANSLATE.
+	\return 0 - success;
+	\return <> 0 - fail.
 
 \ru
 
