@@ -31,18 +31,18 @@ pkg_check_modules(PC_MXML QUIET mxml)
 string(REPLACE ";" " " PC_MXML_CFLAGS " ${PC_MXML_CFLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Wall -pipe -ansi -std=c90 -pedantic" CACHE string "" FORCE)
 
-if(NOT CMAKE_BUILD_TYPE)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 
 	#
 	# Цель по умолчанию - Debug
 	# Для оптимизированной цели: cmake -DCMAKE_BUILD_TYPE=Release ..
 	#
 
-	set(CMAKE_BUILD_TYPE Debug)
+	set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
 
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 
 	set(FMLL_DEBUG 1)
 
