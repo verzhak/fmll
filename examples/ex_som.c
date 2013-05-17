@@ -48,10 +48,17 @@ int main(const int argc, const char * argv[])
 	dst_3 = cvCreateImage(size, IPL_DEPTH_8U, 3);
 	dst_4 = cvCreateImage(size, IPL_DEPTH_8U, 3);
 
+	/*
 	N[0] = 5;
 	N[1] = 5;
 	N[2] = 5;
 	N[3] = 5;
+	*/
+
+	N[0] = 4;
+	N[1] = 3;
+	N[2] = 3;
+	N[3] = 3;
 
 	vec = (double **) fmll_alloc(sizeof(double), 2, size.height * size.width, 3);
 
@@ -66,13 +73,13 @@ int main(const int argc, const char * argv[])
 		}
 
 	param[0] = 0;
-	param[1] = 1;
+	param[1] = 256;
 
 	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
-	som = fmll_som_init(N, 4, 3, & fmll_distance_euclid, & fmll_distance_euclid);
+	som = fmll_som_init(N, 4, 3, & fmll_distance_euclid, & fmll_distance_square_euclid);
 	fmll_som_weight_init_random(som, rnd);
 
-	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_radial);
+	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_wta);
 
 	for(v = 0; v < som->num; v++)
 		printf("%u = [%f, %f, %f]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);
@@ -88,7 +95,7 @@ int main(const int argc, const char * argv[])
 
 			cvSet2D(dst_1, v, u, pixel);
 
-			cur = (base / (double) som->num) * index_winner;
+			cur = (base / ((double) som->num + 7)) * index_winner;
 
 			pixel.val[0] = (cur & 0xFF0000) >> 16;
 			pixel.val[1] = (cur & 0xFF00) >> 8;

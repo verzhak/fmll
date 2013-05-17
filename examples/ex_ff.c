@@ -457,17 +457,3 @@ int xor()
 	return ret;
 }
 
-/*
-printf("\nin_dim = %u\nout_dim = %u\n\nIN:\n\n", ff->in_dim, ff->out_dim);
-
-for(v = 0; v < ff->in_dim; v++)
-	printf("\t%u\n", ff->in[v]);
-
-printf("\nOUT:\n\n");
-
-for(v = 0; v < ff->out_dim; v++)
-	printf("\t%u\n", ff->out[v]);
-
-printf("\n");
-*/
-
