@@ -135,7 +135,7 @@ extern "C"
 \endlang
 
 */
-fmll_ff * fmll_ff_init(unsigned num, unsigned char ** connect, double (** fun)(double), double (** d_fun)(double));
+fmll_ff * fmll_ff_init(const unsigned num, const unsigned char ** connect, double (** fun)(const double), double (** d_fun)(const double));
 
 /*!
 
@@ -208,7 +208,7 @@ int fmll_ff_init_2(fmll_ff * ff);
 \endlang
 
 */
-int fmll_ff_save(fmll_ff * ff, const char * fname_prefix);
+int fmll_ff_save(const fmll_ff * ff, const char * fname_prefix);
 
 /*!
 
@@ -237,7 +237,7 @@ int fmll_ff_save(fmll_ff * ff, const char * fname_prefix);
 \endlang
 
 */
-fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double));
+fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(const double), double (** d_fun)(const double));
 
 /*!
 
@@ -317,8 +317,8 @@ const double * fmll_ff_run(fmll_ff * ff, const double * vec);
 \endlang
 
 */
-unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviation, unsigned vec_num,
-		void (* st_func)(fmll_ff *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
+unsigned fmll_ff_test(fmll_ff * ff, const double ** vec, const double ** d, const double * deviation, const unsigned vec_num,
+		void (* st_func)(const fmll_ff *, const double *, const double *, const double *, const unsigned, const bool, void *), void * st_param);
 
 /*!
 
@@ -361,8 +361,8 @@ unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviati
 \endlang
 
 */
-int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsigned vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres);
+int fmll_ff_teach_gradient_batch(fmll_ff * ff, const double ** vec, const double ** d, const unsigned vec_num,
+		const double beta_0, double (* next_beta)(const double), const double coef_moment, const unsigned max_iter, const double E_thres, const double d_E_thres);
 
 #ifdef __cplusplus
 }

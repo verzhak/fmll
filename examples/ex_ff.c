@@ -254,16 +254,16 @@ int image_analysis(const int argc, const char * argv[])
 	param[1] = 1;
 
 	rnd = fmll_random_init(FMLL_RANDOM_ALGORITHM_LCG, FMLL_RANDOM_DISTRIBUTION_UNIFORM, param, time(NULL));
-	ff = fmll_ff_init(num, connect, fun, d_fun);
+	ff = fmll_ff_init(num, (const unsigned char **) connect, fun, d_fun);
 	fmll_ff_weight_init_random(ff, rnd);
 
 	/* ############################################################################ */
 
-	fmll_ff_teach_gradient_batch(ff, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001);
+	fmll_ff_teach_gradient_batch(ff, (const double **) x, (const double **) d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001);
 
 	/* ############################################################################ */
 
-	yes = fmll_ff_test(ff, test_x, test_d, deviation, size_test.width * size_test.height, NULL, NULL);
+	yes = fmll_ff_test(ff, (const double **) test_x, (const double **) test_d, deviation, size_test.width * size_test.height, NULL, NULL);
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
@@ -389,7 +389,7 @@ int xor()
 		}
 
 		fmll_throw_null(rnd = fmll_random_init_default_seed(FMLL_RANDOM_ALGORITHM_MT19937, FMLL_RANDOM_DISTRIBUTION_UNIFORM, NULL));
-		fmll_throw_null(ff = fmll_ff_init(num, connect, fun, d_fun));
+		fmll_throw_null(ff = fmll_ff_init(num, (const unsigned char **) connect, fun, d_fun));
 		fmll_throw_if(fmll_ff_weight_init_random(ff, rnd));
 
 		/* ############################################################################ */
@@ -413,11 +413,11 @@ int xor()
 
 		/* ############################################################################ */
 
-		fmll_throw_if(fmll_ff_teach_gradient_batch(ff, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0));
+		fmll_throw_if(fmll_ff_teach_gradient_batch(ff, (const double **) vec, (const double **) d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0));
 
 		/* ############################################################################ */
 
-		printf("\nXOR (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
+		printf("\nXOR (%u from 4):\n\n", fmll_ff_test(ff, (const double **) vec, (const double **) d, deviation, 4, NULL, NULL));
 
 		for(v = 0; v < 4; v++)
 			printf("\t[%.0f, %.0f] = %.0f = %f\n", vec[v][0], vec[v][1], d[v][0], fmll_ff_run(ff, vec[v])[0]);
@@ -433,7 +433,7 @@ int xor()
 
 		/* ############################################################################ */
 
-		printf("\nXOR after load (%u from 4):\n\n", fmll_ff_test(ff, vec, d, deviation, 4, NULL, NULL));
+		printf("\nXOR after load (%u from 4):\n\n", fmll_ff_test(ff, (const double **) vec, (const double **) d, deviation, 4, NULL, NULL));
 
 		for(v = 0; v < 4; v++)
 			printf("\t[%.0f, %.0f] = %.0f = %f\n", vec[v][0], vec[v][1], d[v][0], fmll_ff_run(ff, vec[v])[0]);

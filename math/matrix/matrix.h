@@ -60,7 +60,7 @@ extern "C"
 \endlang
 
 */
-int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, unsigned cols);
+int fmll_math_matrix_init_main_diag(double ** M, const double value, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -91,7 +91,7 @@ int fmll_math_matrix_init_main_diag(double ** M, double value, unsigned rows, un
 \endlang
 
 */
-int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols);
+int fmll_math_matrix_copy(const double ** F, double ** T, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -122,7 +122,7 @@ int fmll_math_matrix_copy(double ** F, double ** T, unsigned rows, unsigned cols
 \endlang
 
 */
-int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned cols);
+int fmll_math_matrix_transpose(const double ** M, double ** R, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -151,7 +151,7 @@ int fmll_math_matrix_transpose(double ** M, double ** R, unsigned rows, unsigned
 \endlang
 
 */
-double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
+double fmll_math_matrix_euclid_norm(const double ** M, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -196,7 +196,7 @@ double fmll_math_matrix_euclid_norm(double ** M, unsigned rows, unsigned cols);
 \endlang
 
 */
-int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double ** M2, double ** R, unsigned rows, unsigned cols);
+int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double alpha_2, const double ** M2, double ** R, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -229,7 +229,7 @@ int fmll_math_matrix_sum(double alpha_1, double ** M1, double alpha_2, double **
 \endlang
 
 */
-int fmll_math_matrix_mult_scalar(double ** M, double value, double ** R, unsigned rows, unsigned cols);
+int fmll_math_matrix_mult_scalar(const double ** M, const double value, double ** R, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -262,7 +262,7 @@ int fmll_math_matrix_mult_scalar(double ** M, double value, double ** R, unsigne
 \endlang
 
 */
-int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned rows, unsigned cols);
+int fmll_math_matrix_mult_vector(const double ** M, const double * V, double * R, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -303,7 +303,7 @@ int fmll_math_matrix_mult_vector(double ** M, double * V, double * R, unsigned r
 \endlang
 
 */
-int fmll_math_matrix_mult(double ** M1, double ** M2, double ** R, unsigned rows_M1, unsigned cols_M1, unsigned cols_M2);
+int fmll_math_matrix_mult(const double ** M1, const double ** M2, double ** R, const unsigned rows_M1, const unsigned cols_M1, const unsigned cols_M2);
 
 /*!
 
@@ -338,7 +338,7 @@ int fmll_math_matrix_mult(double ** M1, double ** M2, double ** R, unsigned rows
 \endlang
 
 */
-int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows);
+int fmll_math_matrix_lu(const double ** M, double ** L, double ** U, const unsigned rows);
 
 /*!
 
@@ -375,7 +375,7 @@ int fmll_math_matrix_lu(double ** M, double ** L, double ** U, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, unsigned rows);
+int fmll_math_matrix_lup(const double ** M, double ** L, double ** U, double ** P, const unsigned rows);
 
 /*!
 
@@ -408,7 +408,7 @@ int fmll_math_matrix_lup(double ** M, double ** L, double ** U, double ** P, uns
 \endlang
 
 */
-int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows);
+int fmll_math_matrix_inv(const double ** M, double ** MI, const unsigned rows);
 
 /*!
 
@@ -441,7 +441,7 @@ int fmll_math_matrix_inv(double ** M, double ** MI, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
+int fmll_math_matrix_inv_high_tr(const double ** M, double ** MI, const unsigned rows);
 
 /*!
 
@@ -474,7 +474,7 @@ int fmll_math_matrix_inv_high_tr(double ** M, double ** MI, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
+int fmll_math_matrix_inv_low_tr(const double ** M, double ** MI, const unsigned rows);
 
 /*!
 
@@ -507,7 +507,7 @@ int fmll_math_matrix_inv_low_tr(double ** M, double ** MI, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
+int fmll_math_matrix_hessenberg(const double ** M, double ** H, const unsigned rows);
 
 /*!
 
@@ -542,7 +542,7 @@ int fmll_math_matrix_hessenberg(double ** M, double ** H, unsigned rows);
 \endlang
 
 */
-int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precision);
+int fmll_math_matrix_shur(const double ** M, double ** S, const unsigned rows, const double precision);
 
 /*!
 
@@ -575,7 +575,7 @@ int fmll_math_matrix_shur(double ** M, double ** S, unsigned rows, double precis
 \endlang
 
 */
-int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, unsigned cols);
+int fmll_math_matrix_QR(const double ** M, double ** Q, double ** R, const unsigned rows, const unsigned cols);
 
 /*!
 
@@ -612,7 +612,7 @@ int fmll_math_matrix_QR(double ** M, double ** Q, double ** R, unsigned rows, un
 \endlang
 
 */
-int fmll_math_matrix_eigen(double ** M, double * eigen_real, double * eigen_complex, unsigned rows, double precision_shur);
+int fmll_math_matrix_eigen(const double ** M, double * eigen_real, double * eigen_complex, const unsigned rows, const double precision_shur);
 
 #ifdef __cplusplus
 }

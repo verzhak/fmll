@@ -3,25 +3,22 @@
 
 /* ############################################################################  */
 
-double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index)
+double fmll_som_neighbor_wta(const fmll_som * som, const double gamma_mult, const double gamma_add, const unsigned index_winner, const unsigned index)
 {
-	if(index_winner == index)
-		return 1;
-
-	return 0;
+	return (index_winner == index) ? 1 : 0;
 }
 
-double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index)
+double fmll_som_neighbor_radial(const fmll_som * som, const double gamma_mult, const double gamma_add, const unsigned index_winner, const unsigned index)
 {
-	double d = (* som->distance_w)(som->w[index_winner], som->w[index], som->dim);
+	const double d = (* som->distance_w)(som->w[index_winner], som->w[index], som->dim);
 
 	return gamma_mult * exp(- d * d / gamma_add);
 }
 
 /* ############################################################################  */
 
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
-		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
+fmll_som * fmll_som_init(const unsigned * N, const unsigned map_dim, const unsigned dim,
+		double (* distance_w)(const double *, const double *, const unsigned), double (* distance)(const double *, const double *, const unsigned))
 {
 	int v;
 	unsigned u, num, * tN;
@@ -92,12 +89,13 @@ void fmll_som_destroy(fmll_som * som)
 	}
 }
 
-int fmll_som_save(fmll_som * som, const char * fname_prefix)
+int fmll_som_save(const fmll_som * som, const char * fname_prefix)
 {
 	int ret = 0;
+	const unsigned num = som->num, map_dim = som->map_dim, dim = som->dim, * N = som->N;
+	const double ** w = (const double **) som->w;
 	char node_name[4096];
-	unsigned u, v, num = som->num, map_dim = som->map_dim, dim = som->dim, * N = som->N;
-	double ** w = som->w;
+	unsigned u, v;
 	mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 		
 	fmll_try;
@@ -142,8 +140,8 @@ int fmll_som_save(fmll_som * som, const char * fname_prefix)
 	return ret;
 }
 
-fmll_som * fmll_som_load(const char * fname_prefix, 
-		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned))
+fmll_som * fmll_som_load(const char * fname_prefix,
+		double (* distance_w)(const double *, const double *, const unsigned), double (* distance)(const double *, const double *, const unsigned))
 {
 	char node_name[4096];
 	int map_dim, dim;
@@ -203,32 +201,28 @@ fmll_som * fmll_som_load(const char * fname_prefix,
 
 unsigned fmll_som_run(fmll_som * som, const double * vec)
 {
-	unsigned u, index_winner, num = som->num, dim = som->dim;
-	double min, d, ** w = som->w;
+	const unsigned num = som->num, dim = som->dim;
+	const double ** w = (const double **) som->w;
 	double (* distance)(const double *, const double *, unsigned) = som->distance;
-
-	min = (* distance)(w[0], vec, dim);
-	index_winner = 0;
+	unsigned u, index_winner = 0;
+	double d, min = (* distance)(w[0], vec, dim);
 
 	for(u = 1; u < num; u++)
-	{
-		d = (* distance)(w[u], vec, dim);
-
-		if(d < min)
+		if((d = (* distance)(w[u], vec, dim)) < min)
 		{
 			min = d;
 			index_winner = u;
 		}
-	}
 
 	return index_winner;
 }
 
-int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned))
+int fmll_som_so_kohonen(fmll_som * som, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double),
+		const double gamma_mult, const double gamma_add, double (* neighbor)(const fmll_som *, const double, const double, const unsigned, const unsigned))
 {
 	int ret = 0;
-	unsigned u, v, q, index_winner, num = som->num, dim = som->dim;
+	const unsigned num = som->num, dim = som->dim;
+	unsigned u, v, q, index_winner;
 	double beta_gamma, beta = beta_0, ** w = som->w;
 
 	fmll_try;
@@ -270,11 +264,12 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 	return ret;
 }
 
-int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned), unsigned max_win, unsigned penalty)
+int fmll_som_so_kohonen_penalty(fmll_som * som, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double),
+		const double gamma_mult, const double gamma_add, double (* neighbor)(const fmll_som *, const double, const double, const unsigned, const unsigned), const unsigned max_win, const unsigned penalty)
 {
 	int ret = 0,* wn = NULL;
-	unsigned u, v, q, index_winner, num = som->num, dim = som->dim;
+	const unsigned num = som->num, dim = som->dim;
+	unsigned u, v, q, index_winner;
 	double min, d, beta_gamma, beta = beta_0, ** w = som->w;
 	double (* distance)(const double *, const double *, unsigned) = som->distance;
 

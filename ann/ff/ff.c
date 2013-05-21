@@ -16,15 +16,16 @@ int fmll_ff_neuro_init(fmll_ff * ff);
 void fmll_ff_neuro_destroy(fmll_ff * ff);
 void fmll_ff_neuro_reset(fmll_ff * ff);
 void fmll_ff_neuro_run(fmll_ff * ff, fmll_ff_neuro * neuro);
-double fmll_ff_neuro_grad(fmll_ff * ff, double * d, double ** grad, double * grad_b);
+double fmll_ff_neuro_grad(fmll_ff * ff, const double * d, double ** grad, double * grad_b);
 void fmll_ff_neuro_grad_main(fmll_ff * ff, fmll_ff_neuro * neuro, double ** grad, double * grad_b);
 
 int fmll_ff_neuro_init(fmll_ff * ff)
 {
 	int ret = 0;
+	const unsigned in_dim = ff->in_dim, out_dim = ff->out_dim, num = ff->num, * in = ff->in, * out = ff->out;
+	const unsigned char ** connect = (const unsigned char **) ff->connect;
+	unsigned v, u, in_counter, out_counter, in_num, out_num;
 	fmll_ff_neuro * neuro, ** in_neuro, ** out_neuro;
-	unsigned char ** connect = ff->connect;
-	unsigned v, u, in_counter, out_counter, in_num, out_num, in_dim = ff->in_dim, out_dim = ff->out_dim, num = ff->num, * in = ff->in, * out = ff->out;
 	double (** fun)(double) = ff->fun;
 	double (** d_fun)(double) = ff->d_fun
 
@@ -114,7 +115,8 @@ int fmll_ff_neuro_init(fmll_ff * ff)
 
 void fmll_ff_neuro_destroy(fmll_ff * ff)
 {
-	unsigned v, num = ff->num;
+	const unsigned num = ff->num;
+	unsigned v;
 	fmll_ff_neuro * neuro = ff->neuro;
 
 	if(neuro != NULL)
@@ -138,7 +140,8 @@ void fmll_ff_neuro_destroy(fmll_ff * ff)
 
 void fmll_ff_neuro_reset(fmll_ff * ff)
 {
-	unsigned v, num = ff->num;
+	const unsigned num = ff->num;
+	unsigned v;
 	fmll_ff_neuro * neuro = ff->neuro;
 
 	for(v = 0; v < num; v++, neuro++)
@@ -150,9 +153,11 @@ void fmll_ff_neuro_reset(fmll_ff * ff)
 
 void fmll_ff_neuro_run(fmll_ff * ff, fmll_ff_neuro * neuro)
 {
+	const unsigned ind = neuro->ind, out_num = neuro->out_num;
+	const double * w = ff->w[ind];
+	unsigned v;
+	double y;
 	fmll_ff_neuro ** out = neuro->out;
-	unsigned v, ind = neuro->ind, out_num = neuro->out_num;
-	double y, * w = ff->w[ind];
 
 	/* Входные нейроны транслируют соответствующую компоненту входного вектора на свой выход, применяя к ней функцию активации */
 	if(neuro->in_num)
@@ -169,9 +174,10 @@ void fmll_ff_neuro_run(fmll_ff * ff, fmll_ff_neuro * neuro)
 	}
 }
 
-double fmll_ff_neuro_grad(fmll_ff * ff, double * d, double ** grad, double * grad_b)
+double fmll_ff_neuro_grad(fmll_ff * ff, const double * d, double ** grad, double * grad_b)
 {
-	unsigned v, out_dim = ff->out_dim;
+	const unsigned out_dim = ff->out_dim;
+	unsigned v;
 	double E, t_E;
 	fmll_ff_neuro ** out_neuro = ff->out_neuro;
 
@@ -188,8 +194,10 @@ double fmll_ff_neuro_grad(fmll_ff * ff, double * d, double ** grad, double * gra
 
 void fmll_ff_neuro_grad_main(fmll_ff * ff, fmll_ff_neuro * neuro, double ** grad, double * grad_b)
 {
-	unsigned v, in_ind, in_num = neuro->in_num, ind = neuro->ind;
-	double E_out_net, ** w = ff->w;
+	const unsigned in_num = neuro->in_num, ind = neuro->ind;
+	const double ** w = (const double **) ff->w;
+	unsigned v, in_ind;
+	double E_out_net;
 	fmll_ff_neuro ** in = neuro->in;
 
 	E_out_net = neuro->E_out * (* neuro->d_fun)(neuro->net);
@@ -209,7 +217,7 @@ void fmll_ff_neuro_grad_main(fmll_ff * ff, fmll_ff_neuro * neuro, double ** grad
 
 /* ############################################################################ */
 
-fmll_ff * fmll_ff_init(unsigned num, unsigned char ** connect, double (** fun)(double), double (** d_fun)(double))
+fmll_ff * fmll_ff_init(const unsigned num, const unsigned char ** connect, double (** fun)(const double), double (** d_fun)(const double))
 {
 	fmll_ff * ff = NULL;
 	unsigned char ** t_connect;
@@ -289,9 +297,11 @@ void fmll_ff_destroy(fmll_ff * ff)
 int fmll_ff_init_2(fmll_ff * ff)
 {
 	int ret = 0;
+	const unsigned char ** connect = (const unsigned char **) ff->connect;
+	const unsigned num = ff->num;
 	char is_in, is_out;
-	unsigned char ** warsh = NULL, ** connect = ff->connect;
-	unsigned v, u, in_dim, out_dim, num = ff->num, * in = ff->in, * out = ff->out;
+	unsigned char ** warsh = NULL;
+	unsigned v, u, in_dim, out_dim, * in = ff->in, * out = ff->out;
 
 	fmll_try;
 
@@ -363,13 +373,14 @@ int fmll_ff_init_2(fmll_ff * ff)
 	return ret;
 }
 
-int fmll_ff_save(fmll_ff * ff, const char * fname_prefix)
+int fmll_ff_save(const fmll_ff * ff, const char * fname_prefix)
 {
 	int ret = 0;
+	const unsigned char ** connect = (const unsigned char **) ff->connect;
+	const unsigned num = ff->num;
+	const double * b = ff->b, ** w = (const double **) ff->w;
 	char node_name[4096];
-	unsigned char ** connect = ff->connect;
-	unsigned v, u, num = ff->num;
-	double * b = ff->b, ** w = ff->w;
+	unsigned v, u;
 	mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 		
 	fmll_try;
@@ -410,7 +421,7 @@ int fmll_ff_save(fmll_ff * ff, const char * fname_prefix)
 	return ret;
 }
 
-fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double))
+fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(const double), double (** d_fun)(const double))
 {
 	int num;
 	char node_name[4096];
@@ -466,9 +477,11 @@ fmll_ff * fmll_ff_load(const char * fname_prefix, double (** fun)(double), doubl
 
 const double * fmll_ff_run(fmll_ff * ff, const double * vec)
 {
-	unsigned v, in_dim = ff->in_dim, out_dim = ff->out_dim;
+	const unsigned in_dim = ff->in_dim, out_dim = ff->out_dim;
+	unsigned v;
 	double * y = ff->y;
-	fmll_ff_neuro ** in_neuro = ff->in_neuro, ** out_neuro = ff->out_neuro;
+	const fmll_ff_neuro ** out_neuro = (const fmll_ff_neuro **) ff->out_neuro;
+	fmll_ff_neuro ** in_neuro = ff->in_neuro;
 
 	fmll_ff_neuro_reset(ff);
 
@@ -484,11 +497,12 @@ const double * fmll_ff_run(fmll_ff * ff, const double * vec)
 	return y;
 }
 
-unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviation, unsigned vec_num,
-		void (* st_func)(fmll_ff *, double *, double *, const double *, unsigned, bool, void *), void * st_param)
+unsigned fmll_ff_test(fmll_ff * ff, const double ** vec, const double ** d, const double * deviation, const unsigned vec_num,
+		void (* st_func)(const fmll_ff *, const double *, const double *, const double *, const unsigned, const bool, void *), void * st_param)
 {
+	const unsigned out_dim = ff->out_dim;
 	bool is_right;
-	unsigned u, v, no = 0, out_dim = ff->out_dim;
+	unsigned u, v, no = 0;
 	const double * y;
 
 	for(u = 0; u < vec_num; u++)
@@ -510,12 +524,13 @@ unsigned fmll_ff_test(fmll_ff * ff, double ** vec, double ** d, double * deviati
 }
 
 /* TODO Пакетное обратное распространение ошибки - распараллелить */
-int fmll_ff_teach_gradient_batch(fmll_ff * ff, double ** vec, double ** d, unsigned vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres)
+int fmll_ff_teach_gradient_batch(fmll_ff * ff, const double ** vec, const double ** d, const unsigned vec_num,
+		const double beta_0, double (* next_beta)(const double), const double coef_moment, const unsigned max_iter, const double E_thres, const double d_E_thres)
 {
 	int ret = 0;
-	unsigned char ** connect = ff->connect;
-	unsigned v, u, t, iter, num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	const unsigned char ** connect = (const unsigned char **) ff->connect;
+	const unsigned num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	unsigned v, u, t, iter;
 	double beta, E, prev_E, * b = ff->b, * moment_b = NULL, * grad_b = NULL, ** grad = NULL, ** moment = NULL, ** w = ff->w;
 
 	fmll_try;

@@ -9,9 +9,7 @@
 #define MT19937_UPPER_MASK 0x80000000UL
 #define MT19937_LOWER_MASK 0x7fffffffUL
 
-unsigned mt19937_mti = MT19937_N + 1;
-
-int mt19937_init(fmll_random * rnd, unsigned long seed)
+int mt19937_init(fmll_random * rnd, const unsigned long seed)
 {
 	int ret = 0;
 	unsigned v;

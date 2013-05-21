@@ -34,7 +34,7 @@ int main(const int argc, const char * argv[])
 
 	pca = fmll_pca_init(dim, num);
 	fmll_pca_weight_init_random(pca, rnd);
-	fmll_pca_so(pca, vec, vec_num, 0.01, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
+	fmll_pca_so(pca, (const double **) vec, vec_num, 0.01, & fmll_timing_next_beta_step_0, 0.0000001, eigen);
 
 	printf("\nW = [ ");
 

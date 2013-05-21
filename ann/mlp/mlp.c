@@ -5,15 +5,13 @@
 /* Вспомогательные функции */
 
 /* Расчет градиента и матрицы Якоби методом обратного распространения ошибки */
-double grad_Jacobian(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num, double * grad, double ** J)
+double grad_Jacobian(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num, double * grad, double ** J)
 {
+	const unsigned max_N = mlp->max_N, * N = mlp->N, dim = mlp->dim, layers_num = mlp->layers_num, num_weight = mlp->num_weight, num = mlp->num, t_num = omp_get_max_threads();
+	const double * t_y, * t_net, ** net = (const double **) mlp->net, *** y = (const double ***) mlp->y, ** w = (const double **) mlp->w;
 	int i, j, k, t_weight, t_w;
-	unsigned c_N, p_N, max_N = mlp->max_N, * N = mlp->N, dim = mlp->dim, layers_num = mlp->layers_num;
-	unsigned u, num_weight = mlp->num_weight, num = mlp->num, t_ind, t_num = omp_get_max_threads();
-	double delta, E, t_E, ** net = mlp->net, *** y = mlp->y;
-	const double * t_y;
-	double * t_t_grad, * t_sum, * t_prev_sum, * t_net;
-	double ** w = mlp->w, ** sum = NULL, ** prev_sum = NULL, ** t_grad = NULL;
+	unsigned c_N, p_N, u, t_ind;
+	double delta, E, t_E, * t_t_grad, * t_sum, * t_prev_sum, ** sum = NULL, ** prev_sum = NULL, ** t_grad = NULL;
 	double (** d_fun)(double) = mlp->d_fun;
 
 	fmll_try;
@@ -135,13 +133,14 @@ double grad_Jacobian(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_nu
 
 /* ############################################################################ */
 
-fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, double (** fun)(double), double (** d_fun)(double))
+fmll_mlp * fmll_mlp_init(const unsigned dim, const unsigned layers_num, const unsigned * N, double (** fun)(const double), double (** d_fun)(const double))
 {
 	fmll_mlp * mlp = NULL;
+	const unsigned size = layers_num * sizeof(double (*)(double)), t_num = omp_get_max_threads();
 	double (** t_fun)(double);
 	double (** t_d_fun)(double);
 	double ** w;
-	unsigned v, u, num_weight, num, max_N, max_N_1, * t_N, t_num = omp_get_max_threads(), size = layers_num * sizeof(double (*)(double));
+	unsigned v, u, num_weight, num, max_N, max_N_1, * t_N;
 
 	fmll_try;
 
@@ -212,12 +211,13 @@ void fmll_mlp_destroy(fmll_mlp * mlp)
 	}
 }
 
-int fmll_mlp_save(fmll_mlp * mlp, const char * fname_prefix)
+int fmll_mlp_save(const fmll_mlp * mlp, const char * fname_prefix)
 {
 	int ret = 0;
+	const unsigned * N = mlp->N, layers_num = mlp->layers_num, dim = mlp->dim;
+	const double ** w = (const double **) mlp->w;
 	char node_name[4096];
-	unsigned u, i, j, k, t, c_N, p_N, * N = mlp->N, layers_num = mlp->layers_num, dim = mlp->dim;
-	double ** w = mlp->w;
+	unsigned u, i, j, k, t, c_N, p_N;
 	mxml_node_t * sub_sub_node, * sub_node, * node, * content_node, * main_node = NULL;
 		
 	fmll_try;
@@ -270,7 +270,7 @@ int fmll_mlp_save(fmll_mlp * mlp, const char * fname_prefix)
 	return ret;
 }
 
-fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double))
+fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(const double), double (** d_fun)(const double))
 {
 	int dim, layers_num;
 	char node_name[4096];
@@ -336,8 +336,10 @@ fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(double), dou
 
 const double * fmll_mlp_run(fmll_mlp * mlp, const double * vec)
 {
-	unsigned u, v, q, t, prev_num, N_u, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N, t_ind = omp_get_thread_num();
-	double t_net, * c_y, ** y = mlp->y[t_ind], * net = mlp->net[t_ind], ** w = mlp->w;
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N, t_ind = omp_get_thread_num();
+	const double ** w = (const double **) mlp->w;
+	unsigned u, v, q, t, prev_num, N_u;
+	double t_net, * c_y, ** y = mlp->y[t_ind], * net = mlp->net[t_ind];
 	double * n_y = y[0];
 	double (** fun)(double) = mlp->fun;
 
@@ -364,12 +366,13 @@ const double * fmll_mlp_run(fmll_mlp * mlp, const double * vec)
 	return n_y;
 }
 
-unsigned fmll_mlp_test(fmll_mlp * mlp, double ** vec, double ** d, double * deviation, unsigned vec_num,
-		void (* st_func)(fmll_mlp *, double *, double *, const double *, unsigned, bool, void *), void * st_param)
+unsigned fmll_mlp_test(fmll_mlp * mlp, const double ** vec, const double ** d, const double * deviation, const unsigned vec_num,
+		void (* st_func)(const fmll_mlp *, const double *, const double *, const double *, const unsigned, const bool, void *), void * st_param)
 {
-	bool is_right;
-	unsigned u, v, no = 0, last_N = mlp->N[mlp->layers_num - 1];
+	const unsigned last_N = mlp->N[mlp->layers_num - 1];
 	const double * y;
+	bool is_right;
+	unsigned u, v, no = 0;
 
 	for(u = 0; u < vec_num; u++)
 	{
@@ -389,12 +392,14 @@ unsigned fmll_mlp_test(fmll_mlp * mlp, double ** vec, double ** d, double * devi
 	return vec_num - no;
 }
 
-int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres)
+int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num,
+		const double beta_0, double (* next_beta)(const double), const double coef_moment, const unsigned max_iter, const double E_thres, const double d_E_thres)
 {
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, num_weight = mlp->num_weight, * N = mlp->N;
+	const double norm_E = 2 * vec_num * N[layers_num - 1];
 	int i, j, k, ret = 0;
-	unsigned iter, t_weight, t_w, c_N, p_N, dim = mlp->dim, layers_num = mlp->layers_num, num_weight = mlp->num_weight, * N = mlp->N;
-	double E, prev_E, beta, norm_E = 2 * vec_num * N[layers_num - 1], ** w = mlp->w, * moment = NULL, * grad = NULL;
+	unsigned iter, t_weight, t_w, c_N, p_N;
+	double E, prev_E, beta, ** w = mlp->w, * moment = NULL, * grad = NULL;
 
 	fmll_try;
 
@@ -448,19 +453,19 @@ int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, un
 	return ret;
 }
 
-int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
-		double eta_mult, double eta_coef, unsigned max_iter, double E_thres, double d_E_thres)
+int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num,
+		const double eta_0, const double eta_coef, const unsigned max_iter, const double E_thres, const double d_E_thres)
 {
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, num_weight = mlp->num_weight, * N = mlp->N, t_num = omp_get_max_threads();
+	const double norm_E = 2 * vec_num * N[layers_num - 1];
 	int i, j, k, t_weight, t_w, ret = 0;
-	unsigned c_N, p_N, u, iter, t_ind, dim = mlp->dim, layers_num = mlp->layers_num, num_weight = mlp->num_weight, * N = mlp->N;
-	unsigned t_num = omp_get_max_threads();
-	double eta, delta, E, prev_E, t_E, norm_E = 2 * vec_num * N[layers_num - 1], * t_y, *** y = mlp->y;
-	double * grad = NULL, * eigen_real = NULL, * eigen_complex = NULL, * d_w = NULL;
+	unsigned c_N, p_N, u, iter, t_ind;
+	double eta, delta, E, prev_E, t_E, * t_y, *** y = mlp->y, * grad = NULL, * eigen_real = NULL, * eigen_complex = NULL, * d_w = NULL;
 	double ** J = NULL, ** JT = NULL, ** I = NULL, ** JJ = NULL, ** JJInv = NULL, ** w = mlp->w;
 
 	fmll_try;
 
-		fmll_throw_if(eta_mult < 1 || eta_coef <= 1 || (! max_iter) || E_thres < 0 || d_E_thres < 0);
+		fmll_throw_if(eta_0 < 1 || eta_coef <= 1 || (! max_iter) || E_thres < 0 || d_E_thres < 0);
 		fmll_throw_null(grad = fmll_alloc(sizeof(double), 1, num_weight));
 		fmll_throw_null(d_w = fmll_alloc(sizeof(double), 1, num_weight));
 		fmll_throw_null(J = (double **) fmll_alloc(sizeof(double), 2, vec_num, num_weight));
@@ -504,11 +509,11 @@ int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** 
 				 * должно быть много больше наибольшего собственного значения матрицы Якоби
 				 */
 
-				fmll_throw_if(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
-				fmll_throw_if(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
-				fmll_throw_if(fmll_math_matrix_eigen(JJ, eigen_real, eigen_complex, num_weight, 1E-15));
+				fmll_throw_if(fmll_math_matrix_transpose((const double **) J, JT, vec_num, num_weight));
+				fmll_throw_if(fmll_math_matrix_mult((const double **) JT, (const double **) J, JJ, num_weight, vec_num, num_weight));
+				fmll_throw_if(fmll_math_matrix_eigen((const double **) JJ, eigen_real, eigen_complex, num_weight, 1E-15));
 
-				eta = 100 * (eigen_real[0] * eigen_real[0] + eigen_complex[0] * eigen_complex[0]) * eta_mult;
+				eta = 100 * (eigen_real[0] * eigen_real[0] + eigen_complex[0] * eigen_complex[0]) * eta_0;
 
 				fmll_free(eigen_real);
 				fmll_free(eigen_complex);
@@ -546,19 +551,19 @@ int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** 
 					}
 
 					/* Вычисление аппроксимации матрицы Гессе: JJ = J' * J + eta * E */
-					fmll_throw_if(fmll_math_matrix_transpose(J, JT, vec_num, num_weight));
+					fmll_throw_if(fmll_math_matrix_transpose((const double **) J, JT, vec_num, num_weight));
 					fmll_throw_if(fmll_math_matrix_init_main_diag(I, eta, num_weight, num_weight));
-					fmll_throw_if(fmll_math_matrix_mult(JT, J, JJ, num_weight, vec_num, num_weight));
-					fmll_throw_if(fmll_math_matrix_sum(1, I, 1, JJ, JJ, num_weight, num_weight));
+					fmll_throw_if(fmll_math_matrix_mult((const double **) JT, (const double **) J, JJ, num_weight, vec_num, num_weight));
+					fmll_throw_if(fmll_math_matrix_sum(1, (const double **) I, 1, (const double **) JJ, JJ, num_weight, num_weight));
 
 					/* Вычисление обратной матрицы для матрицы JJ */
-					fmll_throw_if(fmll_math_matrix_inv(JJ, JJInv, num_weight));
+					fmll_throw_if(fmll_math_matrix_inv((const double **) JJ, JJInv, num_weight));
 
 					/*
 					 * Вычисление корректировки весов нейронов перцептрона: d_w = - JJInv * grad
 					 * (минус учитывается далее при корректировке весов нейронов перцептрона)
 					 */
-					fmll_throw_if(fmll_math_matrix_mult_vector(JJInv, grad, d_w, num_weight, num_weight));
+					fmll_throw_if(fmll_math_matrix_mult_vector((const double **) JJInv, grad, d_w, num_weight, num_weight));
 
 					/* Корректировка весов нейронов перцептрона */
 					for(i = 0, c_N = dim, t_weight = 0, t_w = 0; i < layers_num; i++)
@@ -629,14 +634,15 @@ int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** 
 	return ret;
 }
 
-int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
-		double coef_E, double E_thres, double d_E_thres)
+int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num, const unsigned max_iter,
+		const double coef_E, const double E_thres, const double d_E_thres)
 {
+	const unsigned num_weight = mlp->num_weight, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N, t_num = omp_get_max_threads();
+	const double norm_E = 2 * vec_num * N[layers_num - 1];
 	bool first_run;
 	int i, j, k, t_weight, t_w, ret = 0;
-	unsigned c_N, p_N, u, v, iter, t_ind, num_weight = mlp->num_weight, dim = mlp->dim, layers_num = mlp->layers_num;
-	unsigned * N = mlp->N, t_num = omp_get_max_threads();
-	double delta, E, E_coef_E, prev_E, t_E, beta_1, beta_2, beta, eta_1, eta[3], tE[3], norm_E = 2 * vec_num * N[layers_num - 1];
+	unsigned c_N, p_N, u, v, iter, t_ind;
+	double delta, E, E_coef_E, prev_E, t_E, beta_1, beta_2, beta, eta_1, eta[3], tE[3];
 	double * t_y, *** y = mlp->y, * s = NULL, * prev_s = NULL,* grad = NULL, * prev_grad = NULL, * d_w = NULL, ** w = mlp->w;
 	fmll_random * rnd = NULL;
 

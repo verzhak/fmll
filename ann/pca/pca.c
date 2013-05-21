@@ -1,7 +1,7 @@
 
 #include "ann/pca/pca.h"
 
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num)
+fmll_pca * fmll_pca_init(const unsigned dim, const unsigned num)
 {
 	double ** w;
 	unsigned u, v;
@@ -44,12 +44,13 @@ void fmll_pca_destroy(fmll_pca * pca)
 	}
 }
 
-int fmll_pca_save(fmll_pca * pca, const char * fname_prefix)
+int fmll_pca_save(const fmll_pca * pca, const char * fname_prefix)
 {
 	int ret = 0;
-	unsigned u, v, dim = pca->dim, num = pca->num;
+	const unsigned dim = pca->dim, num = pca->num;
+	const double ** w = (const double **) pca->w;
+	unsigned u, v;
 	char node_name[4096];
-	double ** w = pca->w;
 	mxml_node_t * sub_node, * node, * main_node = NULL, * content_node;
 		
 	fmll_try;
@@ -130,8 +131,10 @@ fmll_pca * fmll_pca_load(const char * fname_prefix)
 
 const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 {
-	unsigned u, v, dim = pca->dim, num = pca->num;
-	double sum, * y = pca->y, ** w = pca->w;
+	const unsigned dim = pca->dim, num = pca->num;
+	const double ** w = (const double **) pca->w;
+	unsigned u, v;
+	double sum, * y = pca->y;
 
 	for(u = 0; u < num; u++)
 	{
@@ -144,10 +147,11 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec)
 	return y;
 }
 
-int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d, double * eigen)
+int fmll_pca_so(fmll_pca * pca, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double), const double max_d, double * eigen)
 {
 	int ret = 0;
-	unsigned t, u, v, q, iter = 0, dim = pca->dim, num = pca->num;
+	const unsigned dim = pca->dim, num = pca->num;
+	unsigned t, u, v, q, iter = 0;
 	double d, sum, beta, max = 0, * y = pca->y, ** fcrow = NULL, ** w = pca->w, * pw = NULL, * yy = NULL, * yy_w = NULL;
 
 	fmll_try;

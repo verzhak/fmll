@@ -190,7 +190,7 @@ typedef struct t_fmll_random
 \endlang
 
 */
-fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribution dist, double * param, unsigned long seed);
+fmll_random * fmll_random_init(const fmll_random_algorithm algo, const fmll_random_distribution dist, const double * param, const unsigned long seed);
 
 /*!
 
@@ -223,7 +223,7 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 \endlang
 
 */
-fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo, fmll_random_distribution dist, double * param);
+fmll_random * fmll_random_init_default_seed(const fmll_random_algorithm algo, const fmll_random_distribution dist, const double * param);
 
 /*!
 

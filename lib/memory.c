@@ -1,11 +1,12 @@
 
 #include "lib/memory.h"
 
-void * fmll_alloc(unsigned type_size, unsigned dim, ...)
+void * fmll_alloc(const unsigned type_size, const unsigned dim, ...)
 {
 	void * mem = NULL;
 	va_list val;
-	unsigned u, v, num, size, step, dim_1 = dim - 1, dim_2 = dim - 2, * dim_size;
+	const unsigned dim_1 = dim - 1, dim_2 = dim - 2;
+	unsigned u, v, num, size, step, * dim_size;
 	char * pof, * dof, * t_dof; /* Стандартом гарантируется, что sizeof(char) == 1 */
 
 	fmll_try;

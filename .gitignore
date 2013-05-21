@@ -19,4 +19,5 @@ release
 *.png
 *.tif
 *.tiff
+examples/
 visual_studio

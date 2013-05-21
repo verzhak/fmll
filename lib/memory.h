@@ -57,7 +57,7 @@ extern "C"
 \endlang
 
 */
-void * fmll_alloc(unsigned type_size, unsigned dim, ...);
+void * fmll_alloc(const unsigned type_size, const unsigned dim, ...);
 
 #ifdef FMLL_OS_WINDOWS
 

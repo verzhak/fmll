@@ -1,7 +1,7 @@
 
 #include "ann/svm/svm_net.h"
 
-fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const double *, const double *, unsigned))
+fmll_svm_net * fmll_svm_net_init(const unsigned num, const unsigned dim, double (** K)(const double *, const double *, const unsigned))
 {
 	unsigned u;
 	fmll_svm ** svm;
@@ -37,7 +37,8 @@ void fmll_svm_net_destroy(fmll_svm_net * svm_net)
 
 		if(svm != NULL)
 		{
-			unsigned u, num = svm_net->num;
+			const unsigned num = svm_net->num;
+			unsigned u;
 
 			for(u = 0; u < num; u++)
 				fmll_svm_destroy(svm[u]);
@@ -49,12 +50,13 @@ void fmll_svm_net_destroy(fmll_svm_net * svm_net)
 	}
 }
 
-int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix)
+int fmll_svm_net_save(const fmll_svm_net * svm_net, const char * fname_prefix)
 {
 	int ret = 0;
+	const unsigned num = svm_net->num;
+	unsigned u;
 	char node_name[4096];
-	unsigned u, num = svm_net->num;
-	fmll_svm ** svm = svm_net->svm;
+	const fmll_svm ** svm = (const fmll_svm **) svm_net->svm;
 	mxml_node_t * sub_node, * node, * content_node, * main_node = NULL;
 		
 	fmll_try;
@@ -83,7 +85,7 @@ int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix)
 	return ret;
 }
 
-fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const double *, const double *, unsigned))
+fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const double *, const double *, const unsigned))
 {
 	int num;
 	unsigned u;
@@ -160,8 +162,8 @@ int fmll_svm_net_run(fmll_svm_net * svm_net, const double * vec, double * y)
 	return ind;
 }
 
-unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num,
-		void (* st_func)(fmll_svm_net *, double *, unsigned, int, const double *, unsigned, bool, void *), void * st_param)
+unsigned fmll_svm_net_test(fmll_svm_net * svm_net, const double ** vec, const unsigned * d, const unsigned vec_num,
+		void (* st_func)(const fmll_svm_net *, const double *, const unsigned, const int, const double *, const unsigned, const bool, void *), void * st_param)
 {
 	bool is_right;
 	int res;
@@ -195,13 +197,14 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 	return yes;
 }
 
-int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C, double * tau,
-		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		unsigned * max_iter, double * epsilon)
+int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, const double ** vec, const unsigned * d, const unsigned vec_num, const double * C, const double * tau,
+		int (** selector)(const fmll_svm *, const double **, const char *, const unsigned, int *, int *, const double, const double, const double, const double *, const double *, const double **),
+		const unsigned * max_iter, const double * epsilon)
 {
 	int ret = 0;
+	const unsigned num = svm_net->num, t_num = omp_get_max_threads();
+	unsigned u, v, t_ind;
 	char * t_rd, ** rd;
-	unsigned u, v, t_ind, num = svm_net->num, t_num = omp_get_max_threads();
 	fmll_svm ** svm = svm_net->svm;
 
 	fmll_try;
@@ -225,7 +228,7 @@ int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 
 				fmll_print("\nSupport vector machine: %u from %u (%.5f %%)\n", u + 1, num, (100 * (u + 1.0)) / num);
 
-				fmll_svm_teach_smo(svm[u], vec, t_rd, vec_num, C[u], tau[u], selector[u], max_iter[u], epsilon[u]);
+				fmll_svm_teach_smo(svm[u], (const double **) vec, t_rd, vec_num, C[u], tau[u], selector[u], max_iter[u], epsilon[u]);
 			}
 		}
 

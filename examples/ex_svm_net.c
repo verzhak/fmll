@@ -21,7 +21,7 @@ int image_analysis(const int argc, const char * argv[])
 	unsigned u, v, q, vec_per_class, vec_num, cl_ind, yes, res, vec_class[5], max_iter[NUM], * d, * test_d;
 	double C[NUM], tau[NUM], epsilon[NUM], ** x, ** test_x;
 	double (* K[NUM])(const double *, const double *, unsigned);
-	int (* selector[NUM])(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **);
+	int (* selector[NUM])(const fmll_svm *, const double **, const char *, const unsigned, int *, int *, const double, const double, const double, const double *, const double *, const double **);
 	IplImage * src_teach, * src_test, * dst;
 	CvSize size_teach, size_test;
 	CvScalar pixel, pixel_white, pixel_red, pixel_green, pixel_blue, pixel_violet, pixel_black, pixel_yellow;
@@ -175,12 +175,11 @@ int image_analysis(const int argc, const char * argv[])
 		epsilon[u] = 1E-3;
 	}
 
-	/* omp_set_num_threads(1); */
-	fmll_svm_net_teach_smo(svm_net, x, d, vec_num, C, tau, selector, max_iter, epsilon);
+	fmll_svm_net_teach_smo(svm_net, (const double **) x, d, vec_num, C, tau, selector, max_iter, epsilon);
 
 	/* ############################################################################ */
 
-	yes = fmll_svm_net_test(svm_net, test_x, test_d, size_test.width * size_test.height, NULL, NULL);
+	yes = fmll_svm_net_test(svm_net, (const double **) test_x, test_d, size_test.width * size_test.height, NULL, NULL);
 	
 	printf("\nВерно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));

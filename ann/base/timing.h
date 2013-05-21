@@ -50,7 +50,7 @@ extern "C"
 \endlang
 
 */
-double fmll_timing_next_beta_step_minus_0_1(double beta);
+double fmll_timing_next_beta_step_minus_0_1(const double beta);
 
 /*!
 
@@ -73,7 +73,7 @@ double fmll_timing_next_beta_step_minus_0_1(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_minus_0_01(double beta);
+double fmll_timing_next_beta_step_minus_0_01(const double beta);
 
 /*!
 
@@ -96,7 +96,7 @@ double fmll_timing_next_beta_step_minus_0_01(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_minus_0_001(double beta);
+double fmll_timing_next_beta_step_minus_0_001(const double beta);
 
 /*!
 
@@ -119,7 +119,7 @@ double fmll_timing_next_beta_step_minus_0_001(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_minus_0_0001(double beta);
+double fmll_timing_next_beta_step_minus_0_0001(const double beta);
 
 /*!
 
@@ -142,7 +142,7 @@ double fmll_timing_next_beta_step_minus_0_0001(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_minus_0_00001(double beta);
+double fmll_timing_next_beta_step_minus_0_00001(const double beta);
 
 /*!
 
@@ -165,7 +165,7 @@ double fmll_timing_next_beta_step_minus_0_00001(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_0(double beta);
+double fmll_timing_next_beta_step_0(const double beta);
 
 /*!
 
@@ -188,7 +188,7 @@ double fmll_timing_next_beta_step_0(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_plus_0_1(double beta);
+double fmll_timing_next_beta_step_plus_0_1(const double beta);
 
 /*!
 
@@ -211,7 +211,7 @@ double fmll_timing_next_beta_step_plus_0_1(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_plus_0_01(double beta);
+double fmll_timing_next_beta_step_plus_0_01(const double beta);
 
 /*!
 
@@ -234,7 +234,7 @@ double fmll_timing_next_beta_step_plus_0_01(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_plus_0_001(double beta);
+double fmll_timing_next_beta_step_plus_0_001(const double beta);
 
 /*!
 
@@ -257,7 +257,7 @@ double fmll_timing_next_beta_step_plus_0_001(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_plus_0_0001(double beta);
+double fmll_timing_next_beta_step_plus_0_0001(const double beta);
 
 /*!
 
@@ -280,7 +280,7 @@ double fmll_timing_next_beta_step_plus_0_0001(double beta);
 \endlang
 
 */
-double fmll_timing_next_beta_step_plus_0_00001(double beta);
+double fmll_timing_next_beta_step_plus_0_00001(const double beta);
 
 #ifdef __cplusplus
 }

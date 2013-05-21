@@ -37,7 +37,7 @@ int main(const int argc, const char * argv[])
 					vec[v * sz.width + u][t] = image.at<Vec3b>(v, u)[t];
 
 		fmll_throw_if(fmll_centering(vec, sz.height * sz.width, 3));
-		fmll_throw_if(fmll_pca_so(pca, vec, sz.height * sz.width, 0.0000001, & fmll_timing_next_beta_step_0, 0.0000001, eigen));
+		fmll_throw_if(fmll_pca_so(pca, (const double **) vec, sz.height * sz.width, 0.0000001, & fmll_timing_next_beta_step_0, 0.0000001, eigen));
 
 		for(v = 0; v < 3; v++)
 			printf("%lf = %lf, %lf, %lf\n", eigen[v], pca->w[v][0], pca->w[v][1], pca->w[v][2]);

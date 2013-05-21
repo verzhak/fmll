@@ -125,7 +125,7 @@ extern "C"
 \endlang
 
 */
-fmll_pca * fmll_pca_init(unsigned dim, unsigned num);
+fmll_pca * fmll_pca_init(const unsigned dim, const unsigned num);
 
 /*!
 
@@ -171,7 +171,7 @@ void fmll_pca_destroy(fmll_pca * pca);
 \endlang
 
 */
-int fmll_pca_save(fmll_pca * pca, const char * fname_prefix);
+int fmll_pca_save(const fmll_pca * pca, const char * fname_prefix);
 
 /*!
 
@@ -266,7 +266,7 @@ const double * fmll_pca_run(fmll_pca * pca, const double * vec);
 \endlang
 
 */
-int fmll_pca_so(fmll_pca * pca, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double), double max_d, double * eigen);
+int fmll_pca_so(fmll_pca * pca, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double), const double max_d, double * eigen);
 
 #ifdef __cplusplus
 }

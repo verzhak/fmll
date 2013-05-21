@@ -153,11 +153,11 @@ int image_analysis(const int argc, const char * argv[])
 	svm = fmll_svm_init(3, K);
 
 	/* fmll_svm_teach_smo(svm, x, d, vec_num, 1, 1E-12, & fmll_svm_teach_smo_selector_keerthi, 10000, 1E-3); */
-	fmll_svm_teach_smo(svm, x, d, vec_num, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 10000, 1E-3);
+	fmll_svm_teach_smo(svm, (const double **) x, d, vec_num, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 10000, 1E-3);
 
 	/* ############################################################################ */
 	
-	yes = fmll_svm_test(svm, test_x, test_d, size_test.width * size_test.height, NULL, NULL);
+	yes = fmll_svm_test(svm, (const double **) test_x, test_d, size_test.width * size_test.height, NULL, NULL);
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
@@ -261,8 +261,8 @@ int xor()
 	K = & kernel_for_xor;
 	svm = fmll_svm_init(3, K);
 
-	fmll_svm_teach_smo(svm, vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_keerthi, 100, 1E-3);
-	/* fmll_svm_teach_smo(svm, vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 100, 1E-3); */
+	fmll_svm_teach_smo(svm, (const double **) vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_keerthi, 100, 1E-3);
+	/* fmll_svm_teach_smo(svm, (const double **) vec, d, 4, 1, 1E-12, & fmll_svm_teach_smo_selector_fan_chen_lin, 100, 1E-3); */
 
 	/* ############################################################################ */
 

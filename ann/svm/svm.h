@@ -123,7 +123,7 @@ extern "C"
 \endlang
 
 */
-fmll_svm * fmll_svm_init(unsigned dim, double (* K)(const double *, const double *, unsigned));
+fmll_svm * fmll_svm_init(const unsigned dim, double (* K)(const double *, const double *, const unsigned));
 
 /*!
 
@@ -169,14 +169,14 @@ void fmll_svm_destroy(fmll_svm * svm);
 \endlang
 
 */
-int fmll_svm_save(fmll_svm * svm, const char * fname_prefix);
+int fmll_svm_save(const fmll_svm * svm, const char * fname_prefix);
 
 #ifdef FMLL_BUILD
 
 /*! \cond HIDDEN_SYMBOLS */
 
 /* Ядро процесса сохранения в XML-файл описателя SVM */
-int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
+int fmll_svm_save_main(const fmll_svm * svm, mxml_node_t * content_node);
 
 /*! \endcond */
 
@@ -207,14 +207,14 @@ int fmll_svm_save_main(fmll_svm * svm, mxml_node_t * content_node);
 \endlang
 
 */
-fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, unsigned));
+fmll_svm * fmll_svm_load(const char * fname_prefix, double (* K)(const double *, const double *, const unsigned));
 
 #ifdef FMLL_BUILD
 
 /*! \cond HIDDEN_SYMBOLS */
 
 /* Ядро процесса загрузки описателя SVM из XML-файла */
-fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, unsigned));
+fmll_svm * fmll_svm_load_main(mxml_node_t * content_node, double (* K)(const double *, const double *, const unsigned));
 
 /*! \endcond */
 
@@ -296,8 +296,8 @@ double fmll_svm_run(fmll_svm * svm, const double * vec);
 \endlang
 
 */
-unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num,
-		void (* st_func)(fmll_svm *, double *, char, double, unsigned, bool, void *), void * st_param);
+unsigned fmll_svm_test(fmll_svm * svm, const double ** vec, const char * d, const unsigned vec_num,
+		void (* st_func)(const fmll_svm *, const double *, const char, const double, const unsigned, const bool, void *), void * st_param);
 
 /*!
 
@@ -382,9 +382,9 @@ unsigned fmll_svm_test(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 \endlang
 
 */
-int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, double C, double tau,
-		int (* selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		unsigned max_iter, double epsilon);
+int fmll_svm_teach_smo(fmll_svm * svm, const double ** vec, const char * d, const unsigned vec_num, const double C, const double tau,
+		int (* selector)(const fmll_svm *, const double **, const char *, const unsigned, int *, int *, const double, const double, const double, const double *, const double *, const double **),
+		const unsigned max_iter, const double epsilon);
 
 /*!
 
@@ -407,8 +407,8 @@ int fmll_svm_teach_smo(fmll_svm * svm, double ** vec, char * d, unsigned vec_num
 \endlang
 
 */
-int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
-		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
+int fmll_svm_teach_smo_selector_keerthi(const fmll_svm * svm, const double ** vec, const char * d, const unsigned vec_num, int * ri, int * rj,
+		const double C, const double tau, const double epsilon, const double * lambda, const double * grad, const double ** Q);
 
 /*!
 
@@ -431,8 +431,8 @@ int fmll_svm_teach_smo_selector_keerthi(fmll_svm * svm, double ** vec, char * d,
 \endlang
 
 */
-int fmll_svm_teach_smo_selector_fan_chen_lin(fmll_svm * svm, double ** vec, char * d, unsigned vec_num, int * ri, int * rj,
-		double C, double tau, double epsilon, double * lambda, double * grad, double ** Q);
+int fmll_svm_teach_smo_selector_fan_chen_lin(const fmll_svm * svm, const double ** vec, const char * d, const unsigned vec_num, int * ri, int * rj,
+		const double C, const double tau, const double epsilon, const double * lambda, const double * grad, const double ** Q);
 
 #ifdef __cplusplus
 }

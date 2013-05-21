@@ -54,7 +54,7 @@ extern "C"
 \endlang
 
 */
-double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, unsigned dim);
+double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, const unsigned dim);
 
 /*!
 
@@ -81,7 +81,7 @@ double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, u
 \endlang
 
 */
-double fmll_distance_euclid(const double * vec_1, const double * vec_2, unsigned dim);
+double fmll_distance_euclid(const double * vec_1, const double * vec_2, const unsigned dim);
 
 /*!
 
@@ -108,7 +108,7 @@ double fmll_distance_euclid(const double * vec_1, const double * vec_2, unsigned
 \endlang
 
 */
-double fmll_distance_scalar(const double * vec_1, const double * vec_2, unsigned dim);
+double fmll_distance_scalar(const double * vec_1, const double * vec_2, const unsigned dim);
 
 /*!
 
@@ -135,7 +135,7 @@ double fmll_distance_scalar(const double * vec_1, const double * vec_2, unsigned
 \endlang
 
 */
-double fmll_distance_manhattan(const double * vec_1, const double * vec_2, unsigned dim);
+double fmll_distance_manhattan(const double * vec_1, const double * vec_2, const unsigned dim);
 
 /*!
 
@@ -162,7 +162,7 @@ double fmll_distance_manhattan(const double * vec_1, const double * vec_2, unsig
 \endlang
 
 */
-double fmll_distance_chebyshev(const double * vec_1, const double * vec_2, unsigned dim);
+double fmll_distance_chebyshev(const double * vec_1, const double * vec_2, const unsigned dim);
 
 #ifdef __cplusplus
 }

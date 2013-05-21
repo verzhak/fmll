@@ -131,7 +131,7 @@ extern "C"
 \endlang
 
 */
-fmll_mlp * fmll_mlp_init(unsigned dim, unsigned layers_num, const unsigned * N, double (** fun)(double), double (** d_fun)(double));
+fmll_mlp * fmll_mlp_init(const unsigned dim, const unsigned layers_num, const unsigned * N, double (** fun)(const double), double (** d_fun)(const double));
 
 /*!
 
@@ -177,7 +177,7 @@ void fmll_mlp_destroy(fmll_mlp * mlp);
 \endlang
 
 */
-int fmll_mlp_save(fmll_mlp * mlp, const char * fname_prefix);
+int fmll_mlp_save(const fmll_mlp * mlp, const char * fname_prefix);
 
 /*!
 
@@ -206,7 +206,7 @@ int fmll_mlp_save(fmll_mlp * mlp, const char * fname_prefix);
 \endlang
 
 */
-fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(double), double (** d_fun)(double));
+fmll_mlp * fmll_mlp_load(const char * fname_prefix, double (** fun)(const double), double (** d_fun)(const double));
 
 /*!
 
@@ -286,8 +286,8 @@ const double * fmll_mlp_run(fmll_mlp * mlp, const double * vec);
 \endlang
 
 */
-unsigned fmll_mlp_test(fmll_mlp * mlp, double ** vec, double ** d, double * deviation, unsigned vec_num,
-		void (* st_func)(fmll_mlp *, double *, double *, const double *, unsigned, bool, void *), void * st_param);
+unsigned fmll_mlp_test(fmll_mlp * mlp, const double ** vec, const double ** d, const double * deviation, const unsigned vec_num,
+		void (* st_func)(const fmll_mlp *, const double *, const double *, const double *, const unsigned, const bool, void *), void * st_param);
 
 /*!
 
@@ -330,8 +330,8 @@ unsigned fmll_mlp_test(fmll_mlp * mlp, double ** vec, double ** d, double * devi
 \endlang
 
 */
-int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
-		double beta_0, double (* next_beta)(double), double coef_moment, unsigned max_iter, double E_thres, double d_E_thres);
+int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num,
+		const double beta_0, double (* next_beta)(const double), const double coef_moment, const unsigned max_iter, const double E_thres, const double d_E_thres);
 
 /*!
 
@@ -372,8 +372,8 @@ int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, double ** vec, double ** d, un
 \endlang
 
 */
-int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num,
-		double eta_0, double eta_coef, unsigned max_iter, double E_thres, double d_E_thres);
+int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num,
+		const double eta_0, const double eta_coef, const unsigned max_iter, const double E_thres, const double d_E_thres);
 
 /*!
 
@@ -412,8 +412,8 @@ int fmll_mlp_teach_Levenberg_Marquardt(fmll_mlp * mlp, double ** vec, double ** 
 \endlang
 
 */
-int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, double ** vec, double ** d, unsigned vec_num, unsigned max_iter,
-		double coef_E, double E_thres, double d_E_thres);
+int fmll_mlp_teach_conjugate_gradient(fmll_mlp * mlp, const double ** vec, const double ** d, const unsigned vec_num, const unsigned max_iter,
+		const double coef_E, const double E_thres, const double d_E_thres);
 
 #ifdef __cplusplus
 }

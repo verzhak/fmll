@@ -167,13 +167,13 @@ int image_analysis(const int argc, const char * argv[])
 
 	/* ############################################################################ */
 
-	/* fmll_mlp_teach_gradient_batch(mlp, x, d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001); */
-	/* fmll_mlp_teach_Levenberg_Marquardt(mlp, x, d, vec_num, 100000, 5, 100000, 0.0005, 0); */
-	fmll_mlp_teach_conjugate_gradient(mlp, x, d, vec_num, 100000, 0.001, 0.001, 0);
+	/* fmll_mlp_teach_gradient_batch(mlp, (const double **) x, (const double **) d, vec_num, 0, & fmll_timing_next_beta_step_plus_0_01, 0.9, 10000, 0.001, 0.000001); */
+	/* fmll_mlp_teach_Levenberg_Marquardt(mlp, (const double **) x, (const double **) d, vec_num, 100000, 5, 100000, 0.0005, 0); */
+	fmll_mlp_teach_conjugate_gradient(mlp, (const double **) x, (const double **) d, vec_num, 100000, 0.001, 0.001, 0);
 
 	/* ############################################################################ */
 
-	yes = fmll_mlp_test(mlp, test_x, test_d, deviation, size_test.width * size_test.height, NULL, NULL);
+	yes = fmll_mlp_test(mlp, (const double **) test_x, (const double **) test_d, deviation, size_test.width * size_test.height, NULL, NULL);
 
 	printf("Верно классифицированных пикселей: %u из %u (%.7f %%)\n",
 			yes, (size_test.width * size_test.height), (100.0 * yes) / (size_test.width * size_test.height));
@@ -268,9 +268,9 @@ int xor()
 
 	/* ############################################################################ */
 
-	fmll_mlp_teach_gradient_batch(mlp, vec, d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
-	/* fmll_mlp_teach_Levenberg_Marquardt(mlp, vec, d, 4, 1000, 2, 1000, 0.001, 0); */
-	/* fmll_mlp_teach_conjugate_gradient(mlp, vec, d, 4, 1000, 0.00001, 0.001, 0); */
+	fmll_mlp_teach_gradient_batch(mlp, (const double **) vec, (const double **) d, 4, 1, & fmll_timing_next_beta_step_plus_0_1, 0, 1000, 0.001, 0);
+	/* fmll_mlp_teach_Levenberg_Marquardt(mlp, (const double **) vec, (const double **) d, 4, 1000, 2, 1000, 0.001, 0); */
+	/* fmll_mlp_teach_conjugate_gradient(mlp, (const double **) vec, (const double **) d, 4, 1000, 0.00001, 0.001, 0); */
 
 	/* ############################################################################ */
 

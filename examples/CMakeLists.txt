@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 
 pkg_check_modules(PC_GSL QUIET gsl)
 string(REPLACE ";" " " PC_GSL_CFLAGS " ${PC_GSL_CFLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PC_GSL_CFLAGS} -Wall -pipe" CACHE string "" FORCE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PC_GSL_CFLAGS} -Werror -pipe" CACHE string "" FORCE)
 
 if(NOT CMAKE_BUILD_TYPE)
 

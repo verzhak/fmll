@@ -1,7 +1,7 @@
 
 #include "ann/base/weight_init.h"
 
-int simple_random(fmll_random * rnd, double ** w, unsigned num, unsigned dim)
+int simple_random(fmll_random * rnd, double ** w, const unsigned num, const unsigned dim)
 {
 	unsigned v, u;
 
@@ -16,8 +16,9 @@ int simple_random(fmll_random * rnd, double ** w, unsigned num, unsigned dim)
 
 int fmll_ff_weight_init_random(fmll_ff * ff, fmll_random * rnd)
 {
-	unsigned char ** connect = ff->connect;
-	unsigned v, u, t, num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	const unsigned char ** connect = (const unsigned char **) ff->connect;
+	const unsigned num = ff->num, in_dim = ff->in_dim, * in = ff->in;
+	unsigned v, u, t;
 	double * b = ff->b, ** w = ff->w;
 
 	for(v = 0, t = 0; v < num; v++)
@@ -39,7 +40,8 @@ int fmll_ff_weight_init_random(fmll_ff * ff, fmll_random * rnd)
 
 int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd)
 {
-	unsigned u, v, t, q, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	unsigned u, v, t, q, N_u, prev_num;
 	double ** w = mlp->w;
 
 	for(u = t = 0, N_u = dim; u < layers_num; u++)
@@ -68,7 +70,8 @@ int fmll_pca_weight_init_random(fmll_pca * pca, fmll_random * rnd)
 int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;
-	unsigned u, v, t, q, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	unsigned u, v, t, q, N_u, prev_num;
 	double tparam, param[2], ** w = mlp->w;
 
 	fmll_try;
@@ -104,7 +107,8 @@ int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd)
 int fmll_mlp_weight_init_nguyen_widrow(fmll_mlp * mlp, fmll_random * rnd)
 {
 	int ret = 0;
-	unsigned u, v, t, q, old_t, N_u, prev_num, dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	const unsigned dim = mlp->dim, layers_num = mlp->layers_num, * N = mlp->N;
+	unsigned u, v, t, q, old_t, N_u, prev_num;
 	double n, beta, ** w = mlp->w;
 
 	fmll_try;

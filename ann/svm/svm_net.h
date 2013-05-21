@@ -97,7 +97,7 @@ extern "C"
 \endlang
 
 */
-fmll_svm_net * fmll_svm_net_init(unsigned num, unsigned dim, double (** K)(const double *, const double *, unsigned));
+fmll_svm_net * fmll_svm_net_init(const unsigned num, const unsigned dim, double (** K)(const double *, const double *, const unsigned));
 
 /*!
 
@@ -143,7 +143,7 @@ void fmll_svm_net_destroy(fmll_svm_net * svm_net);
 \endlang
 
 */
-int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix);
+int fmll_svm_net_save(const fmll_svm_net * svm_net, const char * fname_prefix);
 
 /*!
 
@@ -170,7 +170,7 @@ int fmll_svm_net_save(fmll_svm_net * svm_net, const char * fname_prefix);
 \endlang
 
 */
-fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const double *, const double *, unsigned));
+fmll_svm_net * fmll_svm_net_load(const char * fname_prefix, double (** K)(const double *, const double *, const unsigned));
 
 /*!
 
@@ -262,8 +262,8 @@ int fmll_svm_net_run(fmll_svm_net * svm_net, const double * vec, double * y);
 \endlang
 
 */
-unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num,
-		void (* st_func)(fmll_svm_net *, double *, unsigned, int, const double *, unsigned, bool, void *), void * st_param);
+unsigned fmll_svm_net_test(fmll_svm_net * svm_net, const double ** vec, const unsigned * d, const unsigned vec_num,
+		void (* st_func)(const fmll_svm_net *, const double *, const unsigned, const int, const double *, const unsigned, const bool, void *), void * st_param);
 
 /*!
 
@@ -308,9 +308,9 @@ unsigned fmll_svm_net_test(fmll_svm_net * svm_net, double ** vec, unsigned * d, 
 \endlang
 
 */
-int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, double ** vec, unsigned * d, unsigned vec_num, double * C, double * tau,
-		int (** selector)(fmll_svm *, double **, char *, unsigned, int *, int *, double, double, double, double *, double *, double **),
-		unsigned * max_iter, double * epsilon);
+int fmll_svm_net_teach_smo(fmll_svm_net * svm_net, const double ** vec, const unsigned * d, const unsigned vec_num, const double * C, const double * tau,
+		int (** selector)(const fmll_svm *, const double **, const char *, const unsigned, int *, int *, const double, const double, const double, const double *, const double *, const double **),
+		const unsigned * max_iter, const double * epsilon);
 
 #ifdef __cplusplus
 }

@@ -1,7 +1,7 @@
 
 #include "math/graph/graph.h"
 
-int fmll_math_graph_warshall(unsigned char ** A, unsigned char  ** W, unsigned num)
+int fmll_math_graph_warshall(const unsigned char ** A, unsigned char  ** W, const unsigned num)
 {
 	unsigned v, u, t;
 

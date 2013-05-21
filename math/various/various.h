@@ -58,7 +58,7 @@ extern "C"
 \endlang
 
 */
-int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
+int fmll_normalization(double ** vec, const unsigned vec_num, const unsigned dim);
 
 /*!
 
@@ -87,7 +87,7 @@ int fmll_normalization(double ** vec, unsigned vec_num, unsigned dim);
 \endlang
 
 */
-int fmll_centering(double ** vec, unsigned vec_num, unsigned dim);
+int fmll_centering(double ** vec, const unsigned vec_num, const unsigned dim);
 
 #ifdef __cplusplus
 }

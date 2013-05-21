@@ -3,7 +3,7 @@
 
 /* Линейный конгруэнтный метод */
 
-int lcg_init(fmll_random * rnd, unsigned long seed)
+int lcg_init(fmll_random * rnd, const unsigned long seed)
 {
 	srand(seed);
 	rnd->max = (double) RAND_MAX;

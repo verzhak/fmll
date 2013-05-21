@@ -29,7 +29,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(PC_MXML QUIET mxml)
 
 string(REPLACE ";" " " PC_MXML_CFLAGS " ${PC_MXML_CFLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Wall -pipe -ansi -std=c90 -pedantic" CACHE string "" FORCE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS} ${PC_MXML_CFLAGS} -Werror -pipe -ansi -std=c90 -pedantic" CACHE string "" FORCE)
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 

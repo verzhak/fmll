@@ -131,7 +131,7 @@ extern "C"
 \endlang
 
 */
-double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index);
+double fmll_som_neighbor_wta(const fmll_som * som, const double gamma_mult, const double gamma_add, const unsigned index_winner, const unsigned index);
 
 /*!
 
@@ -194,7 +194,7 @@ double fmll_som_neighbor_wta(fmll_som * som, double gamma_mult, double gamma_add
 \endlang
 
 */
-double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_add, unsigned index_winner, unsigned index);
+double fmll_som_neighbor_radial(const fmll_som * som, const double gamma_mult, const double gamma_add, const unsigned index_winner, const unsigned index);
 
 /* ############################################################################ */
 
@@ -241,8 +241,8 @@ double fmll_som_neighbor_radial(fmll_som * som, double gamma_mult, double gamma_
 \endlang
 
 */
-fmll_som * fmll_som_init(const unsigned * N, unsigned map_dim, unsigned dim,
-		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
+fmll_som * fmll_som_init(const unsigned * N, const unsigned map_dim, const unsigned dim,
+		double (* distance_w)(const double *, const double *, const unsigned), double (* distance)(const double *, const double *, const unsigned));
 
 /*!
 
@@ -288,7 +288,7 @@ void fmll_som_destroy(fmll_som * som);
 \endlang
 
 */
-int fmll_som_save(fmll_som * som, const char * fname_prefix);
+int fmll_som_save(const fmll_som * som, const char * fname_prefix);
 
 /*!
 
@@ -318,7 +318,7 @@ int fmll_som_save(fmll_som * som, const char * fname_prefix);
 
 */
 fmll_som * fmll_som_load(const char * fname_prefix,
-		double (* distance_w)(const double *, const double *, unsigned), double (* distance)(const double *, const double *, unsigned));
+		double (* distance_w)(const double *, const double *, const unsigned), double (* distance)(const double *, const double *, const unsigned));
 
 /*!
 
@@ -418,8 +418,8 @@ unsigned fmll_som_run(fmll_som * som, const double * vec);
 \endlang
 
 */
-int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned));
+int fmll_som_so_kohonen(fmll_som * som, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double),
+		const double gamma_mult, const double gamma_add, double (* neighbor)(const fmll_som *, const double, const double, const unsigned, const unsigned));
 
 /*!
 
@@ -498,8 +498,8 @@ int fmll_som_so_kohonen(fmll_som * som, double ** vec, unsigned vec_num, double 
 \endlang
 
 */
-int fmll_som_so_kohonen_penalty(fmll_som * som, double ** vec, unsigned vec_num, double beta_0, double (* next_beta)(double),
-		double gamma_mult, double gamma_add, double (* neighbor)(fmll_som *, double, double, unsigned, unsigned), unsigned max_win, unsigned penalty);
+int fmll_som_so_kohonen_penalty(fmll_som * som, const double ** vec, const unsigned vec_num, const double beta_0, double (* next_beta)(const double),
+		const double gamma_mult, const double gamma_add, double (* neighbor)(const fmll_som *, const double, const double, const unsigned, const unsigned), const unsigned max_win, const unsigned penalty);
 
 #ifdef __cplusplus
 }

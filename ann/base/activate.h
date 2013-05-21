@@ -243,7 +243,7 @@ extern "C"
 \endlang
 
 */
-double fmll_sin(double x);
+double fmll_sin(const double x);
 
 /*!
 
@@ -274,7 +274,7 @@ double fmll_sin(double x);
 \endlang
 
 */
-double fmll_d_sin(double x);
+double fmll_d_sin(const double x);
 
 /*!
 
@@ -305,7 +305,7 @@ double fmll_d_sin(double x);
 \endlang
 
 */
-double fmll_sigmoid(double x);
+double fmll_sigmoid(const double x);
 
 /*!
 
@@ -336,7 +336,7 @@ double fmll_sigmoid(double x);
 \endlang
 
 */
-double fmll_d_sigmoid(double x);
+double fmll_d_sigmoid(const double x);
 
 /*!
 
@@ -367,7 +367,7 @@ double fmll_d_sigmoid(double x);
 \endlang
 
 */
-double fmll_tanh(double x);
+double fmll_tanh(const double x);
 
 /*!
 
@@ -398,7 +398,7 @@ double fmll_tanh(double x);
 \endlang
 
 */
-double fmll_d_tanh(double x);
+double fmll_d_tanh(const double x);
 
 /*!
 
@@ -413,7 +413,7 @@ double fmll_d_tanh(double x);
 \endlang
 
 */
-double fmll_line(double x);
+double fmll_line(const double x);
 
 /*!
 
@@ -428,7 +428,7 @@ double fmll_line(double x);
 \endlang
 
 */
-double fmll_d_line(double x);
+double fmll_d_line(const double x);
 
 /*!
 
@@ -459,7 +459,7 @@ double fmll_d_line(double x);
 \endlang
 
 */
-double fmll_gaussian(double x);
+double fmll_gaussian(const double x);
 
 /*!
 
@@ -490,7 +490,7 @@ double fmll_gaussian(double x);
 \endlang
 
 */
-double fmll_d_gaussian(double x);
+double fmll_d_gaussian(const double x);
 
 #ifdef __cplusplus
 }

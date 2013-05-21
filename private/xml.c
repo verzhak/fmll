@@ -56,7 +56,7 @@ int xml_create(const char * nn_type, mxml_node_t ** main_node, mxml_node_t ** co
 \
 	return ret;
 
-int xml_set_uchar(mxml_node_t * parent_node, const char * node_name, unsigned char value)
+int xml_set_uchar(mxml_node_t * parent_node, const char * node_name, const unsigned char value)
 {
 	BEGIN_XML_SET("uchar");
 	
@@ -65,7 +65,7 @@ int xml_set_uchar(mxml_node_t * parent_node, const char * node_name, unsigned ch
 	END_XML_SET;
 }
 
-int xml_set_int(mxml_node_t * parent_node, const char * node_name, int value)
+int xml_set_int(mxml_node_t * parent_node, const char * node_name, const int value)
 {
 	BEGIN_XML_SET("int");
 	
@@ -83,7 +83,7 @@ int xml_set_text(mxml_node_t * parent_node, const char * node_name, const char *
 	END_XML_SET;
 }
 
-int xml_set_double(mxml_node_t * parent_node, const char * node_name, double value)
+int xml_set_double(mxml_node_t * parent_node, const char * node_name, const double value)
 {
 	char tvalue[1024];
 
@@ -155,7 +155,7 @@ void xml_destroy(mxml_node_t * main_node)
 		mxmlDelete(main_node);
 }
 
-mxml_type_t xml_load_callback(mxml_node_t *node)
+mxml_type_t xml_load_callback(mxml_node_t * node)
 {
   const char * type;
   

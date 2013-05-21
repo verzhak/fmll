@@ -1,15 +1,15 @@
 
 #include "math/random/random.h"
 
-int mt19937_init(fmll_random * rnd, unsigned long seed);
+int mt19937_init(fmll_random * rnd, const unsigned long seed);
 double mt19937_generate(fmll_random * rnd);
 
-int lcg_init(fmll_random * rnd, unsigned long seed);
+int lcg_init(fmll_random * rnd, const unsigned long seed);
 double lcg_generate(fmll_random * rnd);
 
 /* ############################################################################ */
 
-fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribution dist, double * param, unsigned long seed)
+fmll_random * fmll_random_init(const fmll_random_algorithm algo, const fmll_random_distribution dist, const double * param, const unsigned long seed)
 {
 	fmll_random * rnd = NULL;
 
@@ -88,7 +88,7 @@ fmll_random * fmll_random_init(fmll_random_algorithm algo, fmll_random_distribut
 	return rnd;
 }
 
-fmll_random * fmll_random_init_default_seed(fmll_random_algorithm algo, fmll_random_distribution dist, double * param)
+fmll_random * fmll_random_init_default_seed(const fmll_random_algorithm algo, const fmll_random_distribution dist, const double * param)
 {
 	fmll_random * rnd = NULL;
 	unsigned long seed;

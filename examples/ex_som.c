@@ -79,7 +79,7 @@ int main(const int argc, const char * argv[])
 	som = fmll_som_init(N, 4, 3, & fmll_distance_euclid, & fmll_distance_square_euclid);
 	fmll_som_weight_init_random(som, rnd);
 
-	fmll_som_so_kohonen(som, vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_wta);
+	fmll_som_so_kohonen(som, (const double **) vec, size.height * size.width, 0, & fmll_timing_next_beta_step_plus_0_1, 0.8, 0.002, & fmll_som_neighbor_wta);
 
 	for(v = 0; v < som->num; v++)
 		printf("%u = [%f, %f, %f]\n", v, som->w[v][0], som->w[v][1], som->w[v][2]);

@@ -68,7 +68,7 @@ extern "C"
 \endlang
 
 */
-double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -107,7 +107,7 @@ double fmll_kernel_polynomial_homogeneous_1(const double * v1, const double * v2
 \endlang
 
 */
-double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -146,7 +146,7 @@ double fmll_kernel_polynomial_homogeneous_2(const double * v1, const double * v2
 \endlang
 
 */
-double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -185,7 +185,7 @@ double fmll_kernel_polynomial_homogeneous_3(const double * v1, const double * v2
 \endlang
 
 */
-double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2, const unsigned dim);
 
 /* ############################################################################  */
 
@@ -226,7 +226,7 @@ double fmll_kernel_polynomial_homogeneous_4(const double * v1, const double * v2
 \endlang
 
 */
-double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -265,7 +265,7 @@ double fmll_kernel_polynomial_inhomogeneous_1(const double * v1, const double * 
 \endlang
 
 */
-double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -304,7 +304,7 @@ double fmll_kernel_polynomial_inhomogeneous_2(const double * v1, const double * 
 \endlang
 
 */
-double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * v2, const unsigned dim);
 
 /*!
 
@@ -343,7 +343,7 @@ double fmll_kernel_polynomial_inhomogeneous_3(const double * v1, const double * 
 \endlang
 
 */
-double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_polynomial_inhomogeneous_4(const double * v1, const double * v2, const unsigned dim);
 
 /* ############################################################################  */
 
@@ -410,7 +410,7 @@ extern double fmll_kernel_radial_sigma;
 \endlang
 
 */
-double fmll_kernel_radial(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_radial(const double * v1, const double * v2, const unsigned dim);
 
 /* ############################################################################  */
 
@@ -501,7 +501,7 @@ extern double fmll_kernel_tanh_b;
 \endlang
 
 */
-double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_tanh(const double * v1, const double * v2, const unsigned dim);
 
 /* ############################################################################  */
 
@@ -542,7 +542,7 @@ double fmll_kernel_tanh(const double * v1, const double * v2, unsigned dim);
 \endlang
 
 */
-double fmll_kernel_intersection(const double * v1, const double * v2, unsigned dim);
+double fmll_kernel_intersection(const double * v1, const double * v2, const unsigned dim);
 
 #ifdef __cplusplus
 }
