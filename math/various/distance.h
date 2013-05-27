@@ -3,15 +3,7 @@
 
 \file
 
-\en
-
-	\brief Vectors distances
-
-\ru
-
-	\brief Расстояния между векторами
-
-\endlang
+\en	\brief Vectors distances \ru \brief Расстояния между векторами \endlang
 
 */
 
@@ -33,23 +25,23 @@ extern "C"
 
 \en
 
-	\brief Square of Euclidean distance
+\brief Square of Euclidean distance
 
-	\param vec_1 - first vector;
-	\param vec_2 - second vector;
-	\param dim - vector dimension.
+\param vec_1 - first vector;
+\param vec_2 - second vector;
+\param dim - vector dimension.
 
-	\return distance between vectors.
+\return distance between vectors.
 
 \ru
 
-	\brief Квадрат Эвклидова расстояния
+\brief Квадрат Эвклидова расстояния
 
-	\param vec_1 - первый вектор;
-	\param vec_2 - второй вектор;
-	\param dim - размерность векторов.
+\param vec_1 - первый вектор;
+\param vec_2 - второй вектор;
+\param dim - размерность векторов.
 
-	\return расстояние между векторами.
+\return расстояние между векторами.
 
 \endlang
 
@@ -60,23 +52,23 @@ double fmll_distance_square_euclid(const double * vec_1, const double * vec_2, c
 
 \en
 
-	\brief Euclidean distance
+\brief Euclidean distance
 
-	\param vec_1 - first vector;
-	\param vec_2 - second vector;
-	\param dim - vector dimension.
+\param vec_1 - first vector;
+\param vec_2 - second vector;
+\param dim - vector dimension.
 
-	\return distance between vectors.
+\return distance between vectors.
 
 \ru
 
-	\brief Эвклидово расстояние
+\brief Эвклидово расстояние
 
-	\param vec_1 - первый вектор;
-	\param vec_2 - второй вектор;
-	\param dim - размерность векторов.
+\param vec_1 - первый вектор;
+\param vec_2 - второй вектор;
+\param dim - размерность векторов.
 
-	\return расстояние между векторами.
+\return расстояние между векторами.
 
 \endlang
 
@@ -87,23 +79,23 @@ double fmll_distance_euclid(const double * vec_1, const double * vec_2, const un
 
 \en
 
-	\brief Scalar product of vectors, normalize by his dimension
+\brief Scalar product of vectors, normalize by his dimension
 
-	\param vec_1 - first vector;
-	\param vec_2 - second vector;
-	\param dim - vector dimension.
+\param vec_1 - first vector;
+\param vec_2 - second vector;
+\param dim - vector dimension.
 
-	\return distance between vectors.
+\return distance between vectors.
 
 \ru
 
-	\brief Скалярное произведение векторов, нормированное по их размерности
+\brief Скалярное произведение векторов, нормированное по их размерности
 
-	\param vec_1 - первый вектор;
-	\param vec_2 - второй вектор;
-	\param dim - размерность векторов.
+\param vec_1 - первый вектор;
+\param vec_2 - второй вектор;
+\param dim - размерность векторов.
 
-	\return расстояние между векторами.
+\return расстояние между векторами.
 
 \endlang
 
@@ -114,23 +106,23 @@ double fmll_distance_scalar(const double * vec_1, const double * vec_2, const un
 
 \en
 
-	\brief Manhattan distance (city block distance; \f$L1\f$ distance) between vectors, normalize by his dimension
+\brief Manhattan distance (city block distance; \f$L1\f$ distance) between vectors, normalize by his dimension
 
-	\param vec_1 - first vector;
-	\param vec_2 - second vector;
-	\param dim - vector dimension.
+\param vec_1 - first vector;
+\param vec_2 - second vector;
+\param dim - vector dimension.
 
-	\return distance between vectors.
+\return distance between vectors.
 
 \ru
 
-	\brief Манхэттенское расстояние (расстояние городских кварталов; мера относительно нормы \f$L1\f$), нормированное по размерности векторов
+\brief Манхэттенское расстояние (расстояние городских кварталов; мера относительно нормы \f$L1\f$), нормированное по размерности векторов
 
-	\param vec_1 - первый вектор;
-	\param vec_2 - второй вектор;
-	\param dim - размерность векторов.
+\param vec_1 - первый вектор;
+\param vec_2 - второй вектор;
+\param dim - размерность векторов.
 
-	\return расстояние между векторами.
+\return расстояние между векторами.
 
 \endlang
 
@@ -141,23 +133,23 @@ double fmll_distance_manhattan(const double * vec_1, const double * vec_2, const
 
 \en
 
-	\brief Chebyshev distance (\f$L_{\infty}\f$ distance) between vectors, normalize by his dimension
+\brief Chebyshev distance (\f$L_{\infty}\f$ distance) between vectors, normalize by his dimension
 
-	\param vec_1 - first vector;
-	\param vec_2 - second vector;
-	\param dim - vector dimension.
+\param vec_1 - first vector;
+\param vec_2 - second vector;
+\param dim - vector dimension.
 
-	\return distance between vectors.
+\return distance between vectors.
 
 \ru
 
-	\brief Расстояние Чебышева (мера относительно нормы \f$L_{\infty}\f$), нормированное по размерности векторов
+\brief Расстояние Чебышева (мера относительно нормы \f$L_{\infty}\f$), нормированное по размерности векторов
 
-	\param vec_1 - первый вектор;
-	\param vec_2 - второй вектор;
-	\param dim - размерность векторов.
+\param vec_1 - первый вектор;
+\param vec_2 - второй вектор;
+\param dim - размерность векторов.
 
-	\return расстояние между векторами.
+\return расстояние между векторами.
 
 \endlang
 

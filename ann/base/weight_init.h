@@ -3,15 +3,7 @@
 
 \file
 
-\en
-
-	\brief TRANSLATE
-
-\ru
-
-	\brief Функции инициализации весов синапсов нейронов
-
-\endlang
+\en \brief TRANSLATE \ru \brief Функции инициализации весов синапсов нейронов \endlang
 
 */
 
@@ -45,22 +37,22 @@ extern "C"
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param ff - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param ff - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов сети прямого распространения (псевдо) случайными значениями
+\brief Инициализация весов синапсов нейронов сети прямого распространения (псевдо) случайными значениями
 
-	\param ff - указатель на описатель сети;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
+\param ff - указатель на описатель сети;
+\param rnd - описатель датчика (псевдо) случайных чисел.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -71,22 +63,22 @@ int fmll_ff_weight_init_random(fmll_ff * ff, fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param mlp - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param mlp - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов перцептрона (псевдо) случайными значениями
+\brief Инициализация весов синапсов нейронов перцептрона (псевдо) случайными значениями
 
-	\param mlp - указатель на описатель перцептрона;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
+\param mlp - указатель на описатель перцептрона;
+\param rnd - описатель датчика (псевдо) случайных чисел.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -97,22 +89,22 @@ int fmll_mlp_weight_init_random(fmll_mlp * mlp, fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param som - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param som - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов нейронной карты (псевдо) случайными значениями
+\brief Инициализация весов синапсов нейронов нейронной карты (псевдо) случайными значениями
 
-	\param som - указатель на описатель нейронной карты;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
+\param som - указатель на описатель нейронной карты;
+\param rnd - описатель датчика (псевдо) случайных чисел.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -123,22 +115,22 @@ int fmll_som_weight_init_random(fmll_som * som, fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param pca - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param pca - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов нейронов PCA-сети (псевдо) случайными значениями
+\brief Инициализация весов нейронов PCA-сети (псевдо) случайными значениями
 
-	\param pca - указатель на описатель сети;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
+\param pca - указатель на описатель сети;
+\param rnd - описатель датчика (псевдо) случайных чисел.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -149,24 +141,24 @@ int fmll_pca_weight_init_random(fmll_pca * pca, fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param mlp - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param mlp - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному LeCun Y.
+\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному LeCun Y.
 
-	\param mlp - указатель на описатель перцептрона;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
+\param mlp - указатель на описатель перцептрона;
+\param rnd - описатель датчика (псевдо) случайных чисел.
 	
-	Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
+Распределение (псевдо) случайных чисел, генерируемых датчиком, должно быть равномерным.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -177,22 +169,22 @@ int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param mlp - TRANSLATE;
-	\param rnd - TRANSLATE.
+\param mlp - TRANSLATE;
+\param rnd - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному Nguyen D. и Widrow B.
+\brief Инициализация весов синапсов нейронов перцептрона по алгоритму, предложенному Nguyen D. и Widrow B.
 
-	\param mlp - указатель на описатель перцептрона;
-	\param rnd - описатель датчика (псевдо) случайных чисел.
-	
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\param mlp - указатель на описатель перцептрона;
+\param rnd - описатель датчика (псевдо) случайных чисел.
+
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 

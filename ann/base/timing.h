@@ -3,15 +3,7 @@
 
 \file
 
-\en
-
-	\brief TRANSLATE
-
-\ru
-
-	\brief Расписание обучения нейронных сетей
-
-\endlang
+\en \brief TRANSLATE \ru \brief Расписание обучения нейронных сетей \endlang
 
 */
 
@@ -33,19 +25,19 @@ extern "C"
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Уменьшение коэффициента скорости обучения на 0.1
+\brief Уменьшение коэффициента скорости обучения на 0.1
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -56,19 +48,19 @@ double fmll_timing_next_beta_step_minus_0_1(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Уменьшение коэффициента скорости обучения на 0.01
+\brief Уменьшение коэффициента скорости обучения на 0.01
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -79,19 +71,19 @@ double fmll_timing_next_beta_step_minus_0_01(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Уменьшение коэффициента скорости обучения на 0.001
+\brief Уменьшение коэффициента скорости обучения на 0.001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -102,19 +94,19 @@ double fmll_timing_next_beta_step_minus_0_001(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Уменьшение коэффициента скорости обучения на 0.0001
+\brief Уменьшение коэффициента скорости обучения на 0.0001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -125,19 +117,19 @@ double fmll_timing_next_beta_step_minus_0_0001(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Уменьшение коэффициента скорости обучения на 0.00001
+\brief Уменьшение коэффициента скорости обучения на 0.00001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -148,19 +140,19 @@ double fmll_timing_next_beta_step_minus_0_00001(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Коэффициент скорости обучения остается неизменным
+\brief Коэффициент скорости обучения остается неизменным
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return beta.
+\return beta.
 
 \endlang
 
@@ -171,19 +163,19 @@ double fmll_timing_next_beta_step_0(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Увеличение коэффициента скорости обучения на 0.1
+\brief Увеличение коэффициента скорости обучения на 0.1
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -194,19 +186,19 @@ double fmll_timing_next_beta_step_plus_0_1(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Увеличение коэффициента скорости обучения на 0.01
+\brief Увеличение коэффициента скорости обучения на 0.01
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -217,19 +209,19 @@ double fmll_timing_next_beta_step_plus_0_01(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Увеличение коэффициента скорости обучения на 0.001
+\brief Увеличение коэффициента скорости обучения на 0.001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -240,19 +232,19 @@ double fmll_timing_next_beta_step_plus_0_001(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Увеличение коэффициента скорости обучения на 0.0001
+\brief Увеличение коэффициента скорости обучения на 0.0001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 
@@ -263,19 +255,19 @@ double fmll_timing_next_beta_step_plus_0_0001(const double beta);
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param beta - TRANSLATE.
+\param beta - TRANSLATE.
 
-	\return TRANSLATE.
+\return TRANSLATE.
 
 \ru
 
-	\brief Увеличение коэффициента скорости обучения на 0.00001
+\brief Увеличение коэффициента скорости обучения на 0.00001
 
-	\param beta - текущее значение скорости обучения.
+\param beta - текущее значение скорости обучения.
 
-	\return новое значение скорости обучения.
+\return новое значение скорости обучения.
 
 \endlang
 

@@ -3,17 +3,7 @@
 
 \file
 
-\en
-
-	\brief TRANSLATE
-
-\ru
-
-	\brief Обработка исключительных ситуаций
-
-	\remark Только для C
-
-\endlang
+\en \brief TRANSLATE \ru \brief Обработка исключительных ситуаций \endlang
 
 */
 
@@ -41,84 +31,102 @@
 
 	/* C */
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TRANSLATE
+\brief TRANSLATE
 
-		TRANSLATE
+\remark Only for C
 
-	\ru
+\ru
 
-		\brief Начало блока перехвата исключений
+\brief Начало блока перехвата исключений
 
-	\endlang
+\remark Только для C
 
-	*/
+\endlang
+
+*/
 	#define fmll_try ;
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TRANSLATE
+\brief TRANSLATE
 
-	\ru
+\remark Only for C
 
-		\brief Начало блока обработки исключений
+\ru
 
-	\endlang
+\brief Начало блока обработки исключений
 
-	*/
+\remark Только для C
+
+\endlang
+
+*/
 	#define fmll_catch \
 		goto finally_label; catch_label:
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TRANSLATE
-		
-	\ru
+\brief TRANSLATE
 
-		\brief Начало блока гарантированного выполнения по выходу из функции
+\remark Only for C
 
-	\endlang
+\ru
 
-	*/
+\brief Начало блока гарантированного выполнения по выходу из функции
+
+\remark Только для C
+
+\endlang
+
+*/
 	#define fmll_finally \
 		finally_label:
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TRANSLATE
+\brief TRANSLATE
 
-	\ru
+\remark Only for C
 
-		\brief Переход на finally - блок
+\ru
 
-	\endlang
+\brief Переход на finally - блок
 
-	*/
+\remark Только для C
+
+\endlang
+
+*/
 	#define fmll_to_finally \
 		goto finally_label;
 
-	/*!
+/*!
 
-	\en
+\en
 
-		\brief TRANSLATE
+\brief TRANSLATE
 
-	\ru
+\remark Only for C
 
-		\brief Возбуждение исключения
+\ru
 
-	\endlang
+\brief Возбуждение исключения
 
-	*/
+\remark Только для C
+
+\endlang
+
+*/
 	#define fmll_throw \
 	{\
 		fmll_print_error("[Exception] File %s, line %d\n", __FILE__, __LINE__);\
@@ -131,15 +139,15 @@
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param condition - TRANSLATE.
+\param condition - TRANSLATE.
 
 \ru
 
-	\brief Условное возбуждение исключения
+\brief Условное возбуждение исключения
 
-	\param condition - условие, по истинности которого будет возбуждено исключение.
+\param condition - условие, по истинности которого будет возбуждено исключение.
 
 \endlang
 
@@ -154,15 +162,15 @@
 
 \en
 
-	\brief TRANSLATE
+\brief TRANSLATE
 
-	\param pointer - TRANSLATE.
+\param pointer - TRANSLATE.
 
 \ru
 
-	\brief Возбуждение исключения в случае, если указатель равен NULL
+\brief Возбуждение исключения в случае, если указатель равен NULL
 
-	\param pointer - проверяемый указатель.
+\param pointer - проверяемый указатель.
 
 \endlang
 

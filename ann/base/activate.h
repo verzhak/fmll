@@ -3,15 +3,7 @@
 
 \file
 
-\en
-
-	\brief TRANSLATE
-
-\ru
-
-	\brief Функции активации нейронов
-
-\endlang
+\en \brief TRANSLATE \ru \brief Функции активации нейронов \endlang
 
 */
 
@@ -27,184 +19,136 @@
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент A синуса
 
-	\sa fmll_sin, fmll_d_sin.
-
-\ru
-
-	\brief Коэффициент A синуса
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_sin, fmll_d_sin.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_sin, fmll_d_sin
 
 */
 extern double fmll_sin_a;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент B синуса
 
-	\sa fmll_sin, fmll_d_sin.
-
-\ru
-
-	\brief Коэффициент B синуса
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_sin, fmll_d_sin.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_sin, fmll_d_sin
 
 */
 extern double fmll_sin_b;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент A сигмоиды
 
-	\sa fmll_sigmoid, fmll_d_sigmoid.
-
-\ru
-
-	\brief Коэффициент A сигмоиды
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_sigmoid, fmll_d_sigmoid.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_sigmoid, fmll_d_sigmoid
 
 */
 extern double fmll_sigmoid_a;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент A гиперболического тангенса
 
-	\sa fmll_tanh, fmll_d_tanh.
-
-\ru
-
-	\brief Коэффициент A гиперболического тангенса
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_tanh, fmll_d_tanh.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_tanh, fmll_d_tanh
 
 */
 extern double fmll_tanh_a;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент B гиперболического тангенса
 
-	\sa fmll_tanh, fmll_d_tanh.
-
-\ru
-
-	\brief Коэффициент B гиперболического тангенса
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_tanh, fmll_d_tanh.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_tanh, fmll_d_tanh
 
 */
 extern double fmll_tanh_b;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 1.
 
-	TRANSLATE: 1.
+\ru \brief Коэффициент A гауссиана
 
-	\sa fmll_gaussian, fmll_d_gaussian.
-
-\ru
-
-	\brief Коэффициент A гауссиана
-
-	Значение по умолчанию: 1.
-
-	\sa fmll_gaussian, fmll_d_gaussian.
+Значение по умолчанию: 1.
 
 \endlang
+
+\sa fmll_gaussian, fmll_d_gaussian
 
 */
 extern double fmll_gaussian_a;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: 0.
 
-	TRANSLATE: 0.
+\ru \brief Коэффициент B гауссиана
 
-	\sa fmll_gaussian, fmll_d_gaussian.
-
-\ru
-
-	\brief Коэффициент B гауссиана
-
-	Значение по умолчанию: 0.
-
-	\sa fmll_gaussian, fmll_d_gaussian.
+Значение по умолчанию: 0.
 
 \endlang
+
+\sa fmll_gaussian, fmll_d_gaussian
 
 */
 extern double fmll_gaussian_b;
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
+Default: \f$ \sqrt{2} \f$.
 
-	TRANSLATE: \f$ \sqrt{2} \f$.
+\ru \brief Коэффициент C гауссиана
 
-	\sa fmll_gaussian, fmll_d_gaussian.
-
-\ru
-
-	\brief Коэффициент C гауссиана
-
-	Значение по умолчанию: \f$ \sqrt{2} \f$.
-
-	\sa fmll_gaussian, fmll_d_gaussian.
+Значение по умолчанию: \f$ \sqrt{2} \f$.
 
 \endlang
+
+\sa fmll_gaussian, fmll_d_gaussian
 
 */
 extern double fmll_gaussian_c;
@@ -216,214 +160,124 @@ extern "C"
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f(x) ~ = ~ A ~ \sin(Bx)
-	\f]
-
-	\sa fmll_sin_a, fmll_sin_b
-
-\ru
-
-	\brief Синус
-
-	Вычисляется по формуле:
-
-	\f[
-	f(x) ~ = ~ A ~ \sin(Bx)
-	\f]
-
-	\sa fmll_sin_a, fmll_sin_b
+\ru \brief Синус
 
 \endlang
+
+\f[
+f(x) ~ = ~ A ~ \sin(Bx)
+\f]
+
+\sa fmll_sin_a, fmll_sin_b
 
 */
 double fmll_sin(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
-	\f]
-
-	\sa fmll_sin_a, fmll_sin_b
-
-\ru
-
-	\brief Производная синуса
-
-	Вычисляется по формуле:
-
-	\f[
-	f'(x) ~ = ~ A ~ B ~ \cos(Bx)
-	\f]
-
-	\sa fmll_sin_a, fmll_sin_b
+\ru \brief Производная синуса
 
 \endlang
+
+\f[
+f'(x) ~ = ~ A ~ B ~ \cos(Bx)
+\f]
+
+\sa fmll_sin_a, fmll_sin_b
 
 */
 double fmll_d_sin(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE (TRANSLATE)
 
-	\brief TRANSLATE (TRANSLATE)
-
-	TRANSLATE:
-
-	\f[
-	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
-	\f]
-
-	\sa fmll_sigmoid_a
-
-\ru
-
-	\brief Сигмоида (логистическая функция)
-
-	Вычисляется по формуле:
-
-	\f[
-	f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
-	\f]
-
-	\sa fmll_sigmoid_a
+\ru \brief Сигмоида (логистическая функция)
 
 \endlang
+
+\f[
+f(x) ~ = ~ \frac{1}{1 + e^{-Ax}}
+\f]
+
+\sa fmll_sigmoid_a
 
 */
 double fmll_sigmoid(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE (TRANSLATE)
 
-	\brief TRANSLATE (TRANSLATE)
-
-	TRANSLATE:
-
-	\f[
-	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
-	\f]
-
-	\sa fmll_sigmoid_a
-
-\ru
-
-	\brief Производная сигмоиды (производная логистической функции)
-
-	Вычисляется по формуле:
-
-	\f[
-	f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
-	\f]
-
-	\sa fmll_sigmoid_a
+\ru \brief Производная сигмоиды (производная логистической функции)
 
 \endlang
+
+\f[
+f'(x) ~ = ~ A ~ f(x) ~ (1 ~ - ~ f(x))
+\f]
+
+\sa fmll_sigmoid_a
 
 */
 double fmll_d_sigmoid(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f(x) ~ = ~ A ~ \tanh(Bx)
-	\f]
-
-	\sa fmll_tanh_a, fmll_tanh_b
-
-\ru
-
-	\brief Гиперболический тангенс (симметричная сигмоида)
-
-	Вычисляется по формуле:
-
-	\f[
-	f(x) ~ = ~ A ~ \tanh(Bx)
-	\f]
-
-	\sa fmll_tanh_a, fmll_tanh_b
+\ru \brief Гиперболический тангенс (симметричная сигмоида)
 
 \endlang
+
+\f[
+f(x) ~ = ~ A ~ \tanh(Bx)
+\f]
+
+\sa fmll_tanh_a, fmll_tanh_b
 
 */
 double fmll_tanh(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
-	\f]
-
-	\sa fmll_tanh_a, fmll_tanh_b
-
-\ru
-
-	\brief Производная гиперболического тангенса
-
-	Вычисляется по формуле:
-
-	\f[
-	f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
-	\f]
-
-	\sa fmll_tanh_a, fmll_tanh_b
+\ru \brief Производная гиперболического тангенса
 
 \endlang
+
+\f[
+f'(x) ~ = ~ \frac{B}{A} ~ (A ~ - ~ f(x)) ~ (A ~ + ~ f(x))
+\f]
+
+\sa fmll_tanh_a, fmll_tanh_b
 
 */
 double fmll_d_tanh(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-\ru
-
-	\brief Прямая \f$y ~ = ~ x\f$
+\ru \brief Прямая
 
 \endlang
+
+\f$y ~ = ~ x\f$
 
 */
 double fmll_line(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-\ru
-
-	\brief Коэффициент прямой \f$y ~ = ~ x\f$ (всегда единица)
+\ru \brief Коэффициент прямой \f$y ~ = ~ x\f$ (всегда единица)
 
 \endlang
 
@@ -432,62 +286,34 @@ double fmll_d_line(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f(x) ~ = ~ A ~ e ^ {- \frac{(x - B) ^ 2}{2 C ^ 2}}
-	\f]
-
-	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
-
-\ru
-
-	\brief Гауссиан
-
-	Вычисляется по формуле:
-
-	\f[
-	f(x) ~ = ~ A ~ exp \left (- \frac{(x - B) ^ 2}{2 C ^ 2} \right )
-	\f]
-
-	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+\ru \brief Гауссиан
 
 \endlang
+
+\f[
+f(x) ~ = ~ A ~ exp \left (- \frac{(x - B) ^ 2}{2 C ^ 2} \right )
+\f]
+
+\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
 
 */
 double fmll_gaussian(const double x);
 
 /*!
 
-\en
+\en \brief TRANSLATE
 
-	\brief TRANSLATE
-
-	TRANSLATE:
-
-	\f[
-	f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)
-	\f]
-
-	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
-
-\ru
-
-	\brief Производная гауссиана
-
-	Вычисляется по формуле:
-
-	\f[
-	f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)
-	\f]
-
-	\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
+\ru \brief Производная гауссиана
 
 \endlang
+
+\f[
+f'(x) ~ = ~ - \frac{x - B}{C ^ 2} f(x)
+\f]
+
+\sa fmll_gaussian_a, fmll_gaussian_b, fmll_gaussian_c
 
 */
 double fmll_d_gaussian(const double x);

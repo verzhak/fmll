@@ -5,11 +5,11 @@
 
 \en
 
-	\brief Various constants
+\brief Various constants
 
 \ru
 
-	\brief Некоторые константы
+\brief Некоторые константы
 
 \endlang
 
@@ -24,64 +24,16 @@
 
 #endif
 
-/*!
-
-\en
-
-	\brief \f$\pi\f$
-
-\ru
-
-	\brief \f$\pi\f$
-
-\endlang
-
-*/
+/*! \brief \f$\pi\f$ */
 #define FMLL_PI 3.14159265358979323846
 
-/*!
-
-\en
-
-	\brief \f$2 \pi\f$
-
-\ru
-
-	\brief \f$2 \pi\f$
-
-\endlang
-
-*/
+/*! \brief \f$2 \pi\f$ */
 #define FMLL_2_PI 6.28318530717958647688
 
-/*!
-
-\en
-
-	\brief \f$\frac{\pi}{2}\f$
-
-\ru
-
-	\brief \f$\frac{\pi}{2}\f$
-
-\endlang
-
-*/
+/*! \brief \f$\frac{\pi}{2}\f$ */
 #define FMLL_PI_2 1.57079632679489661923
 
-/*!
-
-\en
-
-	\brief \f$ \sqrt{2} \f$
-
-\ru
-
-	\brief \f$ \sqrt{2} \f$
-
-\endlang
-
-*/
+/*! \brief \f$ \sqrt{2} \f$ */
 #define FMLL_SQRT_2 1.41421356237309504880
 
 #endif

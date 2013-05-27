@@ -28,19 +28,19 @@
 
 \ru
 
-	Нейросетевая (и не только) библиотека для языков программирования C / C++
+Нейросетевая (и не только) библиотека для языков программирования C / C++
 
-	\section system_req Системные требования
+\section system_req Системные требования
 
-	- компиляторы для языков программирования C и C++ из состава GNU Compiler Collection (для ОС GNU / Linux), MinGW (для кросскомпиляции для ОС семейства Windows) или Visual C++ из состава Visual Studio 2005 (для компиляции для ОС семейства Windows)
-	- утилиты автоматизации сборки CMake и GNU Make (в случае, если сборка осуществляется с помощью gcc или MinGW)
-	- система документации исходного кода Doxygen
+- компиляторы для языков программирования C и C++ из состава GNU Compiler Collection (для ОС GNU / Linux), MinGW (для кросскомпиляции для ОС семейства Windows) или Visual C++ из состава Visual Studio 2005 (для компиляции для ОС семейства Windows)
+- утилиты автоматизации сборки CMake и GNU Make (в случае, если сборка осуществляется с помощью gcc или MinGW)
+- система документации исходного кода Doxygen
 
-	\section build Сборка библиотеки
+\section build Сборка библиотеки
 
-	\subsection build_gnu_linux ОС GNU / Linux
+\subsection build_gnu_linux ОС GNU / Linux
 
-	\code
+\code
 	
 	cd build
 
@@ -49,14 +49,14 @@
 
 	make
 	make install
+	
+\endcode
 
-	\endcode
+\subsection build_windows_mingw ОС семейства Windows
 
-	\subsection build_windows_mingw ОС семейства Windows
+(кросскомпиляция с помощью коллекции компиляторов MinGW)
 
-	(кросскомпиляция с помощью коллекции компиляторов MinGW)
-
-	\code
+\code
 	
 	cd build
 
@@ -65,54 +65,54 @@
 
 	make
 	
-	\endcode
+\endcode
 
-	или
+или
 
-	(сборка с помощью IDE Visual Studio 2005)
+(сборка с помощью IDE Visual Studio 2005)
 
-	- перейдите в каталог visual_studio
-	- переместите файлы fmll.* (пять штук) на уровень выше (в корневой каталог проекта)
-	- соберите проект с помощью Visual C++
+- перейдите в каталог visual_studio
+- переместите файлы fmll.* (пять штук) на уровень выше (в корневой каталог проекта)
+- соберите проект с помощью Visual C++
 
-	\section build_doc_gen Генерирование документации
+\section build_doc_gen Генерирование документации
 
-	\code
-
+\code
+	
 	cd doc
 
 	doxygen Doxyfile_en - для сборки англоязычной документации
 	doxygen Doxyfile_ru - для сборки русскоязычной документации
+	
+\endcode
 
-	\endcode
+\section Подключение
 
-	\section Подключение
+\subsection build_link_linux ОС GNU/Linux
 
-	\subsection build_link_linux ОС GNU/Linux
-
-	\code
+\code
 
 	#include <fmll/fmll.h>
 
 	pkg-config --cflags fmll
 	pkg-config --libs fmll
+	
+\endcode
 
-	\endcode
+\subsection build_link_windows ОС Windows
 
-	\subsection build_link_windows ОС Windows
+- подключите библиотеку
+- \code #include <fmll/fmll.h> \endcode
+- заголовочные файлы библиотеки рассортированы по подкаталогам корневого каталога проекта - рекомендуется указывать путь к корневому каталогу проекта в свойствах производного проекта
+- подключайте к программе библиотеку mini-xml (каталог mxml; библиотека mini-xml собрана как динамическая библиотека из-за опасения нарушить лицензионное соглашение в случае сборки ее статической версии)
 
-	- подключите библиотеку
-	- #include <fmll/fmll.h>
-	- заголовочные файлы библиотеки рассортированы по подкаталогам корневого каталога проекта - рекомендуется указывать путь к корневому каталогу проекта в свойствах производного проекта
-	- подключайте к программе библиотеку mini-xml (каталог mxml; библиотека mini-xml собрана как динамическая библиотека из-за опасения нарушить лицензионное соглашение в случае сборки ее статической версии)
+\section author Автор и способы связи
 
-	\section author Автор и способы связи
+Автор: Акинин М.В.
 
-	Автор: Акинин М.В.
+E-mail: verzhak@gmail.com
 
-	E-mail: verzhak@gmail.com
-
-	Дата: 17.05.2013
+Дата: 17.05.2013
 
 \endlang
 

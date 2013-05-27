@@ -3,15 +3,7 @@
 
 \file
 
-\en
-
-	\brief Additional functions
-
-\ru
-
-	\brief Дополнительный функционал
-
-\endlang
+\en \brief Additional functions \ru \brief Дополнительный функционал \endlang
 
 */
 
@@ -35,25 +27,25 @@ extern "C"
 
 \en
 
-	\brief Vector normalization
+\brief Vector normalization
 
-	\param vec - set of vectors;
-	\param vec_num - number of vectors in set;
-	\param dim - vector dimension.
+\param vec - set of vectors;
+\param vec_num - number of vectors in set;
+\param dim - vector dimension.
 
-	\return 0 - success;
-	\return <> 0 - fail.
+\return 0 - success;
+\return <> 0 - fail.
 
 \ru
 
-	\brief Нормирование векторов
+\brief Нормирование векторов
 
-	\param vec - множество векторов;
-	\param vec_num - размер множества векторов;
-	\param dim - размерность векторного пространства.
+\param vec - множество векторов;
+\param vec_num - размер множества векторов;
+\param dim - размерность векторного пространства.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
@@ -64,25 +56,25 @@ int fmll_normalization(double ** vec, const unsigned vec_num, const unsigned dim
 
 \en
 
-	\brief Vector centering (subtraction from all vector components his mean values)
+\brief Vector centering (subtraction from all vector components his mean values)
 
-	\param vec - set of vectors;
-	\param vec_num - number of vectors in set;
-	\param dim - vector dimension.
+\param vec - set of vectors;
+\param vec_num - number of vectors in set;
+\param dim - vector dimension.
 
-	\return 0 - success;
-	\return <> 0 - fail.
+\return 0 - success;
+\return <> 0 - fail.
 
 \ru
 
-	\brief Центрирование векторов (вычитание из каждой компоненты вектора ее эмпирического математического ожидания)
+\brief Центрирование векторов (вычитание из каждой компоненты вектора ее эмпирического математического ожидания)
 
-	\param vec - множество векторов;
-	\param vec_num - размер множества векторов;
-	\param dim - размерность векторного пространства.
+\param vec - множество векторов;
+\param vec_num - размер множества векторов;
+\param dim - размерность векторного пространства.
 
-	\return 0 - в случае успеха;
-	\return <> 0 - в случае неудачи.
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
 
 \endlang
 
