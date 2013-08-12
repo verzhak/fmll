@@ -22,6 +22,7 @@ add_executable(ex_pca_2 ex_pca_2.cpp)
 add_executable(ex_svm ex_svm.c)
 add_executable(ex_svm_net ex_svm_net.c)
 add_executable(ex_random ex_random.c)
+add_executable(ex_rbm ex_rbm.cpp)
 
 target_link_libraries(ex_ff fmll_ann_ff ${OpenCV_LIBS})
 target_link_libraries(ex_mlp fmll_ann_mlp ${OpenCV_LIBS})
@@ -32,4 +33,5 @@ target_link_libraries(ex_pca_2 fmll_ann_pca fmll_math_various ${OpenCV_LIBS})
 target_link_libraries(ex_svm fmll_ann_svm ${OpenCV_LIBS})
 target_link_libraries(ex_svm_net fmll_ann_svm ${OpenCV_LIBS})
 target_link_libraries(ex_random fmll_math_random)
+target_link_libraries(ex_rbm fmll_ann_rbm ${OpenCV_LIBS})
 

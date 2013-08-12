@@ -63,6 +63,7 @@ set(fmll_ann_mlp_sources ann/mlp/mlp.c)
 set(fmll_ann_som_sources ann/som/som.c)
 set(fmll_ann_pca_sources ann/pca/pca.c)
 set(fmll_ann_svm_sources ann/svm/kernel.c ann/svm/svm.c ann/svm/svm_net.c)
+set(fmll_ann_rbm_sources ann/rbm/rbm.c)
 
 add_library(fmll_lib SHARED ${fmll_lib_sources})
 add_library(fmll_math_graph SHARED ${fmll_math_graph_sources})
@@ -75,6 +76,7 @@ add_library(fmll_ann_mlp SHARED ${fmll_ann_mlp_sources})
 add_library(fmll_ann_som SHARED ${fmll_ann_som_sources})
 add_library(fmll_ann_pca SHARED ${fmll_ann_pca_sources})
 add_library(fmll_ann_svm SHARED ${fmll_ann_svm_sources})
+add_library(fmll_ann_rbm SHARED ${fmll_ann_rbm_sources})
 
 target_link_libraries(fmll_lib ${PC_MXML_LIBRARIES})
 target_link_libraries(fmll_math_graph m fmll_lib)
@@ -87,6 +89,7 @@ target_link_libraries(fmll_ann_mlp fmll_ann_base fmll_ann_ff fmll_math_matrix fm
 target_link_libraries(fmll_ann_som fmll_ann_base)
 target_link_libraries(fmll_ann_pca fmll_ann_base)
 target_link_libraries(fmll_ann_svm fmll_ann_base)
+target_link_libraries(fmll_ann_rbm fmll_ann_base)
 
 if(Windows)
 
@@ -101,6 +104,7 @@ if(Windows)
 	set_target_properties(fmll_ann_som PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
 	set_target_properties(fmll_ann_pca PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
 	set_target_properties(fmll_ann_svm PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
+	set_target_properties(fmll_ann_rbm PROPERTIES DEFINE_SYMBOL "COMPILING_DLL" SUFFIX ".dll")
 
 endif()
 
@@ -115,6 +119,7 @@ install(TARGETS fmll_ann_mlp LIBRARY DESTINATION lib)
 install(TARGETS fmll_ann_som LIBRARY DESTINATION lib)
 install(TARGETS fmll_ann_pca LIBRARY DESTINATION lib)
 install(TARGETS fmll_ann_svm LIBRARY DESTINATION lib)
+install(TARGETS fmll_ann_rbm LIBRARY DESTINATION lib)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/fmll.h DESTINATION include/fmll)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib DESTINATION include/fmll FILES_MATCHING PATTERN "*.h")

@@ -142,3 +142,8 @@ int fmll_mlp_weight_init_nguyen_widrow(fmll_mlp * mlp, fmll_random * rnd)
 	return ret;
 }
 
+int fmll_rbm_weight_init_random(fmll_rbm * rbm, fmll_random * rnd)
+{
+	return simple_random(rnd, rbm->w, rbm->dim, rbm->hidden_num);
+}
+

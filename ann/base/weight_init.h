@@ -18,6 +18,7 @@
 	#include "ann/mlp/mlp.h"
 	#include "ann/som/som.h"
 	#include "ann/pca/pca.h"
+	#include "ann/rbm/rbm.h"
 
 #else
 
@@ -25,6 +26,7 @@
 	#include <fmll/ann/mlp/mlp.h>
 	#include <fmll/ann/som/som.h>
 	#include <fmll/ann/pca/pca.h>
+	#include <fmll/ann/rbm/rbm.h>
 
 #endif
 
@@ -190,6 +192,32 @@ int fmll_mlp_weight_init_lecun(fmll_mlp * mlp, fmll_random * rnd);
 
 */
 int fmll_mlp_weight_init_nguyen_widrow(fmll_mlp * mlp, fmll_random * rnd);
+
+/*!
+
+\en
+
+\brief TRANSLATE
+
+\param rbm - TRANSLATE;
+\param rnd - TRANSLATE.
+
+\return TRANSLATE.
+
+\ru
+
+\brief Инициализация весов нейронов ограниченной машины Больцмана (псевдо) случайными значениями
+
+\param rbm - указатель на описатель машины;
+\param rnd - описатель датчика (псевдо) случайных чисел.
+
+\return 0 - в случае успеха;
+\return <> 0 - в случае неудачи.
+
+\endlang
+
+*/
+int fmll_rbm_weight_init_random(fmll_rbm * rbm, fmll_random * rnd);
 
 #ifdef __cplusplus
 }
