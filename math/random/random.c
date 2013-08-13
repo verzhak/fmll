@@ -205,3 +205,34 @@ double fmll_random_generate(fmll_random * rnd)
 	return value;
 }
 
+int fmll_random_shuffle(fmll_random * rnd, char * sequence, const unsigned elem_num, const unsigned elem_size)
+{
+	int ret = 0;
+	long v;
+	unsigned ind;
+	char * temp = NULL;
+
+	fmll_try;
+
+		fmll_throw_null(temp = fmll_alloc(elem_size, 1, 1));
+
+		for(v = elem_num - 1; v > 0; v--)
+		{
+			ind = fmll_random_generate(rnd) * v;
+
+			memcpy(temp, sequence + ind * elem_size, elem_size);
+			memcpy(sequence + ind * elem_size, sequence + v * elem_size, elem_size);
+			memcpy(sequence + v * elem_size, temp, elem_size);
+		}
+
+	fmll_catch;
+
+		ret = -1;
+
+	fmll_finally;
+
+		fmll_free(temp);
+
+	return ret;
+}
+

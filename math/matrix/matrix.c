@@ -1,6 +1,17 @@
 
 #include "math/matrix/matrix.h"
 
+int fmll_math_matrix_init_fill(double ** M, const double value, const unsigned rows, const unsigned cols)
+{
+	unsigned v, u;
+
+	for(v = 0; v < rows; v++)
+		for(u = 0; u < cols; u++)
+			M[v][u] = value;
+
+	return 0;
+}
+
 int fmll_math_matrix_init_main_diag(double ** M, const double value, const unsigned rows, const unsigned cols)
 {
 	unsigned v, u;
@@ -53,6 +64,17 @@ int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double 
 	for(v = 0; v < rows; v++)
 		for(u = 0; u < cols; u++)
 			R[v][u] = alpha_1 * M1[v][u] + alpha_2 * M2[v][u];
+
+	return 0;
+}
+
+int fmll_math_vector_transpose_mult_vector(const double * V, const double * V_T, double ** R, const unsigned rows, const unsigned cols)
+{
+	unsigned v, u;
+
+	for(v = 0; v < rows; v++)
+		for(u = 0; u < cols; u++)
+			R[v][u] = V[v] * V_T[u];
 
 	return 0;
 }

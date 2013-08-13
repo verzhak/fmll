@@ -81,8 +81,8 @@
 	
 	cd doc
 
-	doxygen Doxyfile_en - для сборки англоязычной документации
-	doxygen Doxyfile_ru - для сборки русскоязычной документации
+	doxygen Doxyfile_en - для сборки документации на английском языке
+	doxygen Doxyfile_ru - для сборки документации на русском языке
 	
 \endcode
 

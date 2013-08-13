@@ -219,6 +219,37 @@ void fmll_random_destroy(fmll_random * rnd);
 */
 double fmll_random_generate(fmll_random * rnd);
 
+/*!
+
+\en
+
+\brief TRANSLATE
+
+\param rnd - pointer to generator descriptor.
+\param sequence - TRANSLATE;
+\param elem_num - TRANSLATE;
+\param elem_size - TRANSLATE.
+
+\return 0 - TRANSLATE;
+\return <> 0 - TRANSLATE.
+
+\ru
+
+\brief Перемешивание последовательности
+
+\param rnd - указатель на описатель датчика (псевдо) случайных чиселж
+\param sequence - перемешиваемая последовательность;
+\param elem_num - количество элементов в последовательности;
+\param elem_size - размер каждого элемента в байтах.
+
+\return 0 - в случае успешного выполнения операции;
+\return <> 0 - в случае неудачного завершения операции.
+
+\endlang
+
+*/
+int fmll_random_shuffle(fmll_random * rnd, char * sequence, const unsigned elem_num, const unsigned elem_size);
+
 #ifdef __cplusplus
 }
 #endif

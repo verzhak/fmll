@@ -437,8 +437,7 @@ int fmll_mlp_teach_gradient_batch(fmll_mlp * mlp, const double ** vec, const dou
 						w[t_w][k] += (moment[t_weight] = coef_moment * moment[t_weight] + beta * grad[t_weight]);
 			}
 
-			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1)) / max_iter,
-					beta, E, E - prev_E);
+			fmll_print("Iteration = %u from %u (%.5f %%), beta = %.7f, E = %.7f, E' = %.7f\n", iter + 1, max_iter, (100.0 * (iter + 1)) / max_iter, beta, E, E - prev_E);
 		}
 
 	fmll_catch;

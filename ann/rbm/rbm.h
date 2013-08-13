@@ -36,6 +36,7 @@ TRANSLATE
 	#include "private/xml.h"
 	#include "lib/exception.h"
 	#include "lib/memory.h"
+	#include "math/matrix/matrix.h"
 	#include "math/random/random.h"
 
 #endif
@@ -82,7 +83,7 @@ extern "C"
 
 \param dim - TRANSLATE;
 \param hidden_num - TRANSLATE;
-\param T_min - TODO \f$T_{min} > 0\f$.
+\param T_min - TRANSLATE \f$T_{min} > 0\f$.
 
 \return TRANSLATE;
 \return NULL - TRANSLATE.
@@ -207,14 +208,14 @@ const double * fmll_rbm_run(fmll_rbm * rbm, const double * vec, const unsigned m
 
 \brief TRANSLATE
 
-\param rbm - TODO;
-\param vec - TODO;
-\param vec_num - TODO;
-\param T_max - TODO, \f$T_{max} > 0\f$;
-\param T_step_count - TODO \f$[ T_{min}, T_{max} ]\f$;
-\param max_iter - TODO;
-\param beta_0 - TODO, \f$\beta_0 ~ \in ~ [0, 1]\f$;
-\param next_beta - TODO.
+\param rbm - TRANSLATE;
+\param vec - TRANSLATE;
+\param vec_num - TRANSLATE;
+\param T_max - TRANSLATE, \f$T_{max} > 0\f$;
+\param T_step_count - TRANSLATE \f$[ T_{min}, T_{max} ]\f$;
+\param max_iter - TRANSLATE;
+\param beta_0 - TRANSLATE, \f$\beta_0 ~ \in ~ [0, 1]\f$;
+\param next_beta - TRANSLATE.
 
 \return 0 - TRANSLATE;
 \return <> 0 - TRANSLATE.

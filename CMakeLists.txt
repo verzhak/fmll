@@ -89,7 +89,7 @@ target_link_libraries(fmll_ann_mlp fmll_ann_base fmll_ann_ff fmll_math_matrix fm
 target_link_libraries(fmll_ann_som fmll_ann_base)
 target_link_libraries(fmll_ann_pca fmll_ann_base)
 target_link_libraries(fmll_ann_svm fmll_ann_base)
-target_link_libraries(fmll_ann_rbm fmll_ann_base)
+target_link_libraries(fmll_ann_rbm fmll_ann_base fmll_math_matrix)
 
 if(Windows)
 
