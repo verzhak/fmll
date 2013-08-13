@@ -237,7 +237,7 @@ int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double 
 
 \param V - TRANSLATE;
 \param V_T - TRANSLATE;
-\param M - TRANSLATE;
+\param R - TRANSLATE;
 \param rows - TRANSLATE;
 \param cols - TRANSLATE.
 
@@ -250,7 +250,7 @@ int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double 
 
 \param V - вектор;
 \param V_T - транспонируемый вектор;
-\param M - матрица, в которую будет сохранено произведение вектора V на транспонированный вектор V_T;
+\param R - матрица, в которую будет сохранено произведение вектора V на транспонированный вектор V_T;
 \param rows - количество строк в матрице M и количество компонент в векторе V;
 \param cols - количество столбцов в матрице M и количество компонент в векторе V_T.
 
