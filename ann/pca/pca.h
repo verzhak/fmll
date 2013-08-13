@@ -38,6 +38,7 @@ TRANSLATE
 	#include "lib/exception.h"
 	#include "lib/memory.h"
 	#include "math/random/random.h"
+	#include "math/matrix/matrix.h"
 
 #endif
 

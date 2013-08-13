@@ -38,6 +38,7 @@ TRANSLATE
 	#include "private/xml.h"
 	#include "lib/exception.h"
 	#include "lib/memory.h"
+	#include "math/matrix/matrix.h"
 	#include "math/random/random.h"
 
 #endif

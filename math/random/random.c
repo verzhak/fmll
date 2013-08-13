@@ -214,7 +214,7 @@ int fmll_random_shuffle(fmll_random * rnd, char * sequence, const unsigned elem_
 
 	fmll_try;
 
-		fmll_throw_null(temp = fmll_alloc(elem_size, 1, 1));
+		fmll_throw_null(temp = fmll_alloc_a(elem_size));
 
 		for(v = elem_num - 1; v > 0; v--)
 		{
@@ -230,8 +230,6 @@ int fmll_random_shuffle(fmll_random * rnd, char * sequence, const unsigned elem_
 		ret = -1;
 
 	fmll_finally;
-
-		fmll_free(temp);
 
 	return ret;
 }

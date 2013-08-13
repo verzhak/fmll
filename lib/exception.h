@@ -116,13 +116,9 @@
 
 \brief TRANSLATE
 
-\remark Only for C
-
 \ru
 
 \brief Возбуждение исключения
-
-\remark Только для C
 
 \endlang
 

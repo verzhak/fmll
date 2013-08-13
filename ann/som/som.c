@@ -49,11 +49,10 @@ fmll_som * fmll_som_init(const unsigned * N, const unsigned map_dim, const unsig
 
 		memset(tN, 0, map_dim * sizeof(unsigned));
 
+		fmll_throw_if(fmll_math_matrix_init_fill(w, 0, num, dim));
+
 		for(u = 0; u < num; u++)
 		{
-			for(v = 0; v < dim; v++)
-				w[u][v] = 0;
-
 			for(v = 0; v < map_dim; v++)
 				coord[u][v] = tN[v];
 

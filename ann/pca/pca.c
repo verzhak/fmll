@@ -20,9 +20,7 @@ fmll_pca * fmll_pca_init(const unsigned dim, const unsigned num)
 		fmll_throw_null(w = pca->w = (double **) fmll_alloc(sizeof(double), 2, num, dim));
 		fmll_throw_null(pca->y = (double *) fmll_alloc(sizeof(double), 1, num));
 
-		for(u = 0; u < num; u++)
-			for(v = 0; v < dim; v++)
-				w[u][v] = 0;
+		fmll_throw_if(fmll_math_matrix_init_fill(w, 0, num, dim));
 
 	fmll_catch;
 

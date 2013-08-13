@@ -68,7 +68,7 @@ int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double 
 	return 0;
 }
 
-int fmll_math_vector_transpose_mult_vector(const double * V, const double * V_T, double ** R, const unsigned rows, const unsigned cols)
+int fmll_math_vector_mult_vector_transpose(const double * V, const double * V_T, double ** R, const unsigned rows, const unsigned cols)
 {
 	unsigned v, u;
 

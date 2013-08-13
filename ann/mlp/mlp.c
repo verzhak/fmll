@@ -183,9 +183,7 @@ fmll_mlp * fmll_mlp_init(const unsigned dim, const unsigned layers_num, const un
 		mlp->max_N = max_N;
 		mlp->num_weight = num_weight;
 
-		for(v = 0; v < num; v++)
-			for(u = 0; u < max_N_1; u++)
-				w[v][u] = 0;
+		fmll_throw_if(fmll_math_matrix_init_fill(w, 0, num, max_N_1));
 
 	fmll_catch;
 

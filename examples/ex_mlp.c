@@ -14,8 +14,15 @@ int image_analysis(const int argc, const char * argv[]);
 
 int main(const int argc, const char * argv[])
 {
+#if 1
+
 	return xor();
-	/* return image_analysis(argc, argv); */
+
+#else
+	
+	return image_analysis(argc, argv);
+
+#endif
 }
 
 int image_analysis(const int argc, const char * argv[])

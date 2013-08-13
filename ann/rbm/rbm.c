@@ -65,9 +65,7 @@ fmll_rbm * fmll_rbm_init(const unsigned dim, const unsigned hidden_num, const do
 		fmll_throw_null(rbm->state = (double *) fmll_alloc(sizeof(double), 1, dim));
 		fmll_throw_null(rbm->hidden_state = (double *) fmll_alloc(sizeof(double), 1, hidden_num));
 
-		for(u = 0; u < dim; u++)
-			for(v = 0; v < hidden_num; v++)
-				w[u][v] = 0;
+		fmll_math_matrix_init_fill(w, 0, dim, hidden_num);
 
 	fmll_catch;
 
@@ -239,7 +237,7 @@ int fmll_rbm_CD_k(fmll_rbm * rbm, const double ** vec, const unsigned vec_num, c
 
 					#define ITER(layer, coef) \
 						activate_layer(rbm, layer, T);\
-						fmll_throw_if(fmll_math_vector_transpose_mult_vector(state, hidden_state, t_w, dim, hidden_num));\
+						fmll_throw_if(fmll_math_vector_mult_vector_transpose(state, hidden_state, t_w, dim, hidden_num));\
 						fmll_throw_if(fmll_math_matrix_sum(1, (const double **) delta_w, coef, (const double **) t_w, delta_w, dim, hidden_num));
 
 					ITER(1, 1);

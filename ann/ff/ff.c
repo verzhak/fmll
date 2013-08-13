@@ -247,12 +247,11 @@ fmll_ff * fmll_ff_init(const unsigned num, const unsigned char ** connect, doubl
 		fmll_throw_null(ff->fun = fmll_alloc(sizeof(double (*)(double)), 1, num));
 		fmll_throw_null(ff->d_fun = fmll_alloc(sizeof(double (*)(double)), 1, num));
 
+		fmll_throw_if(fmll_math_matrix_init_fill(w, 0, num, num));
+
 		for(v = 0; v < num; v++)
 			for(u = 0; u < num; u++)
-			{
 				t_connect[v][u] = 0;
-				w[v][u] = 0;
-			}
 
 		memcpy(ff->fun, fun, num * sizeof(double (*)(double)));
 		memcpy(ff->d_fun, d_fun, num * sizeof(double (*)(double)));

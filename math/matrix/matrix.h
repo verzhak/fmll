@@ -1,5 +1,19 @@
 
-/*! \file \en \brief TRANSLATE \ru \brief Матрицы \endlang */
+/*!
+
+\file
+
+\en
+
+\brief TRANSLATE
+
+\ru
+
+\brief Матрицы
+
+\endlang
+
+*/
 
 #ifndef MATRIX_H
 #define MATRIX_H
@@ -246,7 +260,7 @@ int fmll_math_matrix_sum(const double alpha_1, const double ** M1, const double 
 \endlang
 
 */
-int fmll_math_vector_transpose_mult_vector(const double * V, const double * V_T, double ** R, const unsigned rows, const unsigned cols);
+int fmll_math_vector_mult_vector_transpose(const double * V, const double * V_T, double ** R, const unsigned rows, const unsigned cols);
 
 /*!
 

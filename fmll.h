@@ -145,6 +145,8 @@ E-mail: verzhak@gmail.com
 	#include "ann/svm/kernel.h"
 	#include "ann/svm/svm.h"
 	#include "ann/svm/svm_net.h"
+	#include "ann/rbm/rbm.h"
+	#include "ann/cnn/cnn.h"
 
 #else
 
@@ -167,6 +169,8 @@ E-mail: verzhak@gmail.com
 	#include <fmll/ann/svm/kernel.h>
 	#include <fmll/ann/svm/svm.h>
 	#include <fmll/ann/svm/svm_net.h>
+	#include <fmll/ann/rbm/rbm.h>
+	#include <fmll/ann/cnn/cnn.h>
 
 #endif
 
