@@ -118,9 +118,14 @@ E-mail: verzhak@gmail.com
 
 */
 
-#ifndef __cplusplus
+#ifdef __cplusplus
+
+	#include <cstdarg>
+
+#else
 
 	#include <stdbool.h>
+	#include <stdarg.h>
 
 #endif
 
